@@ -21,4 +21,4 @@
 ## Working with the Logging Database
 - To run the logging database, type `docker-compose up` which will set up a docker container specified in the yml file
 
-- To properly close the logging database, type `docker-compose down`. This will properly close the docker image.
+- To properly close the logging database, type `docker-compose down`
