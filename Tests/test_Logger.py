@@ -1,10 +1,15 @@
 from Model.Logger import Logger as LOGGER 
 import pytest
 
-def test_log_transaction_failure():
+def test_log_transaction_message_failure():
     with pytest.raises(TypeError):
         myLogger = LOGGER.Logger()
         myLogger.log_transaction(23729)
+
+def test_log_transaction_typing_failure():
+    with pytest.raises(ValueError):
+        myLogger = LOGGER.Logger()
+        myLogger.log_transaction("This test should fail because of a bad type",'FAKE_TYPE')
 
 def test_log_transaction():
     myLogger = LOGGER.Logger()

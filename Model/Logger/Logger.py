@@ -14,10 +14,14 @@ class Logger:
     def clear(self,commit=False):
         self._db.clear_Logs(commit)
 
-    def log_transaction(self,message,commit=True):
+    def log_transaction(self,message,typing='TRANSACTION',commit=True):
         if not isinstance(message,str):
             raise TypeError('ERROR: Message must be of type string')
 
-        self._db.insert_into_Logs(TIME.get_timestamp(),'TRANSACTION',message,commit)
+        if typing not in LD.types:
+            raise ValueError('ERROR: typing must be a defined log type')
 
+        self._db.insert_into_Logs(TIME.get_timestamp(),typing,message,commit)
+
+    
         
