@@ -14,6 +14,6 @@
 ## Testing Practices
 - To conform tests to a set standard, please adhere to the following guidlines.
 
-    1. All tests should be written in the Tests folder in a subforder dictating the functionality tested. Make sure the subfolder is properly linked in '__init__.py'
+    - All tests should be written in the Tests folder in a subforder dictating the functionality tested. Make sure the subfolder is properly linked in '__init__.py'
 
-    2. All testing modules should start with "test_" and a descriptive name of the what the module is testing
+    - All testing modules should start with "test_" and a descriptive name of the what the module is testing
