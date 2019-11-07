@@ -17,3 +17,8 @@
     - All tests should be written in the Tests folder in a subforder dictating the functionality tested. Make sure the subfolder is properly linked in `__init__.py`
 
     - All testing modules should start with "test_" and a descriptive name of the what the module is testing
+
+## Working with the Logging Database
+- To run the logging database, type `docker-compose up` which will set up a docker container specified in the yml file
+
+- To properly close the logging database, type `docker-compose down`. This will properly close the docker image.
