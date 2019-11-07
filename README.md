@@ -2,7 +2,7 @@
 
 ## Virtual Environment
 - To activate the virtual env, navigate to the project directory in you terminal and execute the following command depending on your platform.
-    - For macOS/Linux : source env/bin/activate
+    - For macOS/Linux : source env/Scripts/activate
     - For Windows : .\env\Scripts\activate
 
 - To deactivate the virtual env simply type `deactivate` in the terminal instance
