@@ -47,6 +47,16 @@ def mservices():
 def ubi():
     return render_template('ubi.htm')
 
+#Ubisoft buy and sell
+#placeholders for now
+@app.route('/Microservices/Ubisoft/Buy')
+def ubi_buy():
+    return 'bought'
+
+@app.route('/Microservices/Ubisoft/Sell')
+def ubi_sell():
+    return 'sold'
+
 @app.route('/SignUp')
 def signUp():
     return render_template('signUp.htm')

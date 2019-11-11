@@ -1,13 +1,17 @@
 .links a{
     border:groove;
     border-width: 5px;
-    display: inline-block;
     text-align: center;
     padding: 20px 34px;
     font-size:20px;
     margin: 4px 2px;
     cursor: pointer;
     text-decoration: none;
+    display: inline-block;
+}
+
+.links{
+    text-align: center;
 }
 
 #buy-link:link{
