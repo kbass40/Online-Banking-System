@@ -44,7 +44,6 @@ class DB():
     def get_stocks(self):
         return self._db.get_stocks()
 
-
 db = DB()
 
 @app.route("/api/oracle/get-last", methods=["GET"])
@@ -65,8 +64,6 @@ def get_price():
 @app.route("/api/admin/oracle/get-logs", methods=["GET"])
 def get_logs():
     table = db.get_logs()
-    # can change this to return json
-    # using to view the logs while developing
     return json2html.convert(json=table)
 
 # client wants to buy stocks
@@ -74,6 +71,8 @@ def get_logs():
 # if we dont have enough buy enough to sell to client and buy 5000 extra to hold on to for later
 @app.route('/api/oracle/buy-stocks=<quantity>', methods=["GET"])
 def user_buys_stocks(quantity):
+    if not isinstance(quantity,str):
+        raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
         raise TypeError('ERROR: Quantity must be of type int')
     table = db.get_stocks()
@@ -88,10 +87,13 @@ def user_buys_stocks(quantity):
         bank_quantity = bank_quantity - int(quantity)
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
-    return json2html.convert(json=table)
+    table = jsonify(table)
+    return table
 
 @app.route('/api/oracle/sell-stocks=<quantity>', methods=["GET"])
 def user_sells_stocks(quantity):
+    if not isinstance(quantity,str):
+        raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
         raise TypeError('ERROR: Quantity must be of type int')
     table = db.get_stocks()
@@ -102,7 +104,18 @@ def user_sells_stocks(quantity):
     bank_quantity = bank_quantity + int(quantity)
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
-    return json2html.convert(json=table)
+    table = jsonify(table)
+    return table
+
+def jsonify(table):
+    json = {}
+    for i, tup in enumerate(table):
+        call = {
+            "gainloss" : str(tup[0]),
+            "quantity" : str(tup[1]),
+        }
+        json[i+1] = call
+    return json
 
 
 if __name__ == "__main__" :
