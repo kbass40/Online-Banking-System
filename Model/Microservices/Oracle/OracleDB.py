@@ -1,5 +1,5 @@
 import mysql.connector
-from Model.Misc import Time as TIME
+from Misc import Time as TIME
 
 
 types = ['TRANSACTION','MISC','INFO']
