@@ -1,1 +1,1 @@
-__all__ = ['LogDatabase',]
+__all__ = ['LogDatabase','AuthenticationDatabase',]
