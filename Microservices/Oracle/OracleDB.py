@@ -28,6 +28,7 @@ class DBConnection(DatabaseConnection):
 
 	def __initialize__(self):
 		self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Logs(time TIMESTAMP, type VARCHAR(20), message TEXT, PRIMARY KEY(time));")
+		self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Stocks(gainloss DOUBLE, quantity INT);")
 
     
 	@property
@@ -55,8 +56,22 @@ class DBConnection(DatabaseConnection):
 		if commit:
 			self.commit()
 
+	def insert_into_stocks(self, gainloss: float, quantity: int, commit=True):
+		if not isinstance(gainloss, float):
+			raise ValueError('ERROR gainloss must be of type float')
+		if not isinstance(quantity, int):
+			raise ValueError('ERROR quantity must be of type int')
+		self._cursor.execute('INSERT INTO db.Stocks(gainloss, quantity) VALUES (%s, %s);', (gainloss, quantity))
+		if commit:
+			self.commit()
+
 	def get_size(self):
 		self._cursor.execute('SELECT COUNT(*) FROM db.Logs;')
+		row = self._cursor.fetchone()
+		return int(row[0])
+
+	def get_stocks_size(self):
+		self._cursor.execute('SELECT COUNT(*) FROM db.Stocks;')
 		row = self._cursor.fetchone()
 		return int(row[0])
 

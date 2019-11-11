@@ -10,13 +10,15 @@ SYMBOL = 'ORCL'
 
 app = Flask(__name__)
 
-
-class Logger():
+class DB():
     def __init__(self):
         self._db = OracleDB.DBConnection()
 
     def get_log_size(self):
         return self._db.get_size()
+
+    def get_stocks_size(self):
+        return self._db.get_stocks_size()
 
     def clear(self,commit=False):
         self._db.clear_Logs(commit)
@@ -33,6 +35,10 @@ class Logger():
     def get_logs(self):
         return self._db.get_logs()
 
+    def insert_into_stocks(self, gainloss, quantity):
+        self._db.insert_into_stocks(gainloss, quantity)
+
+db = DB()
 
 @app.route("/api/oracle/get-last", methods=["GET"])
 def get_price():
@@ -46,15 +52,19 @@ def get_price():
         'description' : json_response['quotes']['quote']['description'],
         'last' : json_response['quotes']['quote']['last']
     }
-    log = Logger()
-    log.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
+    db.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
     return ret
 
 @app.route("/api/oracle/get-logs", methods=["GET"])
 def get_logs():
-    log = Logger()
-    table = log.get_logs()
+    table = db.get_logs()
     return json2html.convert(json=table)
 
 if __name__ == "__main__" :
+    size = db.get_stocks_size()
+    print(size)
+    if size == 0:
+        print("Buy 5000 shares of oracle stock")
+        val = get_price()['last'] * -5000
+        db.insert_into_stocks(val, 5000)
     app.run(host="0.0.0.0")
