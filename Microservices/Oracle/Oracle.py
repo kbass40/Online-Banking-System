@@ -69,6 +69,9 @@ def get_logs():
     # using to view the logs while developing
     return json2html.convert(json=table)
 
+# client wants to buy stocks
+# if we have enough stocks sell them to client and increase gainloss
+# if we dont have enough buy enough to sell to client and buy 5000 extra to hold on to for later
 @app.route('/api/oracle/buy-stocks=<quantity>', methods=["GET"])
 def user_buys_stocks(quantity):
     table = db.get_stocks()
