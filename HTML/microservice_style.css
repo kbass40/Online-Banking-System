@@ -1,0 +1,37 @@
+.links a{
+    border:groove;
+    border-width: 5px;
+    display: inline-block;
+    text-align: center;
+    padding: 20px 34px;
+    font-size:20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#buy-link:link{
+    color: black;
+    border-color:red;
+}
+
+#buy-link:hover{
+    border-style:solid;
+    color:white;
+    background-color:red
+}
+
+#sell-link:link{
+    color:black;
+    border-color:lightgreen
+}
+
+#sell-link:hover{
+    border-style:solid;
+    color:white;
+    background-color:lightgreen;
+}
+
+h2{
+    text-align:center;
+}
