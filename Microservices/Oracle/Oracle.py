@@ -15,13 +15,16 @@ class DB():
         self._db = OracleDB.DBConnection()
 
     def get_log_size(self):
-        return self._db.get_size()
+        return self._db.get_logs_size()
 
     def get_stocks_size(self):
         return self._db.get_stocks_size()
 
-    def clear(self,commit=False):
+    def clear_logs(self,commit=False):
         self._db.clear_Logs(commit)
+
+    def clear_stocks(self,commit=False):
+        self._db.clear_Stocks(commit)
 
     def log_transaction(self,message,typing='TRANSACTION',commit=True):
         if not isinstance(message,str):
@@ -32,11 +35,15 @@ class DB():
 
         self._db.insert_into_Logs(TIME.get_timestamp(),typing,message,commit)
 
+    def insert_into_stocks(self, gainloss, quantity):
+        self._db.insert_into_stocks(gainloss, quantity)
+
     def get_logs(self):
         return self._db.get_logs()
 
-    def insert_into_stocks(self, gainloss, quantity):
-        self._db.insert_into_stocks(gainloss, quantity)
+    def get_stocks(self):
+        return self._db.get_stocks()
+
 
 db = DB()
 
@@ -55,14 +62,38 @@ def get_price():
     db.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
     return ret
 
-@app.route("/api/oracle/get-logs", methods=["GET"])
+@app.route("/api/admin/oracle/get-logs", methods=["GET"])
 def get_logs():
     table = db.get_logs()
+    # can change this to return json
+    # using to view the logs while developing
     return json2html.convert(json=table)
 
+@app.route('/api/oracle/buy-stocks=<quantity>', methods=["GET"])
+def user_buys_stocks(quantity):
+    table = db.get_stocks()
+    gainloss = table[-1][0]
+    bank_quantity = table[-1][1]
+    price = get_price()['last'] 
+    if bank_quantity < int(quantity):
+        gainloss = gainloss - (price * 5000)
+        bank_quantity = bank_quantity + 5000
+    else:
+        gainloss = gainloss + (price * int(quantity))
+        bank_quantity = bank_quantity - int(quantity)
+    print(gainloss)
+    print(bank_quantity)
+    db.insert_into_stocks(gainloss, int(bank_quantity))
+    table = db.get_stocks()
+    return json2html.convert(json=table)
+
+
 if __name__ == "__main__" :
+    # delete later
+    # using for testing purposes
+    # clears bank balance so we start fresh each time running the app
+    db.clear_stocks()
     size = db.get_stocks_size()
-    print(size)
     if size == 0:
         print("Buy 5000 shares of oracle stock")
         val = get_price()['last'] * -5000

@@ -65,7 +65,7 @@ class DBConnection(DatabaseConnection):
 		if commit:
 			self.commit()
 
-	def get_size(self):
+	def get_logs_size(self):
 		self._cursor.execute('SELECT COUNT(*) FROM db.Logs;')
 		row = self._cursor.fetchone()
 		return int(row[0])
@@ -81,8 +81,19 @@ class DBConnection(DatabaseConnection):
 		if commit:
 			self.commit()
 
+	def clear_Stocks(self, commit=False):
+		self._cursor.execute('DELETE FROM db.Stocks;')
+
+		if commit:
+			self.commit()
+
 	def get_logs(self):
 		self._cursor.execute("SELECT * FROM db.Logs;")
+		ret = self._cursor.fetchall()
+		return ret
+
+	def get_stocks(self):
+		self._cursor.execute("SELECT * FROM db.Stocks;")
 		ret = self._cursor.fetchall()
 		return ret
 
