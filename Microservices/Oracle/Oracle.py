@@ -74,6 +74,8 @@ def get_logs():
 # if we dont have enough buy enough to sell to client and buy 5000 extra to hold on to for later
 @app.route('/api/oracle/buy-stocks=<quantity>', methods=["GET"])
 def user_buys_stocks(quantity):
+    if not quantity.isdigit():
+        raise TypeError('ERROR: Quantity must be of type int')
     table = db.get_stocks()
     gainloss = table[-1][0]
     bank_quantity = table[-1][1]
@@ -84,15 +86,27 @@ def user_buys_stocks(quantity):
     else:
         gainloss = gainloss + (price * int(quantity))
         bank_quantity = bank_quantity - int(quantity)
-    print(gainloss)
-    print(bank_quantity)
+    db.insert_into_stocks(gainloss, int(bank_quantity))
+    table = db.get_stocks()
+    return json2html.convert(json=table)
+
+@app.route('/api/oracle/sell-stocks=<quantity>', methods=["GET"])
+def user_sells_stocks(quantity):
+    if not quantity.isdigit():
+        raise TypeError('ERROR: Quantity must be of type int')
+    table = db.get_stocks()
+    gainloss = table[-1][0]
+    bank_quantity = table[-1][1]
+    price = get_price()['last'] 
+    gainloss = gainloss - (price * int(quantity))
+    bank_quantity = bank_quantity + int(quantity)
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     return json2html.convert(json=table)
 
 
 if __name__ == "__main__" :
-    # delete later
+    # delete first line later
     # using for testing purposes
     # clears bank balance so we start fresh each time running the app
     db.clear_stocks()
