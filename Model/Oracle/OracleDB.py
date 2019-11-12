@@ -1,13 +1,10 @@
 import mysql.connector
-from Misc import Time as TIME
+from Model.Misc import Time as TIME
 
 
 types = ['TRANSACTION','MISC','INFO']
 
-class DatabaseConnection():
-	def foo(self, a): pass
-
-class DBConnection(DatabaseConnection):
+class DBConnection():
 
 	def __init__(self, user='user',password='password'):
 		self._conn = mysql.connector.connect(
@@ -96,8 +93,3 @@ class DBConnection(DatabaseConnection):
 		self._cursor.execute("SELECT * FROM db.Stocks;")
 		ret = self._cursor.fetchall()
 		return ret
-
-
-class TestDBConnection(DatabaseConnection):
-	def foo(self, a):
-		return "test"
