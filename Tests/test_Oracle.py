@@ -1,27 +1,27 @@
 from Model.Oracle import Oracle as ORACLE
 import pytest
 
-def test_buy_stocks_accepts_int1():
+def test_fail_buy_stocks_from_invalid_quantity_type():
     with pytest.raises(TypeError):
         ORACLE.user_buys_stocks("not numbers")
 
-def test_buy_stocks_accepts_int2():
+def test_fail_buy_stocks_from_non_int_quantity_type():
     with pytest.raises(TypeError):
         ORACLE.user_buys_stocks("12.5")
 
-def test_buy_stocks_accepts_int3():
+def test_fail_buy_stocks_from_raw_int_quantity_type():
     with pytest.raises(TypeError):
         ORACLE.user_buys_stocks(12.5)
 
-def test_sell_stocks_accepts_int1():
+def test_fail_sell_stocks_from_invalid_quantity_type():
     with pytest.raises(TypeError):
         ORACLE.user_sells_stocks("not numbers")
 
-def test_sells_stocks_accepts_int2():
+def test_fail_sell_stocks_from_non_int_quantity_type():
     with pytest.raises(TypeError):
         ORACLE.user_sells_stocks("12.4")
 
-def test_sells_stocks_accepts_int3():
+def test_fail_sell_stocks_from_raw_int_quantity_type():
     with pytest.raises(TypeError):
         ORACLE.user_sells_stocks(12.5)
 
