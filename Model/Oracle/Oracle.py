@@ -152,7 +152,7 @@ if __name__ == "__main__" :
     # db.clear_stocks()
     size = db.get_stocks_size()
     authDB = ADB.AuthDatabase()
-    print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password123')+'\
+    print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('kyle@email.com','password')+'\n')
     if size == 0:
         print("Buy 5000 shares of oracle stock")
         val = get_price()['last'] * -5000
