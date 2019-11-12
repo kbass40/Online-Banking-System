@@ -23,7 +23,7 @@ class LogDatabase():
         self.connection.close()
 
     def __initialize__(self):
-        self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Logs(time TIMESTAMP, type VARCHAR(20), message TEXT, PRIMARY KEY(time));")
+        self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Logs(time TIMESTAMP, type VARCHAR(20), message TEXT);")
 
     
     @property
@@ -45,7 +45,7 @@ class LogDatabase():
             raise ValueError('ERROR typ must be one of the approved types of Logs')
 
         if not isinstance(msg, str):
-            raise ValueError('ERROR msg must be of type str')
+            raise TypeError('ERROR msg must be of type str')
 
         self._cursor.execute('INSERT INTO db.Logs(time, type, message) VALUES (%s, %s, %s);',(time,typ,msg))
         if commit:

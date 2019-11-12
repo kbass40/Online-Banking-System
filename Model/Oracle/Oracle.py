@@ -1,10 +1,20 @@
-from flask import Flask
-from Misc import Time as TIME
-import requests
 import json
-import OracleDB
-from Database import AuthenticationDatabase as ADB
+import os
+import sys
+from pathlib import Path
+
+import requests
+from flask import Flask
 from json2html import *
+
+# Both parent directories need to be added to function from top-level as well as from local 
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
+sys.path.append(str(path) + '//..//..')
+
+from Model.Database import AuthenticationDatabase as ADB
+from Model.Misc import Time as TIME
+from Model.Oracle import OracleDB as OracleDB
 
 ACCESS_TOKEN = 'Wv62lOHnUq2EYwmmI9DMnfrrznrV'
 SYMBOL = 'ORCL'
@@ -48,13 +58,8 @@ class DB():
 db = DB()
 auth = ADB.AuthDatabase()
 
-@app.route("/api/oracle/get-last/<token>", methods=["GET"])
-def get_price(token=None):
-    if token is not None:
-        try:
-            user = auth.get_user_info(token)
-        except:
-            return "Inalid token"
+@app.route("/api/oracle/get-last", methods=["GET"])
+def get_price():
     response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
         params={'symbols': (SYMBOL + ',VXX190517P00016000'), 'greeks': 'false'},
         headers={'Authorization': ('Bearer ' + ACCESS_TOKEN), 'Accept': 'application/json'}
@@ -68,13 +73,8 @@ def get_price(token=None):
     db.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
     return ret
 
-@app.route("/api/admin/oracle/get-logs/<token>", methods=["GET"])
-def get_logs(token=None):
-    if token is not None:
-        try:
-            user = auth.get_user_info(token)
-        except:
-            return "Inalid token"
+@app.route("/api/admin/oracle/get-logs", methods=["GET"])
+def get_logs():
     table = db.get_logs()
     return json2html.convert(json=table)
 
@@ -86,6 +86,8 @@ def user_buys_stocks(quantity, token=None):
     if token is not None:
         try:
             user = auth.get_user_info(token)
+            if user is None:
+                return "User not signed in"
         except:
             return "Inalid token"
     if not isinstance(quantity,str):
@@ -95,7 +97,7 @@ def user_buys_stocks(quantity, token=None):
     table = db.get_stocks()
     gainloss = table[-1][0]
     bank_quantity = table[-1][1]
-    price = get_price(token)['last'] 
+    price = get_price()['last'] 
     if bank_quantity < int(quantity):
         gainloss = gainloss - (price * 5000)
         bank_quantity = bank_quantity + 5000
@@ -105,13 +107,16 @@ def user_buys_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
-    return table
+    db.log_transaction(('Bank sells stocks to user: ' + str(table[len(table)])), 'TRANSACTION')
+    return table[len(table)]
 
 @app.route('/api/oracle/sell-stocks=<quantity>/<token>', methods=["GET"])
 def user_sells_stocks(quantity, token=None):
     if token is not None:
         try:
             user = auth.get_user_info(token)
+            if user is None:
+                return "User not signed in"
         except:
             return "Inalid token"
     if not isinstance(quantity,str):
@@ -121,13 +126,14 @@ def user_sells_stocks(quantity, token=None):
     table = db.get_stocks()
     gainloss = table[-1][0]
     bank_quantity = table[-1][1]
-    price = get_price(token)['last'] 
+    price = get_price()['last'] 
     gainloss = gainloss - (price * int(quantity))
     bank_quantity = bank_quantity + int(quantity)
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
-    return table
+    db.log_transaction(('Bank buys stocks from user: ' + str(table[len(table)])), 'TRANSACTION')
+    return table[len(table)]
 
 def jsonify(table):
     json = {}
@@ -144,8 +150,10 @@ if __name__ == "__main__" :
     # delete first line later
     # using for testing purposes
     # clears bank balance so we start fresh each time running the app
-    db.clear_stocks()
+    # db.clear_stocks()
     size = db.get_stocks_size()
+    authDB = ADB.AuthDatabase()
+    print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('kyle@email.com','password')+'\n')
     if size == 0:
         print("Buy 5000 shares of oracle stock")
         val = get_price()['last'] * -5000
