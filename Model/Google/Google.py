@@ -1,21 +1,25 @@
-import sys
+import json
 import os
+import sys
 from pathlib import Path
+
+import requests
+from dotenv import load_dotenv
+from flask import Flask
+from json2html import *
 
 # Both parent directories need to be added to function from top-level as well as from local 
 path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
 sys.path.append(str(path) + '//..//..')
 
-from flask import Flask
-from Misc import Time as TIME
-import requests
-import json
-from Model.Google import GoogleDB as GoogleDB
 from Database import AuthenticationDatabase as ADB
-from json2html import *
+from Misc import Time as TIME
+from Model.Google import GoogleDB as GoogleDB
 
-ACCESS_TOKEN = 'Wv62lOHnUq2EYwmmI9DMnfrrznrV'
+load_dotenv()
+
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 SYMBOL = 'GOOGL'
 
 app = Flask(__name__)
@@ -116,7 +120,7 @@ def user_buys_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
-    return table
+    return table[len(table)]
 
 @app.route('/api/google/sell-stocks=<quantity>/<token>', methods=["GET"])
 def user_sells_stocks(quantity, token=None):
@@ -138,7 +142,7 @@ def user_sells_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
-    return table
+    return table[len(table)]
 
 def jsonify(table):
     json = {}
@@ -157,8 +161,10 @@ if __name__ == "__main__" :
     # clears bank balance so we start fresh each time running the app
     db.clear_stocks()
     size = db.get_stocks_size()
+    authDB = ADB.AuthDatabase()
+    print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password123')+'\n')
     if size == 0:
-        print("Buy 5000 shares of oracle stock")
+        print("Buying 5000 shares of Google stock")
         val = get_price()['last'] * -5000
         db.insert_into_stocks(val, 5000)
     app.run(host="0.0.0.0")
