@@ -16,12 +16,13 @@ class DatabaseConnection():
 
 class DBConnection(DatabaseConnection):
 
-	def __init__(self, user='user',password='password'):
+	def __init__(self, user='root',password=''):
 		self._conn = mysql.connector.connect(
 			host="localhost",
 			user=user,
 			passwd=password,
-			db="db"
+			db="db",
+			port='3306'
 		)
 		self._cursor = self._conn.cursor()
 		self.__initialize__()
@@ -108,3 +109,4 @@ class DBConnection(DatabaseConnection):
 class TestDBConnection(DatabaseConnection):
 	def foo(self, a):
 		return "test"
+

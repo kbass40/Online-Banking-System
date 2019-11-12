@@ -1,3 +1,9 @@
+from pathlib import Path
+import sys
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
+sys.path.append(str(path) + '//..//..')
+
 from flask import Flask
 from Misc import Time as TIME
 import requests
@@ -5,11 +11,7 @@ import json
 import AppleDB
 from Database import AuthenticationDatabase as ADB
 from json2html import *
-from pathlib import Path
 
-path = Path(__file__).parent.absolute()
-sys.path.append(str(path) + '//..')
-sys.path.append(str(path) + '//..//..')
 
 ACCESS_TOKEN = '6GrgiMPAz7nu1wWPOvG69AEVLFAd'
 SYMBOL = 'AAPL'
@@ -73,13 +75,8 @@ def get_price(token=None):
     db.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
     return ret
 
-@app.route("/api/admin/apple/get-logs/<token>", methods=["GET"])
-def get_logs(token=None):
-    if token is not None:
-        try:
-            user = auth.get_user_info(token)
-        except:
-            return "Inalid token"
+@app.route("/api/admin/apple/get-logs/", methods=["GET"])
+def get_logs():
     table = db.get_logs()
     return json2html.convert(json=table)
 
