@@ -1,9 +1,18 @@
+import sys
+import os
+from pathlib import Path
+
+# Both parent directories need to be added to function from top-level as well as from local 
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
+sys.path.append(str(path) + '//..//..')
+
 from flask import Flask
-from Misc import Time as TIME
+from Model.Misc import Time as TIME
 import requests
 import json
 import OracleDB
-from Database import AuthenticationDatabase as ADB
+from Model.Database import AuthenticationDatabase as ADB
 from json2html import *
 
 ACCESS_TOKEN = 'Wv62lOHnUq2EYwmmI9DMnfrrznrV'
@@ -134,7 +143,7 @@ if __name__ == "__main__" :
     # delete first line later
     # using for testing purposes
     # clears bank balance so we start fresh each time running the app
-    db.clear_stocks()
+    # db.clear_stocks()
     size = db.get_stocks_size()
     if size == 0:
         print("Buy 5000 shares of oracle stock")

@@ -68,7 +68,7 @@ class AuthDatabase():
         blank_account = {'apple_stock':0, 'facebook_stock':0,'google_stock':0, 'ubisoft_stock':0,'oracle_stock':0}
         self._db.child('users').child(user_id).set(blank_account, auth_id)
 
-myDb = AuthDatabase()
-user_id = myDb.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password')
-print(myDb.get_user_info(user_id))
-myDb.create_new_user('test@email.com','test_boi','password123')
+# myDb = AuthDatabase()
+# user_id = myDb.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password')
+# print(myDb.get_user_info(user_id))
+# myDb.create_new_user('test@email.com','test_boi','password123')
