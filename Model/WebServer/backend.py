@@ -74,6 +74,10 @@ def signUpPost():
     email = request.form.get('email')
     psw = str(request.form.get('psw'))
 
+    if len(psw) < 7:
+        short = "password needs to be at least 8 characters long"
+        return render_template("failedSignUp.htm").format(error=str(short))
+
     #using a mock
     #registered = mock_signUp.signUp(uname, email, psw)
 

@@ -71,6 +71,6 @@ class AuthDatabase():
         self._db.child('users').child(user_id).set(blank_account, auth_id)
 
 myDb = AuthDatabase()
-user_id = myDb.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password')
-print(myDb.get_user_info(user_id))
+#user_id = myDb.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password')
+#print(myDb.get_user_info(user_id))
 #myDb.create_new_user('test@email.com','test_boi','password123')

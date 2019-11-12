@@ -1,53 +1,152 @@
+import sys
 import os
+from pathlib import Path
+
+# Both parent directories need to be added to function from top-level as well as from local 
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
+sys.path.append(str(path) + '//..//..')
+
+from flask import Flask
+from Model.Misc import Time as TIME
 import requests
+import json
+import UbisoftDB
+from Model.Database import AuthenticationDatabase as ADB
+from json2html import *
 
-atoken = "J3z7DrPHATWESyoAN69cH6tZiybR"
-endpoint = "https://sandbox.tradier.com/v1/markets/quotes"
+ACCESS_TOKEN = 'Wv62lOHnUq2EYwmmI9DMnfrrznrV'
+SYMBOL = 'ORCL'
 
-#Gets the price of the stock specified by the symbol, returned as a json
-def get_price(symbol):
-    #headers for the request
-    header = {
-        "Accept": "application/json",
-        "Authorization": "Bearer " + atoken
-    }
-    #parameters for the request
-    param = {
-        "symbols": str(symbol)
-    }
-    response = requests.get(endpoint, headers=header, params=param)
+app = Flask(__name__)
+
+class DB():
+    def __init__(self):
+        self._db = UbisoftDB.DBConnection()
+
+    def get_log_size(self):
+        return self._db.get_logs_size()
+
+    def get_stocks_size(self):
+        return self._db.get_stocks_size()
+
+    def clear_logs(self,commit=False):
+        self._db.clear_Logs(commit)
+
+    def clear_stocks(self,commit=False):
+        self._db.clear_Stocks(commit)
+
+    def log_transaction(self,message,typing='TRANSACTION',commit=True):
+        if not isinstance(message,str):
+            raise TypeError('ERROR: Message must be of type string')
+
+        if typing not in UbisoftDB.types:
+            raise ValueError('ERROR: typing must be a defined log type')
+
+        self._db.insert_into_Logs(TIME.get_timestamp(),typing,message,commit)
+
+    def insert_into_stocks(self, gainloss, quantity):
+        self._db.insert_into_stocks(gainloss, quantity)
+
+    def get_logs(self):
+        return self._db.get_logs()
+
+    def get_stocks(self):
+        return self._db.get_stocks()
+
+db = DB()
+auth = ADB.AuthDatabase()
+
+@app.route("/api/ubisoft/get-last", methods=["GET"])
+def get_price(token=None):
+    response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
+        params={'symbols': (SYMBOL + ',VXX190517P00016000'), 'greeks': 'false'},
+        headers={'Authorization': ('Bearer ' + ACCESS_TOKEN), 'Accept': 'application/json'}
+    )
     json_response = response.json()
-
-    output = {
-        "symbol": json_response['quotes']['quote']['symbol'],
-        "description": json_response["quotes"]["quote"]["description"],
-        "last": json_response["quotes"]["quote"]["last"]
+    ret = {
+        'symbol' : json_response['quotes']['quote']['symbol'],
+        'description' : json_response['quotes']['quote']['description'],
+        'last' : json_response['quotes']['quote']['last']
     }
+    db.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
+    return ret
 
-    #still have to log it
+@app.route("/api/admin/ubisoft/get-logs", methods=["GET"])
+def get_logs(token=None):
+    table = db.get_logs()
+    return json2html.convert(json=table)
 
-    return output
+# client wants to buy stocks
+# if we have enough stocks sell them to client and increase gainloss
+# if we dont have enough buy enough to sell to client and buy 5000 extra to hold on to for later
+@app.route('/api/ubisoft/buy-stocks=<quantity>/<token>', methods=["GET"])
+def user_buys_stocks(quantity, token=None):
+    if token is not None:
+        try:
+            user = auth.get_user_info(token)
+        except:
+            return "Inalid token"
+    if not isinstance(quantity,str):
+        raise TypeError('ERROR: quantity must be of type string')
+    if not quantity.isdigit():
+        raise TypeError('ERROR: Quantity must be of type int')
+    table = db.get_stocks()
+    gainloss = table[-1][0]
+    bank_quantity = table[-1][1]
+    price = get_price()['last'] 
+    if bank_quantity < int(quantity):
+        gainloss = gainloss - (price * 5000)
+        bank_quantity = bank_quantity + 5000
+    else:
+        gainloss = gainloss + (price * int(quantity))
+        bank_quantity = bank_quantity - int(quantity)
+    db.insert_into_stocks(gainloss, int(bank_quantity))
+    table = db.get_stocks()
+    table = jsonify(table)
+    return table
 
-def buy_stock(quantity, symbol):
-    try:
-        price = int(get_price(symbol)["last"]) * int(quantity)
-    except:
-        return "Input Error"
+@app.route('/api/ubisoft/sell-stocks=<quantity>/<token>', methods=["GET"])
+def user_sells_stocks(quantity, token=None):
+    if token is not None:
+        try:
+            user = auth.get_user_info(token)
+        except:
+            return "Inalid token"
+    if not isinstance(quantity,str):
+        raise TypeError('ERROR: quantity must be of type string')
+    if not quantity.isdigit():
+        raise TypeError('ERROR: Quantity must be of type int')
+    table = db.get_stocks()
+    gainloss = table[-1][0]
+    bank_quantity = table[-1][1]
+    price = get_price()['last'] 
+    gainloss = gainloss - (price * int(quantity))
+    bank_quantity = bank_quantity + int(quantity)
+    db.insert_into_stocks(gainloss, int(bank_quantity))
+    table = db.get_stocks()
+    table = jsonify(table)
+    return table
 
-    #update users balance (make sure that the user is not trying to buy more than he is able to)
-    #return updated user wallet (balance and stock amount)
-    #make sure to log it
-
-def sell_stock(quantity, symbol):
-    try:
-        price = int(get_price(symbol)["last"]) * int(quantity)
-    except:
-        return "Input Error"
-    
-    #update users balance (make sure that they are not trying to sell more stocks than they own)
-    #return updated user wallet
-    #make sure to log it
+def jsonify(table):
+    json = {}
+    for i, tup in enumerate(table):
+        call = {
+            "gainloss" : str(tup[0]),
+            "quantity" : str(tup[1]),
+        }
+        json[i+1] = call
+    return json
 
 
-#if __name__=="__main__":
-#    get_price("UBSFY")
+if __name__ == "__main__" :
+    # delete first line later
+    # using for testing purposes
+    # clears bank balance so we start fresh each time running the app
+    # db.clear_stocks()
+    size = db.get_stocks_size()
+    if size == 0:
+        print("Buy 5000 shares of ubisoft stock")
+        val = get_price()['last'] * -5000
+        db.insert_into_stocks(val, 5000)
+    app.run(host="0.0.0.0")
