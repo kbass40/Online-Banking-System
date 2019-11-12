@@ -106,7 +106,7 @@ def user_buys_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
-    db.log_transaction(('Bank sells stocks to user: ' + str(table)), 'TRANSACTION')
+    db.log_transaction(('Bank sells stocks to user: ' + str(table[-1])), 'TRANSACTION')
     return table
 
 @app.route('/api/oracle/sell-stocks=<quantity>/<token>', methods=["GET"])
@@ -131,7 +131,7 @@ def user_sells_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
-    db.log_transaction(('Bank buys stocks from user: ' + str(table)), 'TRANSACTION')
+    db.log_transaction(('Bank buys stocks from user: ' + str(table[-1])), 'TRANSACTION')
     return table
 
 def jsonify(table):
@@ -151,6 +151,8 @@ if __name__ == "__main__" :
     # clears bank balance so we start fresh each time running the app
     # db.clear_stocks()
     size = db.get_stocks_size()
+    authDB = ADB.AuthDatabase()
+    print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('kyle@email.com','password')+'\n')
     if size == 0:
         print("Buy 5000 shares of oracle stock")
         val = get_price()['last'] * -5000

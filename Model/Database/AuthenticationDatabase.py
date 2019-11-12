@@ -105,8 +105,9 @@ class AuthDatabase():
 
         user_id = self._get_userID_from_authID(auth_id)
         self._db.child('users').child(user_id).remove()
+    '''
 
 # myDb = AuthDatabase()
-# user_id = myDb.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password')
+# myDb.create_new_user('kyle@email.com','password')
+# user_id = myDb.authenticate_user_via_email_password('kyle@email.com','password')
 # print(myDb.get_user_info(user_id))
-# myDb.create_new_user('test@email.com','test_boi','password123')'''
