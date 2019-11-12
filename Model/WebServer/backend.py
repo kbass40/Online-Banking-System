@@ -1,12 +1,18 @@
 import os
 import sys
-sys.path.append(os.path.abspath('..'))
+from pathlib import Path
+
+# Both parent directories need to be added to function from top-level as well as from local 
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
+sys.path.append(str(path) + '//..//..')
+
 #import mock_auth, mock_signUp
 import urllib
-from Database import AuthenticationDatabase as authdb
+from Model.Database import AuthenticationDatabase as authdb
 from flask import Flask, render_template, request
 
-template_dir = os.path.abspath('../HTML')
+template_dir = str(path) + '//..//HTML'
 app = Flask(__name__, template_folder=template_dir)
 
 @app.route('/')
