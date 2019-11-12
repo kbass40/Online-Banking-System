@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 regex = r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+stock_symbols = ['AAPL','FB','GOOGL','ORCL','UBSFY']
 
 # Configuration variables to connect with authentication database
 config = {
@@ -66,9 +67,25 @@ class AuthDatabase():
 
         auth_id = self._auth.create_user_with_email_and_password(email,password)['idToken']
         user_id = self._get_userID_from_authID(auth_id)
-        blank_account = {'apple_stock':0, 'facebook_stock':0,'google_stock':0, 'ubisoft_stock':0,'oracle_stock':0}
+        blank_account = {stock_symbols[0]:0, stock_symbols[1]:0,stock_symbols[2]:0, stock_symbols[3]:0,stock_symbols[4]:0}
         self._db.child('users').child(user_id).set(blank_account, auth_id)
         return auth_id
+
+    # Interface to update a user's stock info based on microservice purchuse
+    def update_user_info(self,auth_id,symbol,amount):
+        if not isinstance(symbol, str):
+            raise TypeError('ERROR symbol must be of type str')
+
+        if symbol not in stock_symbols:
+            raise ValueError('ERROR symbol must be within the approved stock microservices')
+
+        if not isinstance(amount,int):
+            raise TypeError('ERROR amount must be of type int')
+
+        user_info = self.get_user_info(auth_id)
+        user_id = self._get_userID_from_authID(auth_id)
+        old_amt = self._db.child('users').child(user_id).child(symbol).get(auth_id).val()
+        self._db.child('users').child(user_id).update({symbol:old_amt+amount},auth_id)
     
     '''
     #Pyrebase won't support removing authenticated users so R I P delete
