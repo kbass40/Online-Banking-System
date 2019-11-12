@@ -23,7 +23,7 @@ class LogDatabase():
         self.connection.close()
 
     def __initialize__(self):
-        self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Logs(time TIMESTAMP, type VARCHAR(20), message TEXT, time);")
+        self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Logs(time TIMESTAMP, type VARCHAR(20), message TEXT);")
 
     
     @property

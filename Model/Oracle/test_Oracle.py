@@ -15,7 +15,7 @@ def test_buy_stocks_accepts_int3():
 
 def test_sell_stocks_accepts_int1():
     with pytest.raises(TypeError):
-        user_sells_stocks("not nnumbers")
+        user_sells_stocks("not numbers")
 
 def test_sells_stocks_accepts_int2():
     with pytest.raises(TypeError):
