@@ -1,3 +1,10 @@
+import sys
+import os
+from pathlib import Path
+
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
+
 import mysql.connector
 from Misc import Time as TIME
 
