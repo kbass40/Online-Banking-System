@@ -48,9 +48,13 @@ class DB():
 db = DB()
 auth = ADB.AuthDatabase()
 
-@app.route("/api/oracle/get-last/", methods=["GET"])
-def get_price():
-
+@app.route("/api/oracle/get-last/<token>", methods=["GET"])
+def get_price(token=None):
+    if token is not None:
+        try:
+            user = auth.get_user_info(token)
+        except:
+            return "Inalid token"
     response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
         params={'symbols': (SYMBOL + ',VXX190517P00016000'), 'greeks': 'false'},
         headers={'Authorization': ('Bearer ' + ACCESS_TOKEN), 'Accept': 'application/json'}
@@ -76,8 +80,12 @@ def get_logs(token):
 # client wants to buy stocks
 # if we have enough stocks sell them to client and increase gainloss
 # if we dont have enough buy enough to sell to client and buy 5000 extra to hold on to for later
-@app.route('/api/oracle/buy-stocks=<quantity>', methods=["GET"])
-def user_buys_stocks(quantity):
+@app.route('/api/oracle/buy-stocks=<quantity>/<token>', methods=["GET"])
+def user_buys_stocks(quantity, token):
+    try:
+        user = auth.get_user_info(token)
+    except:
+        return "Inalid token"
     if not isinstance(quantity,str):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
@@ -85,7 +93,7 @@ def user_buys_stocks(quantity):
     table = db.get_stocks()
     gainloss = table[-1][0]
     bank_quantity = table[-1][1]
-    price = get_price()['last'] 
+    price = get_price(token)['last'] 
     if bank_quantity < int(quantity):
         gainloss = gainloss - (price * 5000)
         bank_quantity = bank_quantity + 5000
@@ -97,8 +105,12 @@ def user_buys_stocks(quantity):
     table = jsonify(table)
     return table
 
-@app.route('/api/oracle/sell-stocks=<quantity>', methods=["GET"])
-def user_sells_stocks(quantity):
+@app.route('/api/oracle/sell-stocks=<quantity>/<token>', methods=["GET"])
+def user_sells_stocks(quantity, token):
+    try:
+        user = auth.get_user_info(token)
+    except:
+        return "Inalid token"
     if not isinstance(quantity,str):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
@@ -106,7 +118,7 @@ def user_sells_stocks(quantity):
     table = db.get_stocks()
     gainloss = table[-1][0]
     bank_quantity = table[-1][1]
-    price = get_price()['last'] 
+    price = get_price(token)['last'] 
     gainloss = gainloss - (price * int(quantity))
     bank_quantity = bank_quantity + int(quantity)
     db.insert_into_stocks(gainloss, int(bank_quantity))
