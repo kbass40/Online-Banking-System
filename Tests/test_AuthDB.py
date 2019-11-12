@@ -33,3 +33,8 @@ def test_fail_create_user_with_invalid_email():
     with pytest.raises(SyntaxError):
         myDB = AuthDB.AuthDatabase()
         myDB.create_new_user('@gmail.com','156463543')
+
+def test_fail_create_user_with_invalid_password():
+    with pytest.raises(ValueError):
+        myDB = AuthDB.AuthDatabase()
+        myDB.create_new_user('temp@gmail.com','passwoo')
