@@ -58,7 +58,7 @@ db = DB()
 auth = ADB.AuthDatabase()
 
 @app.route("/api/oracle/get-last", methods=["GET"])
-def get_price(token=None):
+def get_price():
     response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
         params={'symbols': (SYMBOL + ',VXX190517P00016000'), 'greeks': 'false'},
         headers={'Authorization': ('Bearer ' + ACCESS_TOKEN), 'Accept': 'application/json'}
@@ -73,7 +73,7 @@ def get_price(token=None):
     return ret
 
 @app.route("/api/admin/oracle/get-logs", methods=["GET"])
-def get_logs(token=None):
+def get_logs():
     table = db.get_logs()
     return json2html.convert(json=table)
 
@@ -85,6 +85,8 @@ def user_buys_stocks(quantity, token=None):
     if token is not None:
         try:
             user = auth.get_user_info(token)
+            if user is None:
+                return "User not signed in"
         except:
             return "Inalid token"
     if not isinstance(quantity,str):
@@ -104,6 +106,7 @@ def user_buys_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
+    db.log_transaction(('Bank sells stocks to user: ' + str(table)), 'TRANSACTION')
     return table
 
 @app.route('/api/oracle/sell-stocks=<quantity>/<token>', methods=["GET"])
@@ -111,6 +114,8 @@ def user_sells_stocks(quantity, token=None):
     if token is not None:
         try:
             user = auth.get_user_info(token)
+            if user is None:
+                return "User not signed in"
         except:
             return "Inalid token"
     if not isinstance(quantity,str):
@@ -126,6 +131,7 @@ def user_sells_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
+    db.log_transaction(('Bank buys stocks from user: ' + str(table)), 'TRANSACTION')
     return table
 
 def jsonify(table):
