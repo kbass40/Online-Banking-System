@@ -13,8 +13,8 @@ path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
 sys.path.append(str(path) + '//..//..')
 
-from Database import AuthenticationDatabase as ADB
-from Misc import Time as TIME
+from Model.Database import AuthenticationDatabase as ADB
+from Model.Misc import Time as TIME
 from Model.Google import GoogleDB as GoogleDB
 
 load_dotenv()
@@ -26,7 +26,7 @@ app = Flask(__name__)
 
 class DB():
     def __init__(self):
-        self._db = GoogleDB.DBConnection()
+        self._db = GoogleDB.DatabaseConnection()
 
     def get_log_size(self):
         return self._db.get_logs_size()
@@ -61,15 +61,8 @@ class DB():
 db = DB()
 auth = ADB.AuthDatabase()
 
-# TODO: Need to add in AuthorizationDatabase module to update a user's stock info
-
 @app.route("/api/google/get-last/<token>", methods=["GET"])
-def get_price(token=None):
-    if token is not None:
-        try:
-            user = auth.get_user_info(token)
-        except:
-            return "Inalid token"
+def get_price():
     response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
         params={'symbols': (SYMBOL + ',VXX190517P00016000'), 'greeks': 'false'},
         headers={'Authorization': ('Bearer ' + ACCESS_TOKEN), 'Accept': 'application/json'}
@@ -84,12 +77,7 @@ def get_price(token=None):
     return ret
 
 @app.route("/api/admin/google/get-logs/<token>", methods=["GET"])
-def get_logs(token=None):
-    if token is not None:
-        try:
-            user = auth.get_user_info(token)
-        except:
-            return "Inalid token"
+def get_logs():
     table = db.get_logs()
     return json2html.convert(json=table)
 
@@ -101,6 +89,8 @@ def user_buys_stocks(quantity, token=None):
     if token is not None:
         try:
             user = auth.get_user_info(token)
+            if user is None:
+               return "User not signed in"
         except:
             return "Inalid token"
     if not isinstance(quantity,str):
@@ -110,7 +100,7 @@ def user_buys_stocks(quantity, token=None):
     table = db.get_stocks()
     gainloss = table[-1][0]
     bank_quantity = table[-1][1]
-    price = get_price(token)['last'] 
+    price = get_price()['last'] 
     if bank_quantity < int(quantity):
         gainloss = gainloss - (price * 5000)
         bank_quantity = bank_quantity + 5000
@@ -120,6 +110,7 @@ def user_buys_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
+    db.log_transaction(('Bank sells stocks to user: ' + str(table[len(table)])), 'TRANSACTION')
     return table[len(table)]
 
 @app.route('/api/google/sell-stocks=<quantity>/<token>', methods=["GET"])
@@ -127,6 +118,8 @@ def user_sells_stocks(quantity, token=None):
     if token is not None:
         try:
             user = auth.get_user_info(token)
+            if user is None:
+               return "User not signed in"
         except:
             return "Inalid token"
     if not isinstance(quantity,str):
@@ -136,7 +129,7 @@ def user_sells_stocks(quantity, token=None):
     table = db.get_stocks()
     gainloss = table[-1][0]
     bank_quantity = table[-1][1]
-    price = get_price(token)['last'] 
+    price = get_price()['last'] 
     gainloss = gainloss - (price * int(quantity))
     bank_quantity = bank_quantity + int(quantity)
     db.insert_into_stocks(gainloss, int(bank_quantity))

@@ -3,14 +3,14 @@ import os
 import sys
 from pathlib import Path
 
+import requests
+from flask import Flask
+from json2html import *
+
 # Both parent directories need to be added to function from top-level as well as from local 
 path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
 sys.path.append(str(path) + '//..//..')
-
-import requests
-from flask import Flask
-from json2html import *
 
 from Model.Database import AuthenticationDatabase as ADB
 from Model.Misc import Time as TIME
@@ -108,7 +108,7 @@ def user_buys_stocks(quantity, token=None):
     table = db.get_stocks()
     table = jsonify(table)
     db.log_transaction(('Bank sells stocks to user: ' + str(table[len(table)])), 'TRANSACTION')
-    return table
+    return table[len(table)]
 
 @app.route('/api/oracle/sell-stocks=<quantity>/<token>', methods=["GET"])
 def user_sells_stocks(quantity, token=None):
@@ -133,7 +133,7 @@ def user_sells_stocks(quantity, token=None):
     table = db.get_stocks()
     table = jsonify(table)
     db.log_transaction(('Bank buys stocks from user: ' + str(table[len(table)])), 'TRANSACTION')
-    return table
+    return table[len(table)]
 
 def jsonify(table):
     json = {}
