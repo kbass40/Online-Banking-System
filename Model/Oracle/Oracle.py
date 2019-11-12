@@ -69,11 +69,12 @@ def get_price(token=None):
     return ret
 
 @app.route("/api/admin/oracle/get-logs/<token>", methods=["GET"])
-def get_logs(token):
-    try:
-        user = auth.get_user_info(token)
-    except:
-        return "Inalid token"
+def get_logs(token=None):
+    if token is not None:
+        try:
+            user = auth.get_user_info(token)
+        except:
+            return "Inalid token"
     table = db.get_logs()
     return json2html.convert(json=table)
 
@@ -81,11 +82,12 @@ def get_logs(token):
 # if we have enough stocks sell them to client and increase gainloss
 # if we dont have enough buy enough to sell to client and buy 5000 extra to hold on to for later
 @app.route('/api/oracle/buy-stocks=<quantity>/<token>', methods=["GET"])
-def user_buys_stocks(quantity, token):
-    try:
-        user = auth.get_user_info(token)
-    except:
-        return "Inalid token"
+def user_buys_stocks(quantity, token=None):
+    if token is not None:
+        try:
+            user = auth.get_user_info(token)
+        except:
+            return "Inalid token"
     if not isinstance(quantity,str):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
@@ -106,11 +108,12 @@ def user_buys_stocks(quantity, token):
     return table
 
 @app.route('/api/oracle/sell-stocks=<quantity>/<token>', methods=["GET"])
-def user_sells_stocks(quantity, token):
-    try:
-        user = auth.get_user_info(token)
-    except:
-        return "Inalid token"
+def user_sells_stocks(quantity, token=None):
+    if token is not None:
+        try:
+            user = auth.get_user_info(token)
+        except:
+            return "Inalid token"
     if not isinstance(quantity,str):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
