@@ -1,11 +1,12 @@
+import os
+import re
+
 import pyrebase
 from dotenv import load_dotenv
-import os
-import re 
 
 load_dotenv()
 
-regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+regex = r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
 # Configuration variables to connect with authentication database
 config = {
@@ -21,7 +22,7 @@ config = {
 
 def isEmailValid(email):
     if not isinstance(email, str):
-            raise ValueError('ERROR email must be of type str')
+            raise TypeError('ERROR email must be of type str')
     else:
         return re.search(regex, email)
 
@@ -34,10 +35,13 @@ class AuthDatabase():
     # Function to return user api key info based on their email and password
     def authenticate_user_via_email_password(self, email, password):
         if not isinstance(email, str):
-            raise ValueError('ERROR email must be of type str')
+            raise TypeError('ERROR email must be of type str')
 
         if not isinstance(password, str):
-            raise ValueError('ERROR password must be of type str')
+            raise TypeError('ERROR password must be of type str')
+
+        if not (isEmailValid(email)):
+            raise SyntaxError('ERROR a valid email must be provided')
 
         return self._auth.sign_in_with_email_and_password(email,password)['idToken']
 
@@ -49,16 +53,13 @@ class AuthDatabase():
         userId = self._get_userID_from_authID(id_token)
         return self._db.child('users').child(userId).get(id_token).val()
 
-    # Creates new user in database based on their email, password, and username
-    def create_new_user(self, email, username, password):
+    # Creates new user in database based on their email and password
+    def create_new_user(self, email, password):
         if not isinstance(email, str):
-            raise ValueError('ERROR email must be of type str')
+            raise TypeError('ERROR email must be of type str')
 
         if not isinstance(password, str):
-            raise ValueError('ERROR password must be of type str')
-
-        if not isinstance(username, str):
-            raise ValueError('ERROR username must be of type str')
+            raise TypeError('ERROR password must be of type str')
 
         if not (isEmailValid(email)):
             raise SyntaxError('ERROR a valid email must be provided')
@@ -67,8 +68,23 @@ class AuthDatabase():
         user_id = self._get_userID_from_authID(auth_id)
         blank_account = {'apple_stock':0, 'facebook_stock':0,'google_stock':0, 'ubisoft_stock':0,'oracle_stock':0}
         self._db.child('users').child(user_id).set(blank_account, auth_id)
+        return auth_id
+    
+    '''
+    #Pyrebase won't support removing authenticated users so R I P delete
+    def delete_user(self,auth_id):
+        headers = {
+            'Content-Type': 'application/json',
+        }
 
-myDb = AuthDatabase()
-user_id = myDb.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password')
-print(myDb.get_user_info(user_id))
-myDb.create_new_user('test@email.com','test_boi','password123')
+        params = (('key', config['apiKey']),)   
+
+        data = '{"idToken":'+auth_id+'}'
+
+        response = requests.post('https://identitytoolkit.googleapis.com/v1/accounts:delete', headers=headers, params=params, data=data)
+
+        user_id = self._get_userID_from_authID(auth_id)
+        self._db.child('users').child(user_id).remove()
+
+        return response
+    #'''
