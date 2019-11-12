@@ -1,7 +1,8 @@
 import os
 import sys
 sys.path.append(os.path.abspath('..'))
-import mock_auth, mock_signUp
+#import mock_auth, mock_signUp
+import urllib
 from Database import AuthenticationDatabase as authdb
 from flask import Flask, render_template, request
 
@@ -23,7 +24,7 @@ def login():
 def loginPost():
     #getting the user inputs
     email = request.form.get("email")
-    psw = request.form.get("psw")
+    psw = str(request.form.get("psw"))
 
     #send it to authentication
     #currently using a mock
@@ -32,13 +33,13 @@ def loginPost():
     #get session token
     #currently using a placeholder
     temp = authdb.AuthDatabase()
-    token = temp.authenticate_user_via_email_password(email, psw)
 
-    if token is not None:
-        return render_template("successfulLogin.htm").format(token=token)
+    try:
+        token = temp.authenticate_user_via_email_password(email, psw)
+    except Exception as e:
+        return render_template("failedLogin.htm").format(error=str(e))
 
-    else:
-        return render_template("failedLogin.htm")
+    return render_template("successfulLogin.htm").format(token=token)
 
 
 @app.route('/Microservices')
@@ -71,12 +72,16 @@ def signUpPost():
     #getting user inputs
     uname = request.form.get('uname')
     email = request.form.get('email')
-    psw = request.form.get('psw')
+    psw = str(request.form.get('psw'))
 
     #using a mock
     #registered = mock_signUp.signUp(uname, email, psw)
 
-    authdb.AuthDatabase().create_new_user(email, uname, psw)
+    try:
+        authdb.AuthDatabase().create_new_user(email, uname, psw)
+    except Exception as e:
+        return render_template("failedSignUp.htm").format(error=str(e))
+
 
     #if registered:
         #return render_template('successfulSignUp.htm')

@@ -1,6 +1,9 @@
 import os
+import sys
+sys.path.append(os.path.abspath(".."))
+from Database import AuthenticationDatabase as authdb
 import mock_adminAuthentication
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 
 template_dir = os.path.abspath('../HTML')
 app = Flask(__name__, template_folder=template_dir)
@@ -14,22 +17,25 @@ def admin_home():
 @app.route('/', methods=['POST'])
 def admin_home_auth():
     #getting user info
-    uname = request.form.get('uname')
-    psw = request.form.get('psw')
+    email = request.form.get('email')
+    psw = str(request.form.get('psw'))
 
     #send it to get authenticated
     #currently using a test double
-    authenticated = mock_adminAuthentication.auth(uname, psw)
+    #authenticated = mock_adminAuthentication.auth(uname, psw)
 
-    if authenticated:
-        #creating a placeholder token and setting it as a cookie
-        token = "abheo457612n"
-        response = app.make_response(render_template('authenticated_admin.htm'))
-        response.set_cookie("authenticated", value=token)
-        return response
-    else:
-        flash("Authentication failed")
-        return redirect(url_for('admin_home'))
+    temp = authdb.AuthDatabase()
+
+    try:
+        token = temp.authenticate_user_via_email_password(email, psw)
+    except Exception as e:
+        return render_template("unauthenticated_admin").format(error=str(e))
+
+    #creating a placeholder token and setting it as a cookie
+    token = "abheo457612n"
+    response = app.make_response(render_template('authenticated_admin.htm'))
+    response.set_cookie("authenticated", value=token)
+    return response
 
 #Authentication Logs
 @app.route('/auth-logs')

@@ -39,6 +39,8 @@ class AuthDatabase():
         if not isinstance(password, str):
             raise ValueError('ERROR password must be of type str')
 
+        #need to check if email is valid
+
         return self._auth.sign_in_with_email_and_password(email,password)['idToken']
 
     def _get_userID_from_authID(self, authID):
@@ -71,4 +73,4 @@ class AuthDatabase():
 myDb = AuthDatabase()
 user_id = myDb.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password')
 print(myDb.get_user_info(user_id))
-myDb.create_new_user('test@email.com','test_boi','password123')
+#myDb.create_new_user('test@email.com','test_boi','password123')
