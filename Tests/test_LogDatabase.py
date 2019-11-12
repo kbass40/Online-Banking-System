@@ -22,7 +22,7 @@ def test_LD_insert_type_failure():
 
 def test_LD_insert_message_failure():
     logDB = LD.LogDatabase()
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         logDB.insert_into_Logs(TIME.get_timestamp(),'TRANSACTION',18)
 
 def test_LD_insert_log():

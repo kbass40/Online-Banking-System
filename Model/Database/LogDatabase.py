@@ -45,7 +45,7 @@ class LogDatabase():
             raise ValueError('ERROR typ must be one of the approved types of Logs')
 
         if not isinstance(msg, str):
-            raise ValueError('ERROR msg must be of type str')
+            raise TypeError('ERROR msg must be of type str')
 
         self._cursor.execute('INSERT INTO db.Logs(time, type, message) VALUES (%s, %s, %s);',(time,typ,msg))
         if commit:
