@@ -1,13 +1,19 @@
-import mysql.connector
+import sys
+import os
+from pathlib import Path
+
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
+
+
 from Misc import Time as TIME
+
+import mysql.connector
 
 
 types = ['TRANSACTION','MISC','INFO']
 
-class DatabaseConnection():
-	def foo(self, a): pass
-
-class DBConnection(DatabaseConnection):
+class DBConnection():
 
 	def __init__(self, user='user',password='password'):
 		self._conn = mysql.connector.connect(
@@ -27,7 +33,8 @@ class DBConnection(DatabaseConnection):
 		self.connection.close()
 
 	def __initialize__(self):
-		self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Logs(time TIMESTAMP, type VARCHAR(20), message TEXT, PRIMARY KEY(time));")
+		# self._cursor.execute("DROP TABLE db.Logs;")
+		self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Logs(time TIMESTAMP, type VARCHAR(20), message TEXT);")
 		self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Stocks(gainloss DOUBLE, quantity INT);")
 
     
@@ -96,8 +103,3 @@ class DBConnection(DatabaseConnection):
 		self._cursor.execute("SELECT * FROM db.Stocks;")
 		ret = self._cursor.fetchall()
 		return ret
-
-
-class TestDBConnection(DatabaseConnection):
-	def foo(self, a):
-		return "test"
