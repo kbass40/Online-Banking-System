@@ -151,6 +151,8 @@ if __name__ == "__main__" :
     # clears bank balance so we start fresh each time running the app
     # db.clear_stocks()
     size = db.get_stocks_size()
+    authDB = ADB.AuthDatabase()
+    print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password123')+'\
     if size == 0:
         print("Buy 5000 shares of oracle stock")
         val = get_price()['last'] * -5000
