@@ -3,6 +3,7 @@ from Misc import Time as TIME
 import requests
 import json
 import OracleDB
+from Database import AuthenticationDatabase as ADB
 from json2html import *
 
 ACCESS_TOKEN = 'Wv62lOHnUq2EYwmmI9DMnfrrznrV'
@@ -45,9 +46,11 @@ class DB():
         return self._db.get_stocks()
 
 db = DB()
+auth = ADB.AuthDatabase()
 
-@app.route("/api/oracle/get-last", methods=["GET"])
+@app.route("/api/oracle/get-last/", methods=["GET"])
 def get_price():
+
     response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
         params={'symbols': (SYMBOL + ',VXX190517P00016000'), 'greeks': 'false'},
         headers={'Authorization': ('Bearer ' + ACCESS_TOKEN), 'Accept': 'application/json'}
@@ -61,8 +64,12 @@ def get_price():
     db.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
     return ret
 
-@app.route("/api/admin/oracle/get-logs", methods=["GET"])
-def get_logs():
+@app.route("/api/admin/oracle/get-logs/<token>", methods=["GET"])
+def get_logs(token):
+    try:
+        user = auth.get_user_info(token)
+    except:
+        return "Inalid token"
     table = db.get_logs()
     return json2html.convert(json=table)
 

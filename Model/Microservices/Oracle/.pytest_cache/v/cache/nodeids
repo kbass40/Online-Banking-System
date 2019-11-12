@@ -1,9 +1,0 @@
-[
-  "test_Oracle.py::test_buy_stocks_accepts_int1",
-  "test_Oracle.py::test_buy_stocks_accepts_int2",
-  "test_Oracle.py::test_buy_stocks_accepts_int3",
-  "test_Oracle.py::test_sell_stocks_accepts_int1",
-  "test_Oracle.py::test_sells_stocks_accepts_int2",
-  "test_Oracle.py::test_sells_stocks_accepts_int3",
-  "test_Oracle.py::test_jsonify"
-]
