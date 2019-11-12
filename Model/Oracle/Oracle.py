@@ -1,8 +1,17 @@
+import sys
+import os
+from pathlib import Path
+
+# Both parent directories need to be added to function from top-level as well as from local 
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
+sys.path.append(str(path) + '//..//..')
+
 from flask import Flask
 from Misc import Time as TIME
 import requests
 import json
-import OracleDB
+from Model.Oracle import OracleDB as OracleDB
 from Database import AuthenticationDatabase as ADB
 from json2html import *
 

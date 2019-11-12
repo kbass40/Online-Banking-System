@@ -1,5 +1,14 @@
-import mysql.connector
+import sys
+import os
+from pathlib import Path
+
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
+
+
 from Misc import Time as TIME
+
+import mysql.connector
 
 
 types = ['TRANSACTION','MISC','INFO']
