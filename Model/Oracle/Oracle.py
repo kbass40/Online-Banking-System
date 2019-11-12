@@ -106,7 +106,7 @@ def user_buys_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
-    db.log_transaction(('Bank sells stocks to user: ' + str(table[-1])), 'TRANSACTION')
+    db.log_transaction(('Bank sells stocks to user: ' + str(table[len(table)])), 'TRANSACTION')
     return table
 
 @app.route('/api/oracle/sell-stocks=<quantity>/<token>', methods=["GET"])
@@ -131,7 +131,7 @@ def user_sells_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
-    db.log_transaction(('Bank buys stocks from user: ' + str(table[-1])), 'TRANSACTION')
+    db.log_transaction(('Bank buys stocks from user: ' + str(table[len(table)])), 'TRANSACTION')
     return table
 
 def jsonify(table):
