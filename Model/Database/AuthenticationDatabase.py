@@ -65,6 +65,9 @@ class AuthDatabase():
         if not (isEmailValid(email)):
             raise SyntaxError('ERROR a valid email must be provided')
 
+        if len(password) < 8:
+            raise ValueError('ERROR passwords must be at least 8 characters in length')
+
         auth_id = self._auth.create_user_with_email_and_password(email,password)['idToken']
         user_id = self._get_userID_from_authID(auth_id)
         blank_account = {stock_symbols[0]:0, stock_symbols[1]:0,stock_symbols[2]:0, stock_symbols[3]:0,stock_symbols[4]:0}
