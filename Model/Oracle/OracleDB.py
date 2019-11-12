@@ -25,7 +25,6 @@ class DBConnection():
 
 	def __initialize__(self):
 		# self._cursor.execute("DROP TABLE db.Logs;")
-		# self._cursor.execute("DROP TABLE db.Stocks;")
 		self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Logs(time TIMESTAMP, type VARCHAR(20), message TEXT);")
 		self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Stocks(gainloss DOUBLE, quantity INT);")
 
