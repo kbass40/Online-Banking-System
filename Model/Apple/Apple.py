@@ -17,7 +17,7 @@ from Model.Misc import Time as TIME
 from Model.Apple import AppleDB as AppleDB
 
 ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
-SYMBOL = 'GOOGL'
+SYMBOL = 'AAPL'
 
 app = Flask(__name__)
 
