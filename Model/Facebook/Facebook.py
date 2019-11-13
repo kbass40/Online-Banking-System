@@ -26,7 +26,7 @@ app = Flask(__name__)
 
 class DB():
     def __init__(self):
-        self._db = GoogleDB.DatabaseConnection()
+        self._db = FacebookDB.DatabaseConnection()
 
     def get_log_size(self):
         return self._db.get_logs_size()
@@ -44,7 +44,7 @@ class DB():
         if not isinstance(message,str):
             raise TypeError('ERROR: Message must be of type string')
 
-        if typing not in GoogleDB.types:
+        if typing not in FacebookDB.types:
             raise ValueError('ERROR: typing must be a defined log type')
 
         self._db.insert_into_Logs(TIME.get_timestamp(),typing,message,commit)
