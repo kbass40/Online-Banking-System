@@ -1,0 +1,86 @@
+openapi: 3.0.0
+
+info:
+  title: Microservices API
+  description: Documentation for the ubisoft microservice api and by extension the rest of the microservices
+  version: "1.0.0"
+
+servers:
+# Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/danilo-souza/MicroservicesApi/1.0.0
+  - url: localhost:5000
+
+paths:
+  /api/ubisoft/get-last:
+    get:
+      summary: Returns the price of the ubisoft stock
+      responses:
+        '200':
+          description: A json with the last known stock price
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/admin/ubisoft/get-logs:
+    get:
+      summary: Returns a json with the logs for the ubisoft database
+      responses:
+        '200':
+          description: A json with the data table
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/ubisoft/buy-stocks={quantity}/{token}:
+    get:
+      summary: Returns a json with information updated by the new transaction
+      parameters:
+        - in: path
+          name: quantity
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+            description: A json with information updated by the new buy transaction, or a string telling the user that something went wrong with the transaction
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: string
+  /api/ubisoft/sell-stocks={quantity}/{token}:
+    get:
+      summary: Returns a json with information updated by the new transaction
+      parameters:
+        - in: path
+          name: quantity
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+            description: A json with information updated by the sell buy transaction, or a string telling the user that something went wrong with the transaction
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: string
+
+
