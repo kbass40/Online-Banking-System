@@ -28,6 +28,10 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< refs/remotes/origin/authentication
+>>>>>>> Update README.md
 - For the authentication front end navigate to /Model/WebServer and first run docker-compose up then run python3 backend.py
 
 - Navigate to localhost:5000
@@ -40,12 +44,15 @@
 
 - For the api navigate to Model/<Stock Targeted> and first run 'docker-compose up' then run 'python3 <Stock Targeted>.py'
 >>>>>>> Update README.md
+<<<<<<< HEAD
 =======
 - For the authentication front end navigate to /Model/WebServer and run 'python3 backend.py'
 
 - Navigate to localhost:5000
 
 - For the api navigate to Model/<Stock Targeted> and run 'python3 <Stock Targeted>.py'
+>>>>>>> Update README.md
+=======
 >>>>>>> Update README.md
     
 - Follow the api documentation in the MicroservicesApi.yaml file
