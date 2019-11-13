@@ -6,7 +6,7 @@ path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
 
 
-from Misc import Time as TIME
+from Model.Misc import Time as TIME
 
 import mysql.connector
 

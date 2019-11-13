@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import json
 import os
 import sys
@@ -17,7 +16,7 @@ from Model.Database import AuthenticationDatabase as ADB
 from Model.Misc import Time as TIME
 from Model.Ubisoft import UbisoftDB as UbisoftDB
 
-ACCESS_TOKEN = 'J3z7DrPHATWESyoAN69cH6tZiybr'
+ACCESS_TOKEN = 'Wv62lOHnUq2EYwmmI9DMnfrrznrV'
 SYMBOL = 'UBSFY'
 
 app = Flask(__name__)
@@ -65,6 +64,7 @@ def get_price():
         params={'symbols': (SYMBOL + ',VXX190517P00016000'), 'greeks': 'false'},
         headers={'Authorization': ('Bearer ' + ACCESS_TOKEN), 'Accept': 'application/json'}
     )
+    print(response)
     json_response = response.json()
     ret = {
         'symbol' : json_response['quotes']['quote']['symbol'],
@@ -160,36 +160,3 @@ if __name__ == "__main__" :
         val = get_price()['last'] * -5000
         db.insert_into_stocks(val, 5000)
     app.run(host="0.0.0.0")
-=======
-from flask import Flask
-import requests
-import json
-
-UBISOFT_TOKEN = '6GrgiMPAz7nu1wWPOvG69AEVLFAd'
-UBISOFT_SYMBOL = 'UBSFY'
-STOCK_URL = 'https://sandbox.tradier.com/v1/markets/quotes'
-
-app = Flask(__name__)
-
-@app.route("/api/ubisoft/get-last", methods=["GET"])
-def get_price():
-
-    response = requests.get(STOCK_URL,
-        params={'symbols': (UBISOFT_SYMBOL), 'greeks': 'false'},
-        headers={'Authorization': ('Bearer ' + UBISOFT_TOKEN), 'Accept': 'application/json'}
-    )
-    
-    info = {
-        'symbol': response.json()['quotes']['quote']['symbol'],
-        'description': response.json()['quotes']['quote']['description'],
-        'last': response.json()['quotes']['quote']['last']
-    }
-
-    return info
-
-def run_server():
-    app.run(threaded=True, host='0.0.0.0', port='5000')
-
-if __name__ == "__main__" :
-    run_server()
->>>>>>> origin/master

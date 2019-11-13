@@ -4,7 +4,6 @@ import sys
 from pathlib import Path
 
 import requests
-from dotenv import load_dotenv
 from flask import Flask
 from json2html import *
 
@@ -17,9 +16,7 @@ from Model.Database import AuthenticationDatabase as ADB
 from Model.Misc import Time as TIME
 from Model.Google import GoogleDB as GoogleDB
 
-load_dotenv()
-
-ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+ACCESS_TOKEN = 'Wv62lOHnUq2EYwmmI9DMnfrrznrV'
 SYMBOL = 'GOOGL'
 
 app = Flask(__name__)
@@ -61,7 +58,7 @@ class DB():
 db = DB()
 auth = ADB.AuthDatabase()
 
-@app.route("/api/google/get-last/<token>", methods=["GET"])
+@app.route("/api/google/get-last", methods=["GET"])
 def get_price():
     response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
         params={'symbols': (SYMBOL + ',VXX190517P00016000'), 'greeks': 'false'},
@@ -76,7 +73,7 @@ def get_price():
     db.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
     return ret
 
-@app.route("/api/admin/google/get-logs/<token>", methods=["GET"])
+@app.route("/api/admin/google/get-logs", methods=["GET"])
 def get_logs():
     table = db.get_logs()
     return json2html.convert(json=table)
@@ -90,7 +87,7 @@ def user_buys_stocks(quantity, token=None):
         try:
             user = auth.get_user_info(token)
             if user is None:
-               return "User not signed in"
+                return "User not signed in"
         except:
             return "Inalid token"
     if not isinstance(quantity,str):
@@ -119,7 +116,7 @@ def user_sells_stocks(quantity, token=None):
         try:
             user = auth.get_user_info(token)
             if user is None:
-               return "User not signed in"
+                return "User not signed in"
         except:
             return "Inalid token"
     if not isinstance(quantity,str):
@@ -135,6 +132,7 @@ def user_sells_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
+    db.log_transaction(('Bank buys stocks from user: ' + str(table[len(table)])), 'TRANSACTION')
     return table[len(table)]
 
 def jsonify(table):
@@ -152,12 +150,12 @@ if __name__ == "__main__" :
     # delete first line later
     # using for testing purposes
     # clears bank balance so we start fresh each time running the app
-    db.clear_stocks()
+    # db.clear_stocks()
     size = db.get_stocks_size()
     authDB = ADB.AuthDatabase()
-    print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password123')+'\n')
+    print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('kyle@email.com','password')+'\n')
     if size == 0:
-        print("Buying 5000 shares of Google stock")
+        print("Buy 5000 shares of google stock")
         val = get_price()['last'] * -5000
         db.insert_into_stocks(val, 5000)
     app.run(host="0.0.0.0")
