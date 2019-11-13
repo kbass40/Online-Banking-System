@@ -19,7 +19,7 @@ from Model.Google import GoogleDB as GoogleDB
 
 load_dotenv()
 
-ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+ACCESS_TOKEN = 'dhfl5mcjgFwdBcwwxa50AR0JFLyY'
 SYMBOL = 'FBOK'
 
 app = Flask(__name__)
