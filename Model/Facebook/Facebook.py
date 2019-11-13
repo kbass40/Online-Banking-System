@@ -15,7 +15,7 @@ sys.path.append(str(path) + '//..//..')
 
 from Model.Database import AuthenticationDatabase as ADB
 from Model.Misc import Time as TIME
-from Model.Google import GoogleDB as GoogleDB
+from Model.Facebook import FacebookDB as FacebookDB
 
 load_dotenv()
 
