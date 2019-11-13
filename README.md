@@ -22,3 +22,14 @@
 - To run the logging database, type `docker-compose up` which will set up a docker container specified in the yml file
 
 - To properly close the logging database, type `docker-compose down`
+
+## Running Instruciton
+- First make sure docker-compose is installed https://docs.docker.com/compose/install/
+
+- For the authentication front end navigate to /Model/WebServer and first run docker-compose up then run python3 backend.py
+
+- Navigate to localhost:5000
+
+- For the api navigate to Model/<Stock Targeted> and first run docker-compose up then run python3 <Stock Targeted>.py
+    
+- Follow the api documentation in the MicroservicesApi.yaml file
