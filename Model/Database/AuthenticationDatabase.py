@@ -44,6 +44,8 @@ class AuthDatabase():
         if not (isEmailValid(email)):
             raise SyntaxError('ERROR a valid email must be provided')
 
+        #need to check if email is valid
+
         return self._auth.sign_in_with_email_and_password(email,password)['idToken']
 
     def _get_userID_from_authID(self, authID):
