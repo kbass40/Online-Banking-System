@@ -1,1 +1,2 @@
-__all__=['Logger','Database','Ubisoft', 'WebServer','Misc',]
+__all__ = ['Database','Google','Logger','Misc','Oracle', 'Ubisoft', 'WebServer']
+

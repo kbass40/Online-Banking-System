@@ -1,1 +1,1 @@
-__all__=['Model', 'Tests']
+__all__ = ['Model','Tests',]
