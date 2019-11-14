@@ -39,7 +39,8 @@ class GoolgleDB(SQLiteDB.SQLConnection):
         
         if not isinstance(quantity, int):
             raise ValueError('ERROR quantity must be of type int')
-            self._cursor.execute('INSERT INTO Stocks(gainloss, quantity) VALUES (?, ?);', (gainloss, quantity))
+        
+        self._cursor.execute('INSERT INTO Stocks(gainloss, quantity) VALUES (?, ?);', (gainloss, quantity))
         
         if commit: self.commit()
 
