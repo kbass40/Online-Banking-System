@@ -20,7 +20,8 @@ class DBConnection():
 			host="localhost",
 			user=user,
 			passwd=password,
-			db="db"
+			db="ubisoft",
+			port="13306"
 		)
 		self._cursor = self._conn.cursor()
 		self.__initialize__()
@@ -33,9 +34,9 @@ class DBConnection():
 		self.connection.close()
 
 	def __initialize__(self):
-		# self._cursor.execute("DROP TABLE db.Logs;")
-		self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Logs(time TIMESTAMP, type VARCHAR(20), message TEXT);")
-		self._cursor.execute("CREATE TABLE IF NOT EXISTS db.Stocks(gainloss DOUBLE, quantity INT);")
+		# self._cursor.execute("DROP TABLE ubisoft.Logs;")
+		self._cursor.execute("CREATE TABLE IF NOT EXISTS ubisoft.Logs(time TIMESTAMP, type VARCHAR(20), message TEXT);")
+		self._cursor.execute("CREATE TABLE IF NOT EXISTS ubisoft.Stocks(gainloss DOUBLE, quantity INT);")
 
     
 	@property
@@ -59,7 +60,7 @@ class DBConnection():
 		if not isinstance(msg, str):
 			raise ValueError('ERROR msg must be of type str')
 
-		self._cursor.execute('INSERT INTO db.Logs(time, type, message) VALUES (%s, %s, %s);',(time,typ,msg))
+		self._cursor.execute('INSERT INTO ubisoft.Logs(time, type, message) VALUES (%s, %s, %s);',(time,typ,msg))
 		if commit:
 			self.commit()
 
@@ -68,38 +69,38 @@ class DBConnection():
 			raise ValueError('ERROR gainloss must be of type float')
 		if not isinstance(quantity, int):
 			raise ValueError('ERROR quantity must be of type int')
-		self._cursor.execute('INSERT INTO db.Stocks(gainloss, quantity) VALUES (%s, %s);', (gainloss, quantity))
+		self._cursor.execute('INSERT INTO ubisoft.Stocks(gainloss, quantity) VALUES (%s, %s);', (gainloss, quantity))
 		if commit:
 			self.commit()
 
 	def get_logs_size(self):
-		self._cursor.execute('SELECT COUNT(*) FROM db.Logs;')
+		self._cursor.execute('SELECT COUNT(*) FROM ubisoft.Logs;')
 		row = self._cursor.fetchone()
 		return int(row[0])
 
 	def get_stocks_size(self):
-		self._cursor.execute('SELECT COUNT(*) FROM db.Stocks;')
+		self._cursor.execute('SELECT COUNT(*) FROM ubisoft.Stocks;')
 		row = self._cursor.fetchone()
 		return int(row[0])
 
 	def clear_Logs(self, commit=False):
-		self._cursor.execute('DELETE FROM db.Logs;')
+		self._cursor.execute('DELETE FROM ubisoft.Logs;')
 
 		if commit:
 			self.commit()
 
 	def clear_Stocks(self, commit=False):
-		self._cursor.execute('DELETE FROM db.Stocks;')
+		self._cursor.execute('DELETE FROM ubisoft.Stocks;')
 
 		if commit:
 			self.commit()
 
 	def get_logs(self):
-		self._cursor.execute("SELECT * FROM db.Logs;")
+		self._cursor.execute("SELECT * FROM ubisoft.Logs;")
 		ret = self._cursor.fetchall()
 		return ret
 
 	def get_stocks(self):
-		self._cursor.execute("SELECT * FROM db.Stocks;")
+		self._cursor.execute("SELECT * FROM ubisoft.Stocks;")
 		ret = self._cursor.fetchall()
 		return ret
