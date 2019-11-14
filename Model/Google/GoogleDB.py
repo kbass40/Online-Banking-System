@@ -13,7 +13,7 @@ import mysql.connector
 types = ['TRANSACTION','MISC','INFO']
 
 class DatabaseConnection():
-	def __init__(self, user='root',password='password'):
+	def __init__(self, user='user',password='password'):
 		self._conn = mysql.connector.connect(
 			host="localhost",
 			user=user,
