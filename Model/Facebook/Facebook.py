@@ -14,7 +14,7 @@ sys.path.append(str(path) + '//..//..')
 
 from Model.Database import AuthenticationDatabase as ADB
 from Model.Misc import Time as TIME
-from Model.Facebook import FacebookDB as FacebookDB
+from Model.Database import MicroserviceDB as FacebookDB
 
 ACCESS_TOKEN = 'dhfl5mcjgFwdBcwwxa50AR0JFLyY'
 SYMBOL = 'FB'
@@ -23,7 +23,7 @@ app = Flask(__name__)
 
 class DB():
     def __init__(self):
-        self._db = FacebookDB.DatabaseConnection()
+        self._db = FacebookDB.MicroserviceDB('FacebookDB.sqlite')
 
     def get_log_size(self):
         return self._db.get_logs_size()
@@ -95,8 +95,9 @@ def user_buys_stocks(quantity, token=None):
     if not quantity.isdigit():
         raise TypeError('ERROR: Quantity must be of type int')
     table = db.get_stocks()
-    gainloss = table[-1][0]
-    bank_quantity = table[-1][1]
+    index = len(table)-1
+    gainloss = table[index][0]
+    bank_quantity = table[index][1]
     price = get_price()['last'] 
     if bank_quantity < int(quantity):
         gainloss = gainloss - (price * 5000)
@@ -124,8 +125,9 @@ def user_sells_stocks(quantity, token=None):
     if not quantity.isdigit():
         raise TypeError('ERROR: Quantity must be of type int')
     table = db.get_stocks()
-    gainloss = table[-1][0]
-    bank_quantity = table[-1][1]
+    index = len(table)-1
+    gainloss = table[index][0]
+    bank_quantity = table[index][1]
     price = get_price()['last'] 
     gainloss = gainloss - (price * int(quantity))
     bank_quantity = bank_quantity + int(quantity)
