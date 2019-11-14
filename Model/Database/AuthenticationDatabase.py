@@ -76,11 +76,8 @@ class AuthDatabase():
         self._db.child('users').child(user_id).set(blank_account, auth_id)
         return auth_id
 
-# myDb = AuthDatabase()
-# user_id = myDb.authenticate_user_via_email_password('daniel.tymecki@gmail.com','password')
-# print(myDb.get_user_info(user_id))
-# myDb.create_new_user('test@email.com','test_boi','password123')
 
+    def update_user_info(self, auth_id, symbol, amount):
         if symbol not in stock_symbols:
             raise ValueError('ERROR symbol must be within the approved stock microservices')
 
