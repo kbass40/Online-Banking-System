@@ -14,7 +14,7 @@ sys.path.append(str(path) + '//..//..')
 
 from Model.Database import AuthenticationDatabase as ADB
 from Model.Misc import Time as TIME
-from Model.Google import GoogleSQL as GoogleDB
+from Model.Database import MicroserviceDB as GoogleDB
 
 ACCESS_TOKEN = 'Wv62lOHnUq2EYwmmI9DMnfrrznrV'
 SYMBOL = 'GOOGL'
@@ -23,7 +23,7 @@ app = Flask(__name__)
 
 class DB():
     def __init__(self):
-        self._db = GoogleDB.GoolgleDB()
+        self._db = GoogleDB.MicroserviceDB('GoogleDB.sqlite')
 
     def get_log_size(self):
         return self._db.get_logs_size()

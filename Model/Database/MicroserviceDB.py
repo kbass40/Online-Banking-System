@@ -11,9 +11,9 @@ from Model.Database import SQLiteDatabase as SQLiteDB
 
 types = ['TRANSACTION','MISC','INFO']
 
-class GoolgleDB(SQLiteDB.SQLConnection):
-    def __init__(self):
-        super().__init__('GoogleDB.sqlite')
+class MicroserviceDB(SQLiteDB.SQLConnection):
+    def __init__(self,db_file):
+        super().__init__(db_file)
         self.__setup__()
 
     def __setup__(self):
