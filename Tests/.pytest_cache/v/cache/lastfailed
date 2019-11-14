@@ -1,3 +1,5 @@
 {
-  "test_Google.py": true
+  "test_Facebook.py": true,
+  "test_Google.py": true,
+  "test_Oracle.py": true
 }
