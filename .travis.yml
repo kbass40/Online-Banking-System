@@ -1,10 +1,14 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Testing Travis-CI #1
 language: python
 python:
   - "3.6"
 branches:
   # whitelist
   only:
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     - travis_ci_test
@@ -85,3 +89,22 @@ matrix:
 notifications:
   email:
     - moolchanddanny@hotmail.com
+=======
+    - travis_ci_test
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+# command to run tests
+script: pytest
+jobs:
+  include:
+    - stage: "Microservices"
+      script: ./Tests/test_Apple.py
+      script: ./Tests/test_Facebook.py
+      script: ./Tests/test_Google.py
+      script: ./Tests/test_Oracle.py
+      script: ./Tests/test_Ubisoft.py
+stages:
+  - Microservices
+
+>>>>>>> Testing Travis-CI #1
