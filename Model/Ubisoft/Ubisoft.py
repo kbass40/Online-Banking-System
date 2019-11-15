@@ -55,7 +55,6 @@ class DB():
     def get_stocks(self):
         return self._db.get_stocks()
 
-db = DB()
 auth = ADB.AuthDatabase()
 
 @app.route("/api/ubisoft/get-last", methods=["GET"])
@@ -71,11 +70,13 @@ def get_price():
         'description' : json_response['quotes']['quote']['description'],
         'last' : json_response['quotes']['quote']['last']
     }
+    db = DB()
     db.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
     return ret
 
 @app.route("/api/admin/ubisoft/get-logs", methods=["GET"])
 def get_logs():
+    db = DB()
     table = db.get_logs()
     return json2html.convert(json=table)
 
@@ -95,6 +96,7 @@ def user_buys_stocks(quantity, token=None):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
         raise TypeError('ERROR: Quantity must be of type int')
+    db = DB()
     table = db.get_stocks()
     index = len(table)-1
     gainloss = table[index][0]
@@ -125,6 +127,7 @@ def user_sells_stocks(quantity, token=None):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
         raise TypeError('ERROR: Quantity must be of type int')
+    db = DB()
     table = db.get_stocks()
     index = len(table)-1
     gainloss = table[index][0]
@@ -154,6 +157,7 @@ if __name__ == "__main__" :
     # using for testing purposes
     # clears bank balance so we start fresh each time running the app
     # db.clear_stocks()
+    db = DB()
     size = db.get_stocks_size()
     authDB = ADB.AuthDatabase()
     print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('kyle@email.com','password')+'\n')
