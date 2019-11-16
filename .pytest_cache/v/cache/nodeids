@@ -1441,10 +1441,13 @@
   "Tests/test_Google.py::test_fail_sell_stocks_from_non_int_quantity_type",
   "Tests/test_Google.py::test_fail_sell_stocks_from_raw_int_quantity_type",
   "Tests/test_Google.py::test_jsonify",
+<<<<<<< HEAD
 =======
 >>>>>>> merge
 =======
 >>>>>>> Coverage v0.2
+=======
+>>>>>>> test
   "Tests/test_Oracle.py::test_fail_buy_stocks_from_invalid_quantity_type",
   "Tests/test_Oracle.py::test_fail_buy_stocks_from_non_int_quantity_type",
   "Tests/test_Oracle.py::test_fail_buy_stocks_from_raw_int_quantity_type",
