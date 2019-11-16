@@ -13,11 +13,11 @@ script: pytest
 jobs:
   include:
     - stage: "Microservices Tests"
-      script: pytest ./Tests/test_Apple.py
-      script: pytest ./Tests/test_Facebook.py
-      script: pytest ./Tests/test_Google.py
-      script: pytest ./Tests/test_Oracle.py
-      script: pytest ./Tests/test_Ubisoft.py
+    - script: pytest ./Tests/test_Apple.py
+    - script: pytest ./Tests/test_Facebook.py
+    - script: pytest ./Tests/test_Google.py
+    - script: pytest ./Tests/test_Oracle.py
+    - script: pytest ./Tests/test_Ubisoft.py
 
     - stage: "Database Tests"
       script: pytest ./Tests/test_LogDatabase.py
