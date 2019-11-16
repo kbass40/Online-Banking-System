@@ -98,13 +98,12 @@ install:
 script: pytest
 jobs:
   include:
-    - stage: "Microservices"
-      script: ./Tests/test_Apple.py
-      script: ./Tests/test_Facebook.py
-      script: ./Tests/test_Google.py
-      script: ./Tests/test_Oracle.py
-      script: ./Tests/test_Ubisoft.py
-stages:
-  - Microservices
+    #- stage: "Microservices"
+    -  script: ./Tests/test_Apple.py
+    -  script: ./Tests/test_Facebook.py
+    -  script: ./Tests/test_Google.py
+    -  script: ./Tests/test_Oracle.py
+    -  script: ./Tests/test_Ubisoft.py
+
 
 >>>>>>> Testing Travis-CI #1
