@@ -28,10 +28,19 @@
   "Tests/test_Google.py::test_fail_sell_stocks_from_non_int_quantity_type",
   "Tests/test_Google.py::test_fail_sell_stocks_from_raw_int_quantity_type",
   "Tests/test_Google.py::test_jsonify",
+<<<<<<< HEAD
   "Tests/test_LogDatabase.py::test_MD_default_creation",
   "Tests/test_LogDatabase.py::test_MD_insert_time_failure",
   "Tests/test_LogDatabase.py::test_MD_insert_type_failure",
   "Tests/test_LogDatabase.py::test_MD_insert_log",
+=======
+  "Tests/test_LogDatabase.py::test_LD_default_creation",
+  "Tests/test_LogDatabase.py::test_LD_creation_failure",
+  "Tests/test_LogDatabase.py::test_LD_insert_time_failure",
+  "Tests/test_LogDatabase.py::test_LD_insert_type_failure",
+  "Tests/test_LogDatabase.py::test_LD_insert_message_failure",
+  "Tests/test_LogDatabase.py::test_LD_insert_log",
+>>>>>>> merge
   "Tests/test_LogDatabase.py::test_LD_get_size",
   "Tests/test_LogDatabase.py::test_LD_clear_logs",
   "Tests/test_LogDatabase.py::test_MD_insert_message_failure",
@@ -41,6 +50,10 @@
   "Tests/test_Logger.py::test_print_Logger",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< refs/remotes/origin/authentication
+>>>>>>> merge
   "env/Lib/site-packages/google/protobuf/internal/descriptor_database_test.py::DescriptorDatabaseTest::testAdd",
   "env/Lib/site-packages/google/protobuf/internal/descriptor_database_test.py::DescriptorDatabaseTest::testConflictRegister",
   "env/Lib/site-packages/google/protobuf/internal/descriptor_pool_test.py::DefaultDescriptorPoolTest::testAddFileDescriptor",
@@ -1442,12 +1455,17 @@
   "Tests/test_Google.py::test_fail_sell_stocks_from_raw_int_quantity_type",
   "Tests/test_Google.py::test_jsonify",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> merge
 =======
 >>>>>>> Coverage v0.2
 =======
 >>>>>>> test
+=======
+=======
+>>>>>>> merge
+>>>>>>> merge
   "Tests/test_Oracle.py::test_fail_buy_stocks_from_invalid_quantity_type",
   "Tests/test_Oracle.py::test_fail_buy_stocks_from_non_int_quantity_type",
   "Tests/test_Oracle.py::test_fail_buy_stocks_from_raw_int_quantity_type",
