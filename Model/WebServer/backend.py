@@ -88,7 +88,7 @@ def signUpPost():
     #registered = mock_signUp.signUp(uname, email, psw)
 
     try:
-        authdb.AuthDatabase().create_new_user(email, psw)
+        authdb.AuthDatabase().create_new_user(email, uname, psw)
     except Exception as e:
         return render_template("failedSignUp.htm").format(error=str(e))
 

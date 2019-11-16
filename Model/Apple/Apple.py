@@ -16,7 +16,7 @@ from Model.Database import AuthenticationDatabase as ADB
 from Model.Misc import Time as TIME
 from Model.Database import MicroserviceDB as AppleDB
 
-ACCESS_TOKEN = "6GrgiMPAz7nu1wWPOvG69AEVLFAd"
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
 SYMBOL = 'AAPL'
 
 app = Flask(__name__)
