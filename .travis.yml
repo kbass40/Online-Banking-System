@@ -8,14 +8,16 @@ branches:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
+# command to run tests
+script: pytest
 jobs:
   include:
     - stage: "Microservices"
-      script: pytest test_Apple.py
-      script: pytest test_Facebook.py
-      script: pytest test_Google.py
-      script: pytest test_Oracle.py
-      script: pytest test_Ubisoft.py
+      script: pytest ./Tests/test_Apple.py
+      script: pytest ./Tests/test_Facebook.py
+      script: pytest ./Tests/test_Google.py
+      script: pytest ./Tests/test_Oracle.py
+      script: pytest ./Tests/test_Ubisoft.py
 stages:
   - Microservices
 
