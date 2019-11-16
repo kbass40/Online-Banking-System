@@ -11,10 +11,11 @@ install:
 jobs:
   include:
     - stage: "Microservices"
-        script: pytest test_Apple.py
-        script: pytest test_Facebook.py
-        script: pytest test_Google.py
-        script: pytest test_Oracle.py
-        script: pytest test_Ubisoft.py
-
+      script: pytest test_Apple.py
+      script: pytest test_Facebook.py
+      script: pytest test_Google.py
+      script: pytest test_Oracle.py
+      script: pytest test_Ubisoft.py
+stages:
+  - Microservices
 
