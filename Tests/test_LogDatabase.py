@@ -55,9 +55,13 @@ def test_LD_clear_logs():
     assert logDB.get_logs_size() == 0
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #This test is supposed to fail
 =======
 >>>>>>> Added back get_size and clear_log tests, and xfail
+=======
+#This test is supposed to fail
+>>>>>>> Update
 @pytest.mark.xfail
 def test_MD_insert_message_failure():
     logDB = MD.MicroserviceDB('TestDB.sqlite')
