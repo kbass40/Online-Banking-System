@@ -1,11 +1,15 @@
 from Model.Logger import Logger as LOGGER 
 import pytest
 
+#This test is supposed to fail
+@pytest.mark.xfail
 def test_log_transaction_message_failure():
     with pytest.raises(TypeError):
         myLogger = LOGGER.Logger()
         myLogger.log_transaction(23729)
 
+#This test is supposed to fail
+@pytest.mark.xfail
 def test_log_transaction_typing_failure():
     with pytest.raises(ValueError):
         myLogger = LOGGER.Logger()
