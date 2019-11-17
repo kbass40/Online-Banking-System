@@ -1,11 +1,8 @@
 {
   "test_Google.py": true,
-  "test_LogDatabase.py::test_LD_clear_logs": true,
   "test_LogDatabase.py::test_LD_default_creation": true,
-  "test_LogDatabase.py::test_LD_get_size": true,
   "test_LogDatabase.py::test_LD_insert_log": true,
   "test_LogDatabase.py::test_LD_insert_message_failure": true,
   "test_LogDatabase.py::test_LD_insert_time_failure": true,
-  "test_LogDatabase.py::test_LD_insert_type_failure": true,
-  "test_LogDatabase.py::test_MD_insert_message_failure": true
+  "test_LogDatabase.py::test_LD_insert_type_failure": true
 }
