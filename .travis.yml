@@ -11,6 +11,7 @@ branches:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     - travis_ci_test
 <<<<<<< HEAD
 =======
@@ -90,7 +91,13 @@ notifications:
   email:
     - moolchanddanny@hotmail.com
 =======
+=======
+<<<<<<< refs/remotes/origin/authentication
+>>>>>>> Created .travis.yml file for CI testing
     - travis_ci_test
+=======
+    - milestone1_submition
+>>>>>>> Created .travis.yml file for CI testing
 # command to install dependencies
 install:
   - pip install -r requirements.txt
