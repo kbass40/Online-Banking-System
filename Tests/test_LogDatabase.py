@@ -3,9 +3,16 @@ import pytest
 #from mysql.connector.errors import ProgrammingError
 from Model.Misc import Time as TIME
 
+<<<<<<< HEAD
 def test_MD_default_creation():
     MD.MicroserviceDB('TestDB.sqlite')
 
+=======
+
+def test_MD_default_creation():
+    MD.MicroserviceDB('TestDB.sqlite')
+
+>>>>>>> Rewrote test_LogDatabase to fit SQLlite queries
 def test_MD_insert_time_failure():
     logDB = MD.MicroserviceDB('TestDB.sqlite')
     with pytest.raises(TypeError):
@@ -16,10 +23,19 @@ def test_MD_insert_type_failure():
     with pytest.raises(ValueError):
         logDB.insert_into_Logs(TIME.get_timestamp(),'INVALID TYPE','This is a TEST Transaction Message')
 
+<<<<<<< HEAD
+=======
+def test_MD_insert_message_failure():
+    logDB = MD.MicroserviceDB('TestDB.sqlite')
+    with pytest.raises(TypeError):
+        logDB.insert_into_Logs(TIME.get_timestamp(),'TRANSACTION',18)
+
+>>>>>>> Rewrote test_LogDatabase to fit SQLlite queries
 def test_MD_insert_log():
     logDB = MD.MicroserviceDB('TestDB.sqlite')
     logDB.insert_into_Logs(TIME.get_timestamp(), 'TRANSACTION', 'This is a TEST Transaction Message')
 
+<<<<<<< HEAD
 def test_LD_get_size():
     logDB = MD.MicroserviceDB('TestDB.sqlite')
     assert isinstance(logDB.get_logs_size(), int) == True
@@ -35,3 +51,5 @@ def test_MD_insert_message_failure():
     logDB = MD.MicroserviceDB('TestDB.sqlite')
     with pytest.raises(TypeError):
         logDB.insert_into_Logs(TIME.get_timestamp(),'TRANSACTION',18)
+=======
+>>>>>>> Rewrote test_LogDatabase to fit SQLlite queries
