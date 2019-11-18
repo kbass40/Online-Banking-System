@@ -99,12 +99,19 @@ notifications:
 <<<<<<< refs/remotes/origin/authentication
 >>>>>>> Travis-CI Branch Only
     - travis_ci_test
+<<<<<<< refs/remotes/origin/authentication
 =======
     - milestone1_submition
 >>>>>>> Created .travis.yml file for CI testing
 =======
     - travis_ci_test
 >>>>>>> Travis-CI Branch Only
+=======
+
+before_install:
+  - pip install codecov
+
+>>>>>>> Testing Code Coverage v0.1
 # command to install dependencies
 install:
   - pip install -r requirements.txt
@@ -130,6 +137,8 @@ jobs:
     - stage: "Authentication Tests"
       script: 
         - pytest ./Tests/test_AuthDB.py
+after_success:
+  - codecov
       
 stages:
   - Microservices Tests
