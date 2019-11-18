@@ -5,10 +5,14 @@ branches:
   # whitelist
   only:
 <<<<<<< HEAD
+<<<<<<< HEAD
     - travis_ci_test
 =======
     - milestone1_submition
 >>>>>>> Created .travis.yml file for CI testing
+=======
+    - travis_ci_test
+>>>>>>> Travis-CI Branch Only
 # command to install dependencies
 install:
   - pip install -r requirements.txt
