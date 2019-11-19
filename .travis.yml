@@ -138,13 +138,16 @@ jobs:
       script: 
         - pytest ./Tests/test_AuthDB.py
 
-script: pytest --cov=Tests/
+    - stage: "Coverage Report"
+      script: 
+        - pytest --cov=Tests/
 
-after_success:
-  - codecov
-      
 stages:
   - Microservices Tests
   - Database Tests
   - Authentication Tests
+<<<<<<< HEAD
 >>>>>>> More Stages
+=======
+  - Coverage Report
+>>>>>>> Covergae v0.3
