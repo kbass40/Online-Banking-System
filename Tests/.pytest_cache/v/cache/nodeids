@@ -56,9 +56,13 @@
   "test_LogDatabase.py::test_MD_insert_type_failure",
   "test_LogDatabase.py::test_MD_insert_message_failure",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "test_LogDatabase.py::test_MD_insert_log",
 =======
 >>>>>>> Added the failed sign up test, changed the sign in test to successful sign up test, and created videos for the tests
+=======
+  "test_LogDatabase.py::test_MD_insert_log",
+>>>>>>> Coverage v0.2
   "test_Google.py::test_fail_buy_stocks_from_invalid_quantity_type",
   "test_Google.py::test_fail_buy_stocks_from_non_int_quantity_type",
   "test_Google.py::test_fail_buy_stocks_from_raw_int_quantity_type",
@@ -66,7 +70,10 @@
   "test_Google.py::test_fail_sell_stocks_from_non_int_quantity_type",
   "test_Google.py::test_fail_sell_stocks_from_raw_int_quantity_type",
   "test_Google.py::test_jsonify"
+<<<<<<< HEAD
 =======
   "test_LogDatabase.py::test_MD_insert_log"
 >>>>>>> Rewrote test_LogDatabase to fit SQLlite queries
+=======
+>>>>>>> Coverage v0.2
 ]

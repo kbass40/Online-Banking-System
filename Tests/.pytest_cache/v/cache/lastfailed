@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
   "test_LogDatabase.py::test_LD_default_creation": true,
   "test_LogDatabase.py::test_LD_insert_log": true,
   "test_LogDatabase.py::test_LD_insert_message_failure": true,
@@ -12,6 +13,8 @@
 >>>>>>> Added the failed sign up test, changed the sign in test to successful sign up test, and created videos for the tests
 =======
   "test_Google.py": true,
+=======
+>>>>>>> Coverage v0.2
   "test_LogDatabase.py::test_LD_default_creation": true,
   "test_LogDatabase.py::test_LD_insert_log": true,
   "test_LogDatabase.py::test_LD_insert_message_failure": true,

@@ -109,7 +109,7 @@ notifications:
 =======
 
 before_install:
-  - pip install codecov
+  - pip install pytest-cov
 
 >>>>>>> Testing Code Coverage v0.1
 # command to install dependencies
@@ -137,6 +137,9 @@ jobs:
     - stage: "Authentication Tests"
       script: 
         - pytest ./Tests/test_AuthDB.py
+
+script: pytest --cov=Tests/
+
 after_success:
   - codecov
       

@@ -1,22 +1,29 @@
 {
   "Model/Oracle/test_Oracle.py": true,
 <<<<<<< HEAD
+<<<<<<< HEAD
   "Tests/test_LogDatabase.py::test_LD_default_creation": true,
 =======
   "Tests/test_LogDatabase.py::test_LD_clear_logs": true,
   "Tests/test_LogDatabase.py::test_LD_default_creation": true,
   "Tests/test_LogDatabase.py::test_LD_get_size": true,
 >>>>>>> test
+=======
+  "Tests/test_LogDatabase.py::test_LD_default_creation": true,
+>>>>>>> Coverage v0.2
   "Tests/test_LogDatabase.py::test_LD_insert_log": true,
   "Tests/test_LogDatabase.py::test_LD_insert_message_failure": true,
   "Tests/test_LogDatabase.py::test_LD_insert_time_failure": true,
   "Tests/test_LogDatabase.py::test_LD_insert_type_failure": true,
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   "Tests/test_Logger.py::test_log_transaction": true,
   "Tests/test_Logger.py::test_log_transaction_message_failure": true,
   "Tests/test_Logger.py::test_log_transaction_typing_failure": true,
 >>>>>>> test
+=======
+>>>>>>> Coverage v0.2
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_AES.py": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_ARC2.py": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_ARC4.py": true,
