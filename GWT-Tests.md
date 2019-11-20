@@ -1,1 +1,1 @@
-GWT Tests
+<!-- GWT Tests -->
