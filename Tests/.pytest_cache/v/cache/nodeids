@@ -46,5 +46,12 @@
   "test_Facebook.py::test_fail_sell_stocks_from_invalid_quantity_type",
   "test_Facebook.py::test_fail_sell_stocks_from_non_int_quantity_type",
   "test_Facebook.py::test_fail_sell_stocks_from_raw_int_quantity_type",
-  "test_Facebook.py::test_jsonify"
+  "test_Facebook.py::test_jsonify",
+  "test_Google.py::test_fail_buy_stocks_from_invalid_quantity_type",
+  "test_Google.py::test_fail_buy_stocks_from_non_int_quantity_type",
+  "test_Google.py::test_fail_buy_stocks_from_raw_int_quantity_type",
+  "test_Google.py::test_fail_sell_stocks_from_invalid_quantity_type",
+  "test_Google.py::test_fail_sell_stocks_from_non_int_quantity_type",
+  "test_Google.py::test_fail_sell_stocks_from_raw_int_quantity_type",
+  "test_Google.py::test_jsonify"
 ]
