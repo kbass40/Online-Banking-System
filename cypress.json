@@ -1,4 +1,8 @@
 {
+<<<<<<< HEAD
   "baseurl": "http://localhost:5000/",
   "projectId": "a966jg"
+=======
+    "baseurl":"http://localhost:5000/"
+>>>>>>> Beginning Cypress TEst
 }
