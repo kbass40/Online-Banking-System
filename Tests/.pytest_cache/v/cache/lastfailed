@@ -1,4 +1,8 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< refs/remotes/origin/authentication
+>>>>>>> Added the failed sign up test, changed the sign in test to successful sign up test, and created videos for the tests
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11,6 +15,7 @@
 =======
 {}
 >>>>>>> Added the failed sign up test, changed the sign in test to successful sign up test, and created videos for the tests
+<<<<<<< HEAD
 =======
   "test_Google.py": true,
 =======
@@ -28,3 +33,5 @@
   "test_LogDatabase.py::test_LD_insert_type_failure": true
 }
 >>>>>>> Added back get_size and clear_log tests, and xfail
+=======
+>>>>>>> Added the failed sign up test, changed the sign in test to successful sign up test, and created videos for the tests

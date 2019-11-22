@@ -1,8 +1,13 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
   "baseurl": "http://localhost:5000/",
   "projectId": "a966jg"
 =======
     "baseurl":"http://localhost:5000/"
 >>>>>>> Beginning Cypress TEst
+=======
+  "baseurl": "http://localhost:5000/",
+  "projectId": "a966jg"
+>>>>>>> Added the failed sign up test, changed the sign in test to successful sign up test, and created videos for the tests
 }
