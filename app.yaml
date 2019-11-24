@@ -1,0 +1,9 @@
+runtime: python37
+
+entrypoint: gunicorn -b :$PORT main:app
+
+# [START handlers]
+handlers:
+- url: /(.*)
+  script: auto
+# [END handlers]

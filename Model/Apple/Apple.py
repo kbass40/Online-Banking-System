@@ -2,6 +2,8 @@ import json
 import os
 import sys
 from pathlib import Path
+from importlib import import_module
+
 
 import requests
 from flask import Flask
@@ -12,9 +14,9 @@ path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
 sys.path.append(str(path) + '//..//..')
 
-from Model.Database import AuthenticationDatabase as ADB
-from Model.Misc import Time as TIME
-from Model.Database import MicroserviceDB as AppleDB
+import AuthenticationDatabase as ADB
+import Time as TIME
+import MicroserviceDB as AppleDB
 
 ACCESS_TOKEN = "6GrgiMPAz7nu1wWPOvG69AEVLFAd"
 SYMBOL = 'AAPL'
@@ -158,8 +160,8 @@ if __name__ == "__main__" :
     # db.clear_stocks()
     db = DB()
     size = db.get_stocks_size()
-    authDB = ADB.AuthDatabase()
-    print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('kyle@email.com','password')+'\n')
+    #authDB = ADB.AuthDatabase()
+    #print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('kyle@email.com','password')+'\n')
     if size == 0:
         print("Buy 5000 shares of apple stock")
         val = get_price()['last'] * -5000
