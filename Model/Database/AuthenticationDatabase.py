@@ -40,7 +40,7 @@ class AuthDatabase():
         self._auth = self._firebase.auth()
         self._db = self._firebase.database()
 
-        cred = credentials.Certificate(str(Path(__file__).parent)+"\\obs-software-testing-firebase-adminsdk-1m0eh-b9c8ed7a81.json")
+        cred = credentials.Certificate(str(Path(__file__).parent)+"\\firebase-admin-sdk.json")
         firebase_admin.initialize_app(cred)
 
     # Function to return user api key info based on their email and password
@@ -114,7 +114,7 @@ class AuthDatabase():
 
 
 myDb = AuthDatabase()
-myDb.create_new_user('kyle84684.5@email.com','password123')
+#myDb.create_new_user('kyle84684.5@email.com','password123')
 auth_id = myDb.authenticate_user_via_email_password('kyle84684.5@email.com','password123')
 print(myDb.get_user_info(auth_id))
 myDb.delete_autheticated_user_from_auth_id(auth_id)
