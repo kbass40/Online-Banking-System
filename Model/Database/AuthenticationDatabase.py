@@ -1,10 +1,17 @@
 import os
 import re
+import sys
+from pathlib import Path
 
 import pyrebase
 from dotenv import load_dotenv
+import firebase_admin
+from firebase_admin import auth, credentials
 
 load_dotenv()
+
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
 
 regex = r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 stock_symbols = ['AAPL','FB','GOOGL','ORCL','UBSFY']
@@ -32,6 +39,9 @@ class AuthDatabase():
         self._firebase = pyrebase.initialize_app(config)
         self._auth = self._firebase.auth()
         self._db = self._firebase.database()
+
+        cred = credentials.Certificate(str(Path(__file__).parent)+"\\obs-software-testing-firebase-adminsdk-1m0eh-b9c8ed7a81.json")
+        firebase_admin.initialize_app(cred)
 
     # Function to return user api key info based on their email and password
     def authenticate_user_via_email_password(self, email, password):
@@ -88,25 +98,24 @@ class AuthDatabase():
         user_id = self._get_userID_from_authID(auth_id)
         old_amt = self._db.child('users').child(user_id).child(symbol).get(auth_id).val()
         self._db.child('users').child(user_id).update({symbol:old_amt+amount},auth_id)
-    
-    '''
-    #Pyrebase won't support removing authenticated users so R I P delete
-    def delete_user(self,auth_id):
-        headers = {
-            'Content-Type': 'application/json',
-        }
 
-        params = (('key', config['apiKey']),)   
-
-        data = '{"idToken":'+auth_id+'}'
-
-        response = requests.post('https://identitytoolkit.googleapis.com/v1/accounts:delete', headers=headers, params=params, data=data)
-
+    def delete_autheticated_user_from_auth_id(self,auth_id):
         user_id = self._get_userID_from_authID(auth_id)
-        self._db.child('users').child(user_id).remove()
-    '''
+        auth.delete_user(user_id)
 
-# myDb = AuthDatabase()
-# myDb.create_new_user('kyle@email.com','password')
-# user_id = myDb.authenticate_user_via_email_password('kyle@email.com','password')
-# print(myDb.get_user_info(user_id))
+    def delete_autheticated_user_from_uid(self,user_id):
+        auth.delete_user(user_id)
+
+    def delete_all_users(self):
+        for user in auth.list_users().iterate_all():
+            print('Deleted User: ' + user.uid)
+            # Uncomment to actually delete 
+            #self.delete_autheticated_user_from_uid(user.uid)
+
+
+myDb = AuthDatabase()
+myDb.create_new_user('kyle84684.5@email.com','password123')
+auth_id = myDb.authenticate_user_via_email_password('kyle84684.5@email.com','password123')
+print(myDb.get_user_info(auth_id))
+myDb.delete_autheticated_user_from_auth_id(auth_id)
+myDb.delete_all_users()
