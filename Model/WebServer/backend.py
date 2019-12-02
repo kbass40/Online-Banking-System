@@ -12,7 +12,7 @@ sys.path.append(str(path) + '//..//..')
 #import mock_auth, mock_signUp
 import urllib
 from Model.Database import AuthenticationDatabase as authdb
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 template_dir = str(path) + '//..//HTML'
 app = Flask(__name__, template_folder=template_dir)
@@ -47,7 +47,10 @@ def loginPost():
     except Exception as e:
         return render_template("failedLogin.htm").format(error=str(e))
 
-    return render_template("successfulLogin.htm").format(token=token)
+    response = app.make_response(render_template("successfulLogin.htm").format(token=token))
+    response.set_cookie("authenticated", value=token)
+
+    return response
 
 
 @app.route('/Microservices')
@@ -65,14 +68,34 @@ def ubi_price():
     return json2html.convert(json=requests.get("http://localhost:8000/api/ubisoft/get-last").text)
 
 #Ubisoft buy and sell
-#placeholders for now
 @app.route('/Microservices/Ubisoft/Buy')
 def ubi_buy():
     return render_template('microservices_buy.htm').format(ref="/Microservices/Ubisoft", text="Ubisoft")
 
+@app.route('/Microservices/Ubisoft/Buy', methods=['POST'])
+def ubi_buy_post():
+    quantity = request.form.get('quantity')
+    token = request.cookies.get('authenticated')
+    if token is None:
+        #placeholder
+        return 'Need a token'
+
+    return json2html.convert(json=requests.get("http://localhost:8000/api/ubisoft/buy-stocks=" + quantity + "/" + token).text)
+
 @app.route('/Microservices/Ubisoft/Sell')
 def ubi_sell():
-    return 'sold'
+    return render_template('microservices_sell.htm').format(ref="/Microservices/Ubisoft", text="Ubisoft")
+
+@app.route('/Microservices/Ubisoft/Sell', methods=['POST'])
+def ubi_sell_post():
+    quantity = request.form.get('quantity')
+    token = request.cookies.get('authenticated')
+    if token is None:
+        #placeholder
+        return 'Need a token'
+
+    return json2html.convert(json=requests.get("http://localhost:8000/api/ubisoft/sell-stocks=" + quantity + "/" + token).text)
+
 
 @app.route('/SignUp')
 def signUp():
@@ -103,8 +126,15 @@ def signUpPost():
         #return render_template('successfulSignUp.htm')
     #else:
         #return render_template('failedSignUp.htm')
+
+    data = {
+        "email":email,
+        "psw":psw
+    }
+
+    return redirect(url_for('loginPost'), code=307)
     
-    return render_template('successfulSignUp.htm')
+    #return render_template('successfulSignUp.htm')
     
 
 if __name__ == "__main__":
