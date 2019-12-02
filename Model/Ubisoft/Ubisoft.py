@@ -165,4 +165,4 @@ if __name__ == "__main__" :
         print("Buy 5000 shares of ubisoft stock")
         val = get_price()['last'] * -5000
         db.insert_into_stocks(val, 5000)
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=8000)

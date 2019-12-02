@@ -1,6 +1,8 @@
 import os
 import sys
 from pathlib import Path
+import requests
+from json2html import *
 
 # Both parent directories need to be added to function from top-level as well as from local 
 path = Path(__file__).parent.absolute()
@@ -58,11 +60,15 @@ def mservices():
 def ubi():
     return render_template('ubi.htm')
 
+@app.route('/Microservices/Ubisoft/Price')
+def ubi_price():
+    return json2html.convert(json=requests.get("http://localhost:8000/api/ubisoft/get-last").text)
+
 #Ubisoft buy and sell
 #placeholders for now
 @app.route('/Microservices/Ubisoft/Buy')
 def ubi_buy():
-    return 'bought'
+    return render_template('microservices_buy.htm').format(ref="/Microservices/Ubisoft", text="Ubisoft")
 
 @app.route('/Microservices/Ubisoft/Sell')
 def ubi_sell():
