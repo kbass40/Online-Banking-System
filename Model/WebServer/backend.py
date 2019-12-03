@@ -146,6 +146,35 @@ def fbook():
 def fbook_price():
     return json2html.convert(json=requests.get("http://localhost:8000/api/facebook/get-last").text)
 
+#Facebook buy and sell
+@app.route('/Microservices/Facebook/Buy')
+def fbook_buy():
+    return render_template('microservices_buy.htm').format(ref="/Microservices/Facebook", text="Facebook")
+
+@app.route('/Microservices/Facebook/Buy', methods=['POST'])
+def fbook_buy_post():
+    quantity = request.form.get('quantity')
+    token = request.cookies.get('authenticated')
+    if token is None:
+        #placeholder
+        return 'Need a token'
+
+    return json2html.convert(json=requests.get("http://localhost:8000/api/facebook/buy-stocks=" + quantity + "/" + token).text)
+
+@app.route('/Microservices/Facebook/Sell')
+def fbook_sell():
+    return render_template('microservices_sell.htm').format(ref="/Microservices/Facebook", text="Facebook")
+
+@app.route('/Microservices/Facebook/Sell', methods=['POST'])
+def fbook_sell_post():
+    quantity = request.form.get('quantity')
+    token = request.cookies.get('authenticated')
+    if token is None:
+        #placeholder
+        return 'Need a token'
+
+    return json2html.convert(json=requests.get("http://localhost:8000/api/facebook/sell-stocks=" + quantity + "/" + token).text)
+
 #Apple microservice web page (have to make the html)
 #Apple get price
 @app.route('/Microservices/Apple')
