@@ -15,7 +15,8 @@ from Model.Database import AuthenticationDatabase as authdb
 from flask import Flask, render_template, request, redirect, url_for
 
 template_dir = str(path) + '//..//HTML'
-app = Flask(__name__, template_folder=template_dir)
+app = Flask(__name__, template_folder=template_dir, static_folder=template_dir + "/static")
+print(app.static_folder)
 
 @app.route('/')
 def home():
@@ -135,6 +136,23 @@ def signUpPost():
     return redirect(url_for('loginPost'), code=307)
     
     #return render_template('successfulSignUp.htm')
+
+#User's account creation
+@app.route('/Accounts')
+def accounts():
+    #need to get list of account names
+    #using a placeholder
+    placeholder = "bob, john, guy"
+
+    return render_template("account_selection.htm", arr=placeholder)
+
+@app.route('/Accounts', methods=['POST'])
+def accountsPost():
+    name = request.form.get("name")
+
+    #have to pass it to function updating firebase
+
+    return redirect(url_for('accounts'))
     
 
 if __name__ == "__main__":
