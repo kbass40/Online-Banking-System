@@ -37,7 +37,7 @@ db = DB()
 @app.route("/api/<stock>/get-last", methods=["GET"])
 def get_price(stock):
 	if stock not in SYMBOLS:
-		return 404
+		return "stock not found"
 
 	response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
 		params={'symbols': (SYMBOLS[stock] + ',VXX190517P00016000'), 'greeks': 'false'},
@@ -57,38 +57,63 @@ def get_price(stock):
 @app.route('/api/<stock>/buy-stocks=<quantity>/<token>', methods=["GET"])
 def user_buys_stocks(stock, quantity, token=None):
 	if stock not in SYMBOLS:
-		return 404
+		return "stock not found"
 	if token is not None:
 		try:
 			user = auth.get_user_info(token)
 			if user is None:
-				return 404
+				return "User not signed in"
 		except:
-			return 404
-	if not isinstance(quantity, str):
-		return 404
+			return "Invalid token"
+	else:
+		return "No token"
+	if not isinstance(quantity,str):
+		raise TypeError('ERROR: quantity must be of type string')
 	if not quantity.isdigit():
-		return 404
+		raise TypeError('ERROR: Quantity must be of type int')
 
 	return "user buys stocks"
 
 @app.route('/api/<stock>/sell-stocks=<quantity>/<token>', methods=["GET"])
 def user_sells_stocks(stock, quantity, token=None):
 	if stock not in SYMBOLS:
-		return 404
+		return "stock not found"
 	if token is not None:
 		try:
 			user = auth.get_user_info(token)
 			if user is None:
-				return 404
+				return "User not signed in"
 		except:
-			return 404
-	if not isinstance(quantity, str):
-		return 404
+			return "Invalid token"
+	else:
+		return "No token"
+	if not isinstance(quantity,str):
+		raise TypeError('ERROR: quantity must be of type string')
 	if not quantity.isdigit():
-		return 404
+		raise TypeError('ERROR: Quantity must be of type int')
 
 	return "user sells stocks"
+
+@app.route('/api/get-accounts/<token>', methods=["GET"])
+def get_user_accounts(token=None):
+	if token is not None:
+		try:
+			user= auth.get_user_info(token)
+			if user is None:
+				return "User not signed in"
+		except:
+			return "Invalid token"
+	else:
+		return "No token"
+
+	# TODO get uid from token
+	# uid = auth.get_uid_from_token(token)		
+
+	return {
+		1 : "account 1",
+		2 : "account 2",
+		3 : "account 3"
+	}
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8000)

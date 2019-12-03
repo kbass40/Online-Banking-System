@@ -91,6 +91,8 @@ def user_buys_stocks(quantity, token=None):
                 return "User not signed in"
         except:
             return "Inalid token"
+    else:
+        return 404
     if not isinstance(quantity,str):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
@@ -122,6 +124,8 @@ def user_sells_stocks(quantity, token=None):
                 return "User not signed in"
         except:
             return "Inalid token"
+    else:
+        return 404
     if not isinstance(quantity,str):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
