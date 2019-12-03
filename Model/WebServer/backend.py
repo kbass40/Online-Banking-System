@@ -107,6 +107,35 @@ def google():
 def google_price():
     return json2html.convert(json=requests.get("http://localhost:8000/api/google/get-last").text)
 
+#Google buy and sell
+@app.route('/Microservices/Google/Buy')
+def google_buy():
+    return render_template('microservices_buy.htm').format(ref="/Microservices/Google", text="Google")
+
+@app.route('/Microservices/Google/Buy', methods=['POST'])
+def google_buy_post():
+    quantity = request.form.get('quantity')
+    token = request.cookies.get('authenticated')
+    if token is None:
+        #placeholder
+        return 'Need a token'
+
+    return json2html.convert(json=requests.get("http://localhost:8000/api/google/buy-stocks=" + quantity + "/" + token).text)
+
+@app.route('/Microservices/Google/Sell')
+def google_sell():
+    return render_template('microservices_sell.htm').format(ref="/Microservices/Google", text="Google")
+
+@app.route('/Microservices/Google/Sell', methods=['POST'])
+def google_sell_post():
+    quantity = request.form.get('quantity')
+    token = request.cookies.get('authenticated')
+    if token is None:
+        #placeholder
+        return 'Need a token'
+
+    return json2html.convert(json=requests.get("http://localhost:8000/api/google/sell-stocks=" + quantity + "/" + token).text)
+
 #Facebook microservice web page (have to make the html)
 #Facebook get price
 @app.route('/Microservices/Facebook')
