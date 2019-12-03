@@ -27,7 +27,12 @@ SYMBOLS = {
 
 app = Flask(__name__)
 
+class DB():
+	def __init__(self):
+		pass
+
 auth = ADB.AuthDatabase()
+db = DB()
 
 @app.route("/api/<stock>/get-last", methods=["GET"])
 def get_price(stock):
