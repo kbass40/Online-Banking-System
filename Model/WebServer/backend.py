@@ -97,7 +97,47 @@ def ubi_sell_post():
 
     return json2html.convert(json=requests.get("http://localhost:8000/api/ubisoft/sell-stocks=" + quantity + "/" + token).text)
 
+#Google microservice web page (have to make the html)
+#Google get price
+@app.route('/Microservices/Google')
+def google():
+    return render_template('google.htm')
 
+@app.route('/Microservices/Google/Price')
+def google_price():
+    return json2html.convert(json=requests.get("http://localhost:8000/api/google/get-last").text)
+
+#Facebook microservice web page (have to make the html)
+#Facebook get price
+@app.route('/Microservices/Facebook')
+def fbook():
+    return render_template('fbook.htm')
+
+@app.route('/Microservices/Facebook/Price')
+def fbook_price():
+    return json2html.convert(json=requests.get("http://localhost:8000/api/facebook/get-last").text)
+
+#Apple microservice web page (have to make the html)
+#Apple get price
+@app.route('/Microservices/Apple')
+def aple():
+    return render_template('aple.htm')
+
+@app.route('/Microservices/Google/Price')
+def aple_price():
+    return json2html.convert(json=requests.get("http://localhost:8000/api/apple/get-last").text)
+
+#Oracle microservice web page (have to make the html)
+#Oracle get price
+@app.route('/Microservices/Oracle')
+def oracle():
+    return render_template('oracle.htm')
+
+@app.route('/Microservices/Oracle/Price')
+def oracle_price():
+    return json2html.convert(json=requests.get("http://localhost:8000/api/oracle/get-last").text)
+
+#Sign up page initialization
 @app.route('/SignUp')
 def signUp():
     return render_template('signUp.htm')
