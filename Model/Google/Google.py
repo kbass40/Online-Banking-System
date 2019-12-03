@@ -14,16 +14,16 @@ sys.path.append(str(path) + '//..//..')
 
 from Model.Database import AuthenticationDatabase as ADB
 from Model.Misc import Time as TIME
-from Model.Database import MicroserviceDB as OracleDB
+from Model.Database import MicroserviceDB as GoogleDB
 
 ACCESS_TOKEN = 'Wv62lOHnUq2EYwmmI9DMnfrrznrV'
-SYMBOL = 'ORCL'
+SYMBOL = 'GOOGL'
 
 app = Flask(__name__)
 
 class DB():
     def __init__(self):
-        self._db = OracleDB.MicroserviceDB('OracleDB.sqlite')
+        self._db = GoogleDB.MicroserviceDB('GoogleDB.sqlite')
 
     def get_log_size(self):
         return self._db.get_logs_size()
@@ -41,7 +41,7 @@ class DB():
         if not isinstance(message,str):
             raise TypeError('ERROR: Message must be of type string')
 
-        if typing not in OracleDB.types:
+        if typing not in GoogleDB.types:
             raise ValueError('ERROR: typing must be a defined log type')
 
         self._db.insert_into_Logs(TIME.get_timestamp(),typing,message,commit)
@@ -57,8 +57,9 @@ class DB():
 
 auth = ADB.AuthDatabase()
 
-@app.route("/api/oracle/get-last", methods=["GET"])
+@app.route("/api/google/get-last", methods=["GET"])
 def get_price():
+    db = DB()
     response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
         params={'symbols': (SYMBOL + ',VXX190517P00016000'), 'greeks': 'false'},
         headers={'Authorization': ('Bearer ' + ACCESS_TOKEN), 'Accept': 'application/json'}
@@ -69,11 +70,10 @@ def get_price():
         'description' : json_response['quotes']['quote']['description'],
         'last' : json_response['quotes']['quote']['last']
     }
-    db = DB()
     db.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
     return ret
 
-@app.route("/api/admin/oracle/get-logs", methods=["GET"])
+@app.route("/api/admin/google/get-logs", methods=["GET"])
 def get_logs():
     db = DB()
     table = db.get_logs()
@@ -82,8 +82,9 @@ def get_logs():
 # client wants to buy stocks
 # if we have enough stocks sell them to client and increase gainloss
 # if we dont have enough buy enough to sell to client and buy 5000 extra to hold on to for later
-@app.route('/api/oracle/buy-stocks=<quantity>/<token>', methods=["GET"])
+@app.route('/api/google/buy-stocks=<quantity>/<token>', methods=["GET"])
 def user_buys_stocks(quantity, token=None):
+    db = DB()
     if token is not None:
         try:
             user = auth.get_user_info(token)
@@ -91,15 +92,12 @@ def user_buys_stocks(quantity, token=None):
                 return "User not signed in"
         except:
             return "Inalid token"
-    else:
-        return 404
     if not isinstance(quantity,str):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
         raise TypeError('ERROR: Quantity must be of type int')
-    db = DB()
     table = db.get_stocks()
-    index = len(table)-1
+    index = len(table) - 1
     gainloss = table[index][0]
     bank_quantity = table[index][1]
     price = get_price()['last'] 
@@ -115,8 +113,9 @@ def user_buys_stocks(quantity, token=None):
     db.log_transaction(('Bank sells stocks to user: ' + str(table[len(table)])), 'TRANSACTION')
     return table[len(table)]
 
-@app.route('/api/oracle/sell-stocks=<quantity>/<token>', methods=["GET"])
+@app.route('/api/google/sell-stocks=<quantity>/<token>', methods=["GET"])
 def user_sells_stocks(quantity, token=None):
+    db = DB()
     if token is not None:
         try:
             user = auth.get_user_info(token)
@@ -124,15 +123,12 @@ def user_sells_stocks(quantity, token=None):
                 return "User not signed in"
         except:
             return "Inalid token"
-    else:
-        return 404
     if not isinstance(quantity,str):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
         raise TypeError('ERROR: Quantity must be of type int')
-    db = DB()
     table = db.get_stocks()
-    index = len(table)-1
+    index = len(table) - 1
     gainloss = table[index][0]
     bank_quantity = table[index][1]
     price = get_price()['last'] 
@@ -161,11 +157,13 @@ if __name__ == "__main__" :
     # clears bank balance so we start fresh each time running the app
     # db.clear_stocks()
     db = DB()
+    #db.insert_into_stocks(-131222.0,3)
+    #sprint(db.get_stocks())
     size = db.get_stocks_size()
     authDB = ADB.AuthDatabase()
     print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('kyle@email.com','password')+'\n')
     if size == 0:
-        print("Buy 5000 shares of oracle stock")
+        print("Buy 5000 shares of google stock")
         val = get_price()['last'] * -5000
         db.insert_into_stocks(val, 5000)
     app.run(host="0.0.0.0", port=8000)

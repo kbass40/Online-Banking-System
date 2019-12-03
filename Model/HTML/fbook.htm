@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="microservice_style.css">
+    </head>
+    <body>
+        <h2>Facebook Stock Microservice</h2>
+
+        <div class="links">
+            <a id="get-last" href="{{url_for('fbook_price')}}">Get Price</a><br>
+            <a id="buy-link" href="{{url_for('fbook_buy')}}">Buy Stock</a><br>
+            <a id="sell-link" href="{{url_for('fbook_sell')}}">Sell Stock</a>
+        </div>
+    </body>
+</html>
