@@ -1,19 +1,20 @@
-import sys
+import json
 import os
+import sys
 from pathlib import Path
+
+import requests
+from flask import Flask
+from json2html import *
 
 # Both parent directories need to be added to function from top-level as well as from local 
 path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
 sys.path.append(str(path) + '//..//..')
 
-from flask import Flask
-from Model.Misc import Time as TIME
-import requests
-import json
-import OracleDB
 from Model.Database import AuthenticationDatabase as ADB
-from json2html import *
+from Model.Misc import Time as TIME
+from Model.Database import MicroserviceDB as OracleDB
 
 ACCESS_TOKEN = 'Wv62lOHnUq2EYwmmI9DMnfrrznrV'
 SYMBOL = 'ORCL'
@@ -22,7 +23,7 @@ app = Flask(__name__)
 
 class DB():
     def __init__(self):
-        self._db = OracleDB.DBConnection()
+        self._db = OracleDB.MicroserviceDB('OracleDB.sqlite')
 
     def get_log_size(self):
         return self._db.get_logs_size()
@@ -54,7 +55,6 @@ class DB():
     def get_stocks(self):
         return self._db.get_stocks()
 
-db = DB()
 auth = ADB.AuthDatabase()
 
 @app.route("/api/oracle/get-last", methods=["GET"])
@@ -69,11 +69,13 @@ def get_price():
         'description' : json_response['quotes']['quote']['description'],
         'last' : json_response['quotes']['quote']['last']
     }
+    db = DB()
     db.log_transaction(('Retrieved stock information: ' + str(ret)), 'INFO')
     return ret
 
 @app.route("/api/admin/oracle/get-logs", methods=["GET"])
 def get_logs():
+    db = DB()
     table = db.get_logs()
     return json2html.convert(json=table)
 
@@ -93,9 +95,11 @@ def user_buys_stocks(quantity, token=None):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
         raise TypeError('ERROR: Quantity must be of type int')
+    db = DB()
     table = db.get_stocks()
-    gainloss = table[-1][0]
-    bank_quantity = table[-1][1]
+    index = len(table)-1
+    gainloss = table[index][0]
+    bank_quantity = table[index][1]
     price = get_price()['last'] 
     if bank_quantity < int(quantity):
         gainloss = gainloss - (price * 5000)
@@ -106,8 +110,8 @@ def user_buys_stocks(quantity, token=None):
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
-    db.log_transaction(('Bank sells stocks to user: ' + str(table[-1])), 'TRANSACTION')
-    return table
+    db.log_transaction(('Bank sells stocks to user: ' + str(table[len(table)])), 'TRANSACTION')
+    return table[len(table)]
 
 @app.route('/api/oracle/sell-stocks=<quantity>/<token>', methods=["GET"])
 def user_sells_stocks(quantity, token=None):
@@ -122,17 +126,19 @@ def user_sells_stocks(quantity, token=None):
         raise TypeError('ERROR: quantity must be of type string')
     if not quantity.isdigit():
         raise TypeError('ERROR: Quantity must be of type int')
+    db = DB()
     table = db.get_stocks()
-    gainloss = table[-1][0]
-    bank_quantity = table[-1][1]
+    index = len(table)-1
+    gainloss = table[index][0]
+    bank_quantity = table[index][1]
     price = get_price()['last'] 
     gainloss = gainloss - (price * int(quantity))
     bank_quantity = bank_quantity + int(quantity)
     db.insert_into_stocks(gainloss, int(bank_quantity))
     table = db.get_stocks()
     table = jsonify(table)
-    db.log_transaction(('Bank buys stocks from user: ' + str(table[-1])), 'TRANSACTION')
-    return table
+    db.log_transaction(('Bank buys stocks from user: ' + str(table[len(table)])), 'TRANSACTION')
+    return table[len(table)]
 
 def jsonify(table):
     json = {}
@@ -150,6 +156,7 @@ if __name__ == "__main__" :
     # using for testing purposes
     # clears bank balance so we start fresh each time running the app
     # db.clear_stocks()
+    db = DB()
     size = db.get_stocks_size()
     authDB = ADB.AuthDatabase()
     print('Example authenticated token:\n\n'+authDB.authenticate_user_via_email_password('kyle@email.com','password')+'\n')

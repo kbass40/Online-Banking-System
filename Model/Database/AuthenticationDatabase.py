@@ -44,6 +44,8 @@ class AuthDatabase():
         if not (isEmailValid(email)):
             raise SyntaxError('ERROR a valid email must be provided')
 
+        #need to check if email is valid
+
         return self._auth.sign_in_with_email_and_password(email,password)['idToken']
 
     def _get_userID_from_authID(self, authID):
@@ -74,11 +76,8 @@ class AuthDatabase():
         self._db.child('users').child(user_id).set(blank_account, auth_id)
         return auth_id
 
-    # Interface to update a user's stock info based on microservice purchuse
-    def update_user_info(self,auth_id,symbol,amount):
-        if not isinstance(symbol, str):
-            raise TypeError('ERROR symbol must be of type str')
 
+    def update_user_info(self, auth_id, symbol, amount):
         if symbol not in stock_symbols:
             raise ValueError('ERROR symbol must be within the approved stock microservices')
 

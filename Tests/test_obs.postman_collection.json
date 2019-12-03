@@ -1,0 +1,430 @@
+{
+	"info": {
+		"_postman_id": "6585cdf5-45fb-4619-b24f-7ef51c4c2296",
+		"name": "OBS1_Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:5000/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "55e22d68-5941-4fad-a098-48c20e3d6fc1",
+						"exec": [
+							"const textData = pm.response.text();",
+							"",
+							"pm.test(\"Response is OK\", function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is valid\", function(){",
+							"    pm.expect(textData).to.include(\"Username\");",
+							"    pm.expect(textData).to.include(\"Password\");",
+							"    pm.expect(textData).to.include(\"Submit\");",
+							"    pm.expect(textData).to.include(\"Sign Up\");",
+							"});",
+							"",
+							"pm.test(\"Response has input fields\", function(){",
+							"    pm.expect(textData).to.include(\"<input type=\\\"text\\\" placeholder=\\\"Username\\\" name=\\\"uname\\\" required\")",
+							"    pm.expect(textData).to.include(\"<input type=\\\"password\\\" placeholder=\\\"Password\\\" name=\\\"psw\\\" required\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:5000/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e54ea521-4702-4d6b-a8be-9a22066e32c0",
+						"exec": [
+							"pm.test(\"Response is ok\", function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is valid\", function(){",
+							"    pm.expect(pm.response.text()).to.include(\"Online Banking System\");",
+							"    pm.expect(pm.response.text()).to.include(\"Login\");",
+							"    pm.expect(pm.response.text()).to.include(\"Microservices\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:5000/Microservices",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "256101ab-0722-4873-a31e-72125d08b6ca",
+						"exec": [
+							"pm.test(\"Response is OK\", function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is valid\", function(){",
+							"    pm.expect(pm.response.text()).to.include(\"Microservices\");",
+							"    pm.expect(pm.response.text()).to.include(\"Ubisoft\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/Microservices",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"Microservices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:5000/SignUp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fc78b056-6cb7-410a-a462-00256fdc3157",
+						"exec": [
+							"const textData = pm.response.text();",
+							"",
+							"pm.test(\"Response is ok\", function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is valid\", function(){",
+							"    pm.expect(textData).to.include(\"Sign Up\");",
+							"    pm.expect(textData).to.include(\"Username\");",
+							"    pm.expect(textData).to.include(\"Email\");",
+							"    pm.expect(textData).to.include(\"Password\");",
+							"    pm.expect(textData).to.include(\"Submit\");",
+							"});",
+							"",
+							"pm.test(\"Response has input fields\", function(){",
+							"    pm.expect(textData).to.include(\"<input type=\\\"text\\\" placeholder=\\\"Username\\\" name=\\\"uname\\\" required\")",
+							"    pm.expect(textData).to.include(\"<input type=\\\"text\\\" placeholder=\\\"Email\\\" name=\\\"email\\\" required\")",
+							"    pm.expect(textData).to.include(\"<input type=\\\"password\\\" placeholder=\\\"Password\\\" name=\\\"psw\\\" required\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/SignUp",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"SignUp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SuccessfulSignUp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e678b01-bff6-4742-aca3-aefd781d8251",
+						"exec": [
+							"const textData = pm.response.text();",
+							"",
+							"pm.test(\"Response is ok\", function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is valid\", function(){",
+							"    pm.expect(textData).to.include(\"You have successfully signed up\");",
+							"    pm.expect(textData).to.include(\"Home\");",
+							"    pm.expect(textData).to.include(\"Log in\");",
+							"});",
+							"",
+							"pm.test(\"Response has link fields\", function(){",
+							"    pm.expect(textData).to.include(\"<a \")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "uname",
+							"value": "dan",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "dan88@yahoo.com",
+							"type": "text"
+						},
+						{
+							"key": "psw",
+							"value": "123",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/SignUp",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"SignUp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FailedSignUp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ef535606-6f44-4e57-bf99-1bdc6869c542",
+						"exec": [
+							"const textData = pm.response.text();",
+							"",
+							"pm.test(\"Response is ok\", function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is valid\", function(){",
+							"    pm.expect(textData).to.include(\"Sign up failed\");",
+							"    pm.expect(textData).to.include(\"Home\");",
+							"    pm.expect(textData).to.include(\"Sign Up\");",
+							"});",
+							"",
+							"pm.test(\"Response has link fields\", function(){",
+							"    pm.expect(textData).to.include(\"<a\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "uname",
+							"value": "dan",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "122435",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/SignUp",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"SignUp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FailedLogin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "36a193ff-9801-4538-9f05-a15184c14cf3",
+						"exec": [
+							"const textData = pm.response.text();",
+							"",
+							"pm.test(\"Response is ok\", function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is valid\", function(){",
+							"    pm.expect(textData).to.include(\"Log in failed\");",
+							"    pm.expect(textData).to.include(\"Home\");",
+							"});",
+							"",
+							"pm.test(\"Response has link fields\", function(){",
+							"    pm.expect(textData).to.include(\"<a \")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "uname",
+							"value": "dan",
+							"type": "text"
+						},
+						{
+							"key": "psw",
+							"value": "123",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SuccessfulLogin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cdf979ad-cf33-4350-8564-520c910b150f",
+						"exec": [
+							"const textData = pm.response.text();",
+							"",
+							"pm.test(\"Response is ok\", function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is valid\", function(){",
+							"    pm.expect(textData).to.include(\"You have successfully logged in\");",
+							"    pm.expect(textData).to.include(\"Home\");",
+							"});",
+							"",
+							"pm.test(\"Response has link fields\", function(){",
+							"    pm.expect(textData).to.include(\"<a \")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "uname",
+							"value": "dan",
+							"type": "text"
+						},
+						{
+							"key": "psw",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/account_selection_style.css">
+    </head>
+    <body>
+        <h2 id="h">User Accounts</h2>
+
+        <div id="accounts">
+            <!--Add Account-->
+            <button onclick="document.getElementById('account_add').style.display='block'" class="btn" id="add_button">
+                Add Account</button>
+            <div id="account_add" class="modal">
+
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('account_add').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2>Create New Account</h2>
+                        <!--Creating Name container-->
+                        <label for="name" ><b>Name</b></label><br>
+                        <input type="text" placeholder="Acccount Name" name="name" id="name" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <!--Show existing accounts-->
+            <script>
+                var l = "{{arr}}".split(',');
+                for(var i = 0; i < l.length; i++){
+                    var parent = document.getElementById("add_button");
+                    var btn = document.createElement("BUTTON");
+                    var cls = document.createAttribute("class");
+                    cls.value = "btn";
+                    btn.setAttributeNode(cls);
+                    btn.innerHTML = l[i];
+
+                    document.getElementById("accounts").insertBefore(btn, parent);
+                }
+            </script>
+        </div>
+    </body>
+</html>

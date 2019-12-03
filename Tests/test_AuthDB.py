@@ -2,7 +2,7 @@ from Model.Database import AuthenticationDatabase as AuthDB
 import pytest
 
 def test_AuthDB_creation():
-    myDB = AuthDB.AuthDatabase()
+    AuthDB.AuthDatabase()
 
 def test_fail_authenticate_user_with_bad_email_type():
     with pytest.raises(TypeError):

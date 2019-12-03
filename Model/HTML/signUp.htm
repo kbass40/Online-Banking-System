@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h2>Sign Up</h2>
+        
+        <form method="post">
+            <div class="container">
+                <!--Creating Username container-->
+                <label for="uname" ><b>Username</b></label>
+                <input type="text" placeholder="Username" name="uname" id="uname" required><br>
+
+                <!--Creating email container-->
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Email" name="email" required id="email"><br>
+
+                <!--Creating Password Container-->
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Password" name="psw" required id="psw"><br><br>
+
+                <!--Creating submit button-->
+                <button type="submit" id="submit">Submit</button>
+            </div>
+        </form>
+
+        <a id="home" href="{{ url_for('home') }}">Home</a>
+    </body>
+</html>
