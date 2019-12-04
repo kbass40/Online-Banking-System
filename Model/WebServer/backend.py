@@ -1,19 +1,21 @@
+from Model.Database import AuthenticationDatabase as authdb
+from flask import Flask, render_template, request
+import urllib
 import os
 import sys
 from pathlib import Path
 
-# Both parent directories need to be added to function from top-level as well as from local 
+# Both parent directories need to be added to function from top-level as well as from local
 path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
 sys.path.append(str(path) + '//..//..')
 
+
 #import mock_auth, mock_signUp
-import urllib
-from Model.Database import AuthenticationDatabase as authdb
-from flask import Flask, render_template, request
 
 template_dir = str(path) + '//..//HTML'
 app = Flask(__name__, template_folder=template_dir)
+
 
 @app.route('/')
 def home():
@@ -64,9 +66,11 @@ def ubi():
 def ubi_buy():
     return 'bought'
 
+
 @app.route('/Microservices/Ubisoft/Sell')
 def ubi_sell():
     return 'sold'
+
 
 @app.route('/SignUp')
 def signUp():
@@ -92,14 +96,13 @@ def signUpPost():
     except Exception as e:
         return render_template("failedSignUp.htm").format(error=str(e))
 
-
     #if registered:
         #return render_template('successfulSignUp.htm')
     #else:
         #return render_template('failedSignUp.htm')
-    
+
     return render_template('successfulSignUp.htm')
-    
+
 
 if __name__ == "__main__":
     app.run()
