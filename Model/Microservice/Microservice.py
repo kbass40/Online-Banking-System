@@ -60,7 +60,7 @@ def user_buys_stocks(stock, quantity, token=None):
 		return "stock not found"
 	if token is not None:
 		try:
-			user = auth.get_user_info(token)
+			user = auth._get_userID_from_authID(token)
 			if user is None:
 				return "User not signed in"
 		except:
@@ -80,7 +80,7 @@ def user_sells_stocks(stock, quantity, token=None):
 		return "stock not found"
 	if token is not None:
 		try:
-			user = auth.get_user_info(token)
+			user = auth._get_userID_from_authID(token)
 			if user is None:
 				return "User not signed in"
 		except:
@@ -98,7 +98,7 @@ def user_sells_stocks(stock, quantity, token=None):
 def get_user_accounts(token=None):
 	if token is not None:
 		try:
-			user= auth.get_user_info(token)
+			user = auth._get_userID_from_authID(token)
 			if user is None:
 				return "User not signed in"
 		except:
