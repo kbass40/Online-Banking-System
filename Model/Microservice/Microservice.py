@@ -72,6 +72,8 @@ def user_buys_stocks(stock, quantity, token=None):
 	if not quantity.isdigit():
 		raise TypeError('ERROR: Quantity must be of type int')
 
+	auth.push_log(TIME.get_timestamp(), "TRANSACTION", "user buys " + str(quantity) + " " + stock + " stocks")
+
 	return "user buys stocks"
 
 @app.route('/api/<stock>/sell-stocks=<quantity>/<token>', methods=["GET"])
@@ -92,6 +94,8 @@ def user_sells_stocks(stock, quantity, token=None):
 	if not quantity.isdigit():
 		raise TypeError('ERROR: Quantity must be of type int')
 
+	auth.push_log(TIME.get_timestamp(), "TRANSACTION", "user sells " + str(quantity) + " " + stock + " stocks")
+
 	return "user sells stocks"
 
 @app.route('/api/get-accounts/<token>', methods=["GET"])
@@ -106,14 +110,11 @@ def get_user_accounts(token=None):
 	else:
 		return "No token"
 
-	# TODO get uid from token
-	# uid = auth.get_uid_from_token(token)		
-
-	return {
-		1 : "account 1",
-		2 : "account 2",
-		3 : "account 3"
-	}
+	accounts = auth.get_user_accounts(token)
+	if accounts is None:
+		return "No accounts we messed up"
+	else:
+		return accounts
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8000)
