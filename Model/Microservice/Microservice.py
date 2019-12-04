@@ -56,7 +56,8 @@ def get_price(stock):
 
 @app.route('/api/<stock>/buy-stocks=<quantity>/<accountname>/<token>', methods=["GET"])
 def user_buys_stocks(stock, quantity, accountname, token=None):
-	# TODO validate account name
+	if not auth.is_valid_account_for_user(token, accountname):
+		return "account not found"
 	if stock not in SYMBOLS:
 		return "stock not found"
 	if token is not None:
