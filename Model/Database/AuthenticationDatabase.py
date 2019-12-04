@@ -152,6 +152,10 @@ class AuthDatabase():
 
         return self._db.child('admin').child('bank').child(symbol).update({'stock_num':stock_amt,'gain-loss':gainloss})
 
+    # Checks if an account name is valid for a user
+    def is_valid_account_for_user(self, auth_id, account_name):
+        accounts = self.get_user_accounts(auth_id)
+        return account_name in accounts
 
     # Updates the user's stock info be specified amount / gainloss
     def update_user_info(self, auth_id, account_name, symbol, amount, gainloss):
