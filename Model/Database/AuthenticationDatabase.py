@@ -79,6 +79,13 @@ class AuthDatabase():
         user_id = self._get_userID_from_authID(auth_id)
         return self._db.child('users').child(user_id).child(account_name).get(auth_id).val()
 
+    # Function to retrieve bank info for a particular stock
+    def get_bank_info(self, symbol):
+        if symbol not in stock_symbols:
+            raise ValueError('ERROR symbol must be within the approved stock microservices')
+
+        return self._db.child('admin').child('bank').child(symbol).get().val()
+
     # Creates new user in database based on their email and password
     def create_new_user(self, email, password):
         if not isinstance(email, str):
@@ -137,6 +144,14 @@ class AuthDatabase():
         # Otherwise add one
         else:
             self._db.child('users').child(user_id).child(account_name).set(act_data)
+
+    # Update bank info for a particular stock
+    def update_bank_info(self, symbol, stock_amt, gainloss):
+        if symbol not in stock_symbols:
+            raise ValueError('ERROR symbol must be within the approved stock microservices')
+
+        return self._db.child('admin').child('bank').child(symbol).update({'stock_num':stock_amt,'gain-loss':gainloss})
+
 
     # Updates the user's stock info be specified amount / gainloss
     def update_user_info(self, auth_id, account_name, symbol, amount, gainloss):
@@ -222,12 +237,13 @@ class AuthDatabase():
 
 #''' The following is a complete test that creates an account
 myDb = AuthDatabase()
-#myDb.create_new_user('kyle84684.5@email.com','password123')
+#myDb.create_new_user('dt@email.com','password123')
 auth_id = myDb.authenticate_user_via_email_password('kyle84684.5@email.com','password123')
 #admin_id = myDb.authenticate_user_via_email_password('admin@admin.com','admin1')
 #myDb.get_all_logs(admin_id)
 
-print(myDb.get_user_accounts(auth_id))
+myDb.update_bank_info(stock_symbols[0],5,213.25)
+print(myDb.get_bank_info(stock_symbols[0]))
 #myDb.push_log('2019-11-14 15:11:36',log_message='TESTING LOGGING FUNCTIONALITY')
 '''
 #myDb.update_user_info(auth_id,'Account v1',stock_symbols[0],200,1520.24)
