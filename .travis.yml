@@ -1,7 +1,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Testing Travis-CI #1
+=======
+<<<<<<< refs/remotes/origin/authentication
+>>>>>>> Testing New Travis YML file
 language: python
 python:
   - "3.6"
@@ -116,9 +120,10 @@ before_install:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
-
-jobs:
+=======
+matrix:
   include:
+<<<<<<< HEAD
     - stage: "Microservices Tests"
       script: 
         - pytest ./Tests/test_Apple.py
@@ -152,3 +157,53 @@ stages:
 =======
   - Coverage Report
 >>>>>>> Covergae v0.3
+=======
+    - language: python
+      python: 
+        - 3.7
+      branches:
+        only:
+          - travis_ci_test
+      before_install:
+        - pip install pytest-cov
+      install: 
+        - pip install -r requirements.txt
+
+      jobs:
+      include:
+        - stage: "Microservices Tests"
+          script: 
+            - pytest ./Tests/test_Apple.py
+            - pytest ./Tests/test_Facebook.py
+            - pytest ./Tests/test_Google.py
+            - pytest ./Tests/test_Oracle.py
+            - pytest ./Tests/test_Ubisoft.py
+>>>>>>> Testing New Travis YML file
+
+        - stage: "Database Tests"
+          script: 
+            - pytest ./Tests/test_LogDatabase.py
+            - pytest ./Tests/test_Logger.py
+
+        - stage: "Authentication Tests"
+          script: 
+            - pytest ./Tests/test_AuthDB.py
+
+        - stage: "Coverage Report"
+          script: 
+            - pytest --cov=Tests/
+
+      stages:
+        - Microservices Tests
+        - Database Tests
+        - Authentication Tests
+        - Coverage Report
+
+    - language: node_js
+      node_js:
+        - 4.8
+      before_install:
+        - npm install
+      install:
+        - npm install cypress --save-dev
+>>>>>>> Testing New Travis YML file
