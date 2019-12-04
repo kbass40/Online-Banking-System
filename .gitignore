@@ -4,6 +4,7 @@ __pycache__
 Batch
 .env
 <<<<<<< HEAD
+<<<<<<< HEAD
 *.sqliteModel/Database/firebase-admin-sdk.json
 =======
 *.sqlite
@@ -15,3 +16,6 @@ Model/Database/firebase-admin-sdk.json
 >>>>>>> cypress
 node_modules
 >>>>>>> cypress
+=======
+*.sqlite
+>>>>>>> Cypress in travis_ci branch
