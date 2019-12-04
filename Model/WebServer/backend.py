@@ -97,7 +97,7 @@ def ubi_sell_post():
 
     return json2html.convert(json=requests.get("http://localhost:8000/api/ubisoft/sell-stocks=" + quantity + "/" + token).text)
 
-#Google microservice web page (have to make the html)
+#Google microservice web page 
 #Google get price
 @app.route('/Microservices/Google')
 def google():
@@ -136,7 +136,7 @@ def google_sell_post():
 
     return json2html.convert(json=requests.get("http://localhost:8000/api/google/sell-stocks=" + quantity + "/" + token).text)
 
-#Facebook microservice web page (have to make the html)
+#Facebook microservice web page 
 #Facebook get price
 @app.route('/Microservices/Facebook')
 def fbook():
@@ -175,7 +175,7 @@ def fbook_sell_post():
 
     return json2html.convert(json=requests.get("http://localhost:8000/api/facebook/sell-stocks=" + quantity + "/" + token).text)
 
-#Apple microservice web page (have to make the html)
+#Apple microservice web page 
 #Apple get price
 @app.route('/Microservices/Apple')
 def aple():
@@ -185,7 +185,36 @@ def aple():
 def aple_price():
     return json2html.convert(json=requests.get("http://localhost:8000/api/apple/get-last").text)
 
-#Oracle microservice web page (have to make the html)
+#Apple buy and sell
+@app.route('/Microservices/Apple/Buy')
+def aple_buy():
+    return render_template('microservices_buy.htm').format(ref="/Microservices/Apple", text="Apple")
+
+@app.route('/Microservices/Apple/Buy', methods=['POST'])
+def aple_buy_post():
+    quantity = request.form.get('quantity')
+    token = request.cookies.get('authenticated')
+    if token is None:
+        #placeholder
+        return 'Need a token'
+
+    return json2html.convert(json=requests.get("http://localhost:8000/api/apple/buy-stocks=" + quantity + "/" + token).text)
+
+@app.route('/Microservices/Apple/Sell')
+def aple_sell():
+    return render_template('microservices_sell.htm').format(ref="/Microservices/Apple", text="Apple")
+
+@app.route('/Microservices/Apple/Sell', methods=['POST'])
+def aple_sell_post():
+    quantity = request.form.get('quantity')
+    token = request.cookies.get('authenticated')
+    if token is None:
+        #placeholder
+        return 'Need a token'
+
+    return json2html.convert(json=requests.get("http://localhost:8000/api/apple/sell-stocks=" + quantity + "/" + token).text)
+
+#Oracle microservice web page 
 #Oracle get price
 @app.route('/Microservices/Oracle')
 def oracle():
@@ -194,6 +223,35 @@ def oracle():
 @app.route('/Microservices/Oracle/Price')
 def oracle_price():
     return json2html.convert(json=requests.get("http://localhost:8000/api/oracle/get-last").text)
+
+#Oracle buy and sell
+@app.route('/Microservices/Oracle/Buy')
+def oracle_buy():
+    return render_template('microservices_buy.htm').format(ref="/Microservices/Oracle", text="Oracle")
+
+@app.route('/Microservices/Oracle/Buy', methods=['POST'])
+def oracle_buy_post():
+    quantity = request.form.get('quantity')
+    token = request.cookies.get('authenticated')
+    if token is None:
+        #placeholder
+        return 'Need a token'
+
+    return json2html.convert(json=requests.get("http://localhost:8000/api/oracle/buy-stocks=" + quantity + "/" + token).text)
+
+@app.route('/Microservices/Oracle/Sell')
+def oracle_sell():
+    return render_template('microservices_sell.htm').format(ref="/Microservices/Oracle", text="Oracle")
+
+@app.route('/Microservices/Oracle/Sell', methods=['POST'])
+def oracle_sell_post():
+    quantity = request.form.get('quantity')
+    token = request.cookies.get('authenticated')
+    if token is None:
+        #placeholder
+        return 'Need a token'
+
+    return json2html.convert(json=requests.get("http://localhost:8000/api/oracle/sell-stocks=" + quantity + "/" + token).text)
 
 #Sign up page initialization
 @app.route('/SignUp')
