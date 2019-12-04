@@ -110,7 +110,7 @@ notifications:
 
 before_install:
   - pip install pytest-cov
-  - sudp apt-get install python3-distutils
+  - sudo apt-get install python3-distutils
 
 >>>>>>> Testing Code Coverage v0.1
 # command to install dependencies
