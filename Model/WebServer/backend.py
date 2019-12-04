@@ -1,8 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 from Model.Database import AuthenticationDatabase as authdb
 from flask import Flask, render_template, request
 >>>>>>> update
+=======
+>>>>>>> Linux
 import urllib
 import os
 import sys
@@ -14,12 +17,17 @@ sys.path.append(str(path) + '//..')
 sys.path.append(str(path) + '//..//..')
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 from Model.Database import AuthenticationDatabase as authdb
 from flask import Flask, render_template, request
 =======
 
 #import mock_auth, mock_signUp
 >>>>>>> update
+=======
+from Model.Database import AuthenticationDatabase as authdb
+from flask import Flask, render_template, request
+>>>>>>> Linux
 
 
 
