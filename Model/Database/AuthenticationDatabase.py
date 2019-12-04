@@ -7,6 +7,7 @@ import pyrebase
 from dotenv import load_dotenv
 import firebase_admin
 from firebase_admin import auth, credentials
+from requests import HTTPError
 
 load_dotenv()
 
@@ -161,7 +162,7 @@ class AuthDatabase():
 
         self._db.child('users').child(user_id).child(account_name).update({'balance':old_balance+delta},auth_id)
 
-    # Add's logs to database
+    # Adds logs to database
     def push_log(self,time,log_type='MISC',log_message='null'):
         if not TIME.is_time_formatted(time):
             raise TypeError('ERROR time variable must be formatted in the proper format %Y-%m-%d %H:%M:%S')
@@ -175,6 +176,14 @@ class AuthDatabase():
         log = {'time':time,'type':log_type,'content':log_message}
 
         self._db.child('admin').child('logs').push(log)
+
+    # Retieves all logs in an ordered dict if user is admin
+    def get_all_logs(self,admin_id):
+        try:
+            logs = self._db.child('admin').child('logs').get(admin_id).val()
+            print(logs)
+        except HTTPError:
+            raise ValueError('ERROR must be authenticated admin to get content')
 
     def delete_autheticated_user_from_auth_id(self,auth_id):
         user_id = self._get_userID_from_authID(auth_id)
@@ -206,7 +215,9 @@ class AuthDatabase():
 myDb = AuthDatabase()
 #myDb.create_new_user('kyle84684.5@email.com','password123')
 auth_id = myDb.authenticate_user_via_email_password('kyle84684.5@email.com','password123')
-myDb.push_log('2019-11-14 15:11:36',log_message='TESTING LOGGING FUNCTIONALITY')
+admin_id = myDb.authenticate_user_via_email_password('admin@admin.com','admin1')
+myDb.get_all_logs(admin_id)
+#myDb.push_log('2019-11-14 15:11:36',log_message='TESTING LOGGING FUNCTIONALITY')
 '''
 #myDb.update_user_info(auth_id,'Account v1',stock_symbols[0],200,1520.24)
 #myDb.update_user_balance(auth_id,'Account v1',20.24)
