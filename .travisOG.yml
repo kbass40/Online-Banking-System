@@ -1,0 +1,44 @@
+language: python
+python:
+  - "3.6"
+branches:
+  # whitelist
+  only:
+    - travis_ci_test
+
+before_install:
+  - pip install pytest-cov
+  # - sudo apt-get install python3-distutils
+
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+
+jobs:
+  include:
+    - stage: "Microservices Tests"
+      script: 
+        - pytest ./Tests/test_Apple.py
+        - pytest ./Tests/test_Facebook.py
+        - pytest ./Tests/test_Google.py
+        - pytest ./Tests/test_Oracle.py
+        - pytest ./Tests/test_Ubisoft.py
+
+    - stage: "Database Tests"
+      script: 
+        - pytest ./Tests/test_LogDatabase.py
+        - pytest ./Tests/test_Logger.py
+
+    - stage: "Authentication Tests"
+      script: 
+        - pytest ./Tests/test_AuthDB.py
+
+    - stage: "Coverage Report"
+      script: 
+        - pytest --cov=Tests/
+
+stages:
+  - Microservices Tests
+  - Database Tests
+  - Authentication Tests
+  - Coverage Report
