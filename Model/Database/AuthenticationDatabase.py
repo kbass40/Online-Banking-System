@@ -65,10 +65,19 @@ class AuthDatabase():
     def _get_userID_from_authID(self, auth_id):
         return self._auth.get_account_info(auth_id)["users"][0]['localId']
 
+    def get_user_accounts(self,auth_id):
+        userId = self._get_userID_from_authID(auth_id)
+        return self._db.child('users').child(userId).shallow().get(auth_id).val()
+
     # Returns the json stock info of user given a valid session token
     def get_user_info(self, auth_id):
         userId = self._get_userID_from_authID(auth_id)
         return self._db.child('users').child(userId).get(auth_id).val()
+
+    # Returns all the info for a user account
+    def get_account_info(self,auth_id,account_name):
+        user_id = self._get_userID_from_authID(auth_id)
+        return self._db.child('users').child(user_id).child(account_name).get(auth_id).val()
 
     # Creates new user in database based on their email and password
     def create_new_user(self, email, password):
@@ -146,7 +155,7 @@ class AuthDatabase():
         if old_amt is None:
             raise ValueError('ERROR account name must be valid for this user')
 
-        self._db.child('users').child(user_id).child(account_name).child(symbol).update({'stock_num':old_amt['stock_num']+amount},auth_id)
+        self._db.child('users').child(user_id).child(account_name).child(symbol).update({'stock_num':amount},auth_id)
         self._db.child('users').child(user_id).child(account_name).child(symbol).update({'gain-loss':old_amt['gain-loss']+gainloss},auth_id)
 
     # Updates the user's balance by specified delta amount
@@ -177,11 +186,11 @@ class AuthDatabase():
 
         self._db.child('admin').child('logs').push(log)
 
-    # Retieves all logs in an ordered dict if user is admin
+    # Retrieves all logs as an ordered dict if user is admin
     def get_all_logs(self,admin_id):
         try:
             logs = self._db.child('admin').child('logs').get(admin_id).val()
-            print(logs)
+            return logs
         except HTTPError:
             raise ValueError('ERROR must be authenticated admin to get content')
 
@@ -215,8 +224,10 @@ class AuthDatabase():
 myDb = AuthDatabase()
 #myDb.create_new_user('kyle84684.5@email.com','password123')
 auth_id = myDb.authenticate_user_via_email_password('kyle84684.5@email.com','password123')
-admin_id = myDb.authenticate_user_via_email_password('admin@admin.com','admin1')
-myDb.get_all_logs(admin_id)
+#admin_id = myDb.authenticate_user_via_email_password('admin@admin.com','admin1')
+#myDb.get_all_logs(admin_id)
+
+print(myDb.get_user_accounts(auth_id))
 #myDb.push_log('2019-11-14 15:11:36',log_message='TESTING LOGGING FUNCTIONALITY')
 '''
 #myDb.update_user_info(auth_id,'Account v1',stock_symbols[0],200,1520.24)
