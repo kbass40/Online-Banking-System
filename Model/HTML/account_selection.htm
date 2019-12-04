@@ -26,21 +26,26 @@
                     </div>
                 </form>
             </div>
-
-            <!--Show existing accounts-->
-            <script>
-                var l = "{{arr}}".split(',');
-                for(var i = 0; i < l.length; i++){
-                    var parent = document.getElementById("add_button");
-                    var btn = document.createElement("BUTTON");
-                    var cls = document.createAttribute("class");
-                    cls.value = "btn";
-                    btn.setAttributeNode(cls);
-                    btn.innerHTML = l[i];
-
-                    document.getElementById("accounts").insertBefore(btn, parent);
-                }
-            </script>
         </div>
+
+        <!--Show existing accounts-->
+        <script>
+            var l = "{{arr}}".split(',');
+            var len = parseInt("{{len}}");
+            for(var i = 0; i < len; i++){
+                var parent = document.getElementById("add_button");
+                var btn = document.createElement("BUTTON");
+                var cls = document.createAttribute("class");
+                cls.value = "btn";
+                btn.setAttributeNode(cls);
+                btn.innerHTML = l[i];
+
+                document.getElementById("accounts").insertBefore(btn, parent);
+            }
+            
+            if (len > 2) {
+                document.getElementById("add_button").style.display='none'
+            }
+        </script>
     </body>
 </html>

@@ -36,11 +36,9 @@ def loginPost():
     psw = str(request.form.get("psw"))
 
     #send it to authentication
-    #currently using a mock
     #authenticated = mock_auth.auth(uname, psw)
 
     #get session token
-    #currently using a placeholder
     temp = authdb.AuthDatabase()
 
     try:
@@ -48,7 +46,7 @@ def loginPost():
     except Exception as e:
         return render_template("failedLogin.htm").format(error=str(e))
 
-    response = app.make_response(render_template("successfulLogin.htm").format(token=token))
+    response = app.make_response(redirect(url_for("accounts")))
     response.set_cookie("authenticated", value=token)
 
     return response
@@ -296,19 +294,39 @@ def signUpPost():
 #User's account creation
 @app.route('/Accounts')
 def accounts():
-    #need to get list of account names
-    #using a placeholder
-    placeholder = "bob, john, guy"
+    acc = authdb.AuthDatabase().get_user_accounts(request.cookies.get("authenticated"))
+    acc_str = ""
+    acc_length = 0
+    if acc is not None:
+        for i in acc:
+            acc_str = acc_str + i + ","
+        acc_str = acc_str[:-1]
+        acc_length = len(acc)
 
-    return render_template("account_selection.htm", arr=placeholder)
+    return render_template("account_selection.htm", arr=acc_str, len=acc_length)
 
 @app.route('/Accounts', methods=['POST'])
 def accountsPost():
     name = request.form.get("name")
 
-    #have to pass it to function updating firebase
+    #Updating database
+    try:
+        authdb.AuthDatabase().create_new_account_for_user(request.cookies.get("authenticated"), name)
+    except RuntimeError as e:
+        return e
 
     return redirect(url_for('accounts'))
+
+#Dashboard
+@app.route('/Accounts/Dashboard', methods=['POST'])
+def dashboard():
+    #get name of the account
+    name =  request.form.get('name')
+
+    #need to add something to get a balance
+    #need to get stock info
+
+    return render_template("dashboard.htm")
     
 
 if __name__ == "__main__":
