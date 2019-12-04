@@ -166,6 +166,7 @@ stages:
           - travis_ci_test
       before_install:
         - pip install pytest-cov
+<<<<<<< refs/remotes/origin/authentication
       install: 
         - pip install -r requirements.txt
 
@@ -198,12 +199,23 @@ stages:
         - Database Tests
         - Authentication Tests
         - Coverage Report
+=======
+      # install: 
+      #   # - pip install -r requirements.txt
+      script:
+        - pytest ./Tests/test_Apple.py
+>>>>>>> cypress
 
     - language: node_js
       node_js:
         - 4.8
       before_install:
-        - npm install
-      install:
         - npm install cypress --save-dev
+<<<<<<< HEAD
 >>>>>>> Testing New Travis YML file
+=======
+
+notifications:
+  email:
+    - moolchanddanny@hotmail.com
+>>>>>>> cypress

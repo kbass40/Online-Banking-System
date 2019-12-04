@@ -7,5 +7,11 @@ Batch
 *.sqliteModel/Database/firebase-admin-sdk.json
 =======
 *.sqlite
+<<<<<<< HEAD
+=======
+<<<<<<< refs/remotes/origin/authentication
+Model/Database/firebase-admin-sdk.json
+=======
+>>>>>>> cypress
 node_modules
 >>>>>>> cypress
