@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+from Model.Database import AuthenticationDatabase as authdb
+from flask import Flask, render_template, request
+>>>>>>> update
 import urllib
 import os
 import sys
@@ -8,8 +13,13 @@ path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
 sys.path.append(str(path) + '//..//..')
 
+<<<<<<< HEAD
 from Model.Database import AuthenticationDatabase as authdb
 from flask import Flask, render_template, request
+=======
+
+#import mock_auth, mock_signUp
+>>>>>>> update
 
 
 
