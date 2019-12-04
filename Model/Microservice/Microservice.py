@@ -75,9 +75,9 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 
 	price_per_stock = get_price(stock)['last']
 
-	# TODO get bank information from firebase
-	bank_quantity = 
-	bank_gainloss = 
+	bank_info = auth.get_bank_info(SYMBOLS[stock])
+	bank_quantity = bank_info['gain-loss']
+	bank_gainloss = bank_info['stock_num']
 
 	# check if the bank has enough stocks
 	if bank_quantity < int(quantity):
@@ -87,11 +87,14 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 		bank_gainloss = bank_gainloss + (price_per_stock * int(quantity))
 		bank_quantity = bank_quantity - int(quantity)
 
-	# TODO get function to update the quantity in the bank
-	# auth.update_bank()
+	# update bank information in firebase
+	auth.update_bank_info(SYMBOLS[stock], bank_quantity, bank_gainloss)
 
+	account_info = auth.get_account_info(token, accountname)
+	user_gainloss = account_info[SYMBOLS[stock]]['gain-loss'] - (price_per_stock * quantity)
+	user_quantity = account_info[SYMBOLS[stock]]['stock_num'] + quantity
 	# add stocks to the user account
-	auth.update_user_info(token, accountname, SYMBOLS[stock], quantity, -1 * price_per_stock * quantity)
+	auth.update_user_info(token, accountname, SYMBOLS[stock], user_quantity, user_gainloss)
 
 	auth.push_log(TIME.get_timestamp(), "TRANSACTION", "user buys " + str(quantity) + " " + stock + " stocks")
 
@@ -120,7 +123,7 @@ def user_sells_stocks(stock, quantity, token=None):
 
 	return "user sells stocks"
 
-@app.rounte('/api/add_to_balance=<value>/<accountname>/<toke>', methods=["GET"])
+@app.route('/api/add_to_balance=<value>/<accountname>/<toke>', methods=["GET"])
 def user_adds_money(value, accountname, token=None):
 	# TODO validate account name
 	if token is not None:
