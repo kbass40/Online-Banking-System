@@ -1,5 +1,3 @@
-from Model.Database import AuthenticationDatabase as authdb
-from flask import Flask, render_template, request
 import urllib
 import os
 import sys
@@ -9,6 +7,10 @@ from pathlib import Path
 path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
 sys.path.append(str(path) + '//..//..')
+
+from Model.Database import AuthenticationDatabase as authdb
+from flask import Flask, render_template, request
+
 
 
 #import mock_auth, mock_signUp
