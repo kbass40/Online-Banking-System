@@ -82,6 +82,9 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 	bank_quantity = bank_info['gain-loss']
 	bank_gainloss = bank_info['stock_num']
 
+	if get_account_balance(accountname, token) < (price_per_stock * int(quantity)):
+		return "not enough funds"
+
 	# check if the bank has enough stocks
 	if bank_quantity < int(quantity):
 		bank_gainloss = bank_gainloss - (price_per_stock * 5000)
