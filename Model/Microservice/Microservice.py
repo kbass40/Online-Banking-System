@@ -73,6 +73,8 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 		raise TypeError('ERROR: quantity must be of type string')
 	if not quantity.isdigit():
 		raise TypeError('ERROR: Quantity must be of type int')
+	if not auth.is_valid_account_for_user(token, accountname):
+		return "account not found"
 
 	price_per_stock = get_price(stock)['last']
 
@@ -104,8 +106,6 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 
 @app.route('/api/<stock>/sell-stocks=<quantity>/<accountname>/<token>', methods=["GET"])
 def user_sells_stocks(stock, quantity, accountname, token=None):
-	if not auth.is_valid_account_for_user(token, accountname):
-		return "account not found"
 	if stock not in SYMBOLS:
 		return "stock not found"
 	if token is not None:
@@ -121,6 +121,8 @@ def user_sells_stocks(stock, quantity, accountname, token=None):
 		raise TypeError('ERROR: quantity must be of type string')
 	if not quantity.isdigit():
 		raise TypeError('ERROR: Quantity must be of type int')
+	if not auth.is_valid_account_for_user(token, accountname):
+		return "account not found"
 
 	price_per_stock = get_price(stock)['last']
 
@@ -162,6 +164,8 @@ def user_adds_money(value, accountname, token=None):
 		raise TypeError('ERROR: value must be of type string')
 	if not value.isdigit():
 		raise TypeError('ERROR: value must be of type int')
+	if not auth.is_valid_account_for_user(token, accountname):
+		return "account not found"
 
 	auth.update_user_balance(token, accountname, value)
 
@@ -187,6 +191,23 @@ def get_user_accounts(token=None):
 		return {}
 	else:
 		return accounts
+
+@app.route('/api/get-account-balance/<accountname>/<token>', methods=["GET"])
+def get_account_balance(accountname, token=None):
+	if token is not None:
+		try:
+			user = auth._get_userID_from_authID(token)
+			if user is None:
+				return "User not signed in"
+		except:
+			return "Invalid token"
+	else:
+		return "No token"
+
+	if not auth.is_valid_account_for_user(token, accountname):
+		return "account not found"
+
+	return auth.get_account_balance(accountname, token)
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8000)
