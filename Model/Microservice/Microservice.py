@@ -102,8 +102,10 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 	# returns dictionary with 'gain-loss' and 'stock_num'
 	return account_info[SYMBOLS[stock]]
 
-@app.route('/api/<stock>/sell-stocks=<quantity>/<token>', methods=["GET"])
-def user_sells_stocks(stock, quantity, token=None):
+@app.route('/api/<stock>/sell-stocks=<quantity>/<accountname>/<token>', methods=["GET"])
+def user_sells_stocks(stock, quantity, accountname, token=None):
+	if not auth.is_valid_account_for_user(token, accountname):
+		return "account not found"
 	if stock not in SYMBOLS:
 		return "stock not found"
 	if token is not None:
@@ -120,9 +122,25 @@ def user_sells_stocks(stock, quantity, token=None):
 	if not quantity.isdigit():
 		raise TypeError('ERROR: Quantity must be of type int')
 
+	price_per_stock = get_price(stock)['last']
+
+	bank_info = auth.get_bank_info(SYMBOLS[stock])
+	bank_quantity = bank_info['gain-loss'] + (int(quantity) * price_per_stock)
+	bank_gainloss = bank_info['stock_num'] + (int(quantity))
+
+	# update bank information in firebase
+	auth.update_bank_info(SYMBOLS[stock], bank_quantity, bank_gainloss)
+
+	account_info = auth.get_account_info(token, accountname)
+	user_gainloss = account_info[SYMBOLS[stock]]['gain-loss'] + (price_per_stock * int(quantity))
+	user_quantity = account_info[SYMBOLS[stock]]['stock_num'] - int(quantity)
+	# add stocks to the user account
+	auth.update_user_info(token, accountname, SYMBOLS[stock], user_quantity, user_gainloss)
+
 	auth.push_log(TIME.get_timestamp(), "TRANSACTION", "user sells " + str(quantity) + " " + stock + " stocks")
 
-	return "user sells stocks"
+	# returns dictionary with 'gain-loss' and 'stock_num'
+	return account_info[SYMBOLS[stock]]
 
 @app.route('/api/add_to_balance=<value>/<accountname>/<toke>', methods=["GET"])
 def user_adds_money(value, accountname, token=None):
