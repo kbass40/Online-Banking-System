@@ -315,20 +315,31 @@ def accountsPost():
     try:
         authdb.AuthDatabase().create_new_account_for_user(request.cookies.get("authenticated"), name)
     except RuntimeError as e:
-        return e
+        return str(e)
 
     return redirect(url_for('accounts'))
 
 #Dashboard
-@app.route('/Accounts/Dashboard', methods=['POST'])
-def dashboard():
+@app.route('/Accounts/Dashboard/<name>')
+def dashboard(name):
     #get name of the account
-    name =  request.form.get('name')
 
-    #need to add something to get a balance
-    #need to get stock info
+    #Getting Stock info
+    stock_info = authdb.AuthDatabase().get_account_info(request.cookies.get("authenticated"), name)
 
-    return render_template("dashboard.htm")
+
+    return render_template("dashboard.htm", uname=name, bal=stock_info['balance'], appl=stock_info['AAPL']['stock_num'], 
+    goog=stock_info['GOOGL']['stock_num'], fcb=stock_info['FB']['stock_num'], orc=stock_info['ORCL']['stock_num'], 
+    ubi=stock_info['UBSFY']['stock_num'])
+
+@app.route('/Accounts/Dashboard/<name>', methods=['POST'])
+def dashboardPost(name):
+    token = request.cookies.get("authenticated")
+    delta = float(request.form.get("amount"))
+
+    authdb.AuthDatabase().update_user_balance(token, name, delta)
+
+    return redirect(url_for('dashboard', name=name))
     
 
 if __name__ == "__main__":
