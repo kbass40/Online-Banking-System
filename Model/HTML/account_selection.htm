@@ -37,12 +37,17 @@
                 var btn = document.createElement("BUTTON");
                 var cls = document.createAttribute("class");
                 cls.value = "btn";
+                btn.value = l[i];
+                var onclck = document.createAttribute("onclick");
+                onclck.value = "window.location.href='/Accounts/Dashboard/" + btn.value + "'";
+                btn.setAttributeNode(onclck);
                 btn.setAttributeNode(cls);
                 btn.innerHTML = l[i];
+                
 
                 document.getElementById("accounts").insertBefore(btn, parent);
             }
-            
+
             if (len > 2) {
                 document.getElementById("add_button").style.display='none'
             }

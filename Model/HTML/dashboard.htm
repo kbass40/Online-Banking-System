@@ -1,11 +1,75 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <link rel="stylesheet" href="/static/dashboard_style.css">
+    </head>
+
     <body>
-        <h2>Dashboard</h2>
+        <h1>Dashboard</h2>
 
         <!--Username-->
-        <span>{name}</span>
+        <span>Account name: <b>{{uname}}</b></span>
 
-        
+        <p>Balance: <b>{{bal}}</b></p>
+        <button onclick="document.getElementById('deposit').style.display='block'" class="btn" id="add_button">
+                Deposit</button>
+
+        <div id="deposit" class="modal">
+            <form method="post" class="modal-content">
+                <div class="container">
+                    <span onclick="document.getElementById('deposit').style.display='none'" class='close'
+                    title='Close Modal'>&times;</span>
+                    <h2>Deposit</h2>
+                    <!--Creating Amount container-->
+                    <label for="amount" ><b>Amount</b></label><br>
+                    <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                    <br>
+                    <!--Creating submit button-->
+                    <button type="submit" id="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        <h2>Stocks</h2>
+
+        <p id="appl">Apple: {{appl}}</p>
+        <form method="get" action="{{url_for('aple_buy')}}">
+            <button type="submit">Buy Apple Stock</button>
+        </form>
+        <form method="get" action="{{url_for('aple_sell')}}">
+            <button type="submit">Sell Apple Stock</button>
+        </form>
+
+        <p id="goog">Google: {{goog}}</p>
+        <form method="get" action="{{url_for('google_buy')}}">
+            <button type="submit">Buy Google Stock</button>
+        </form>
+        <form method="get" action="{{url_for('google_sell')}}">
+            <button type="submit">Sell Google Stock</button>
+        </form>
+
+        <p id="fcb">Facebook: {{fcb}}</p>
+        <form method="get" action="{{url_for('fbook_buy')}}">
+            <button type="submit">Buy Facebook Stock</button>
+        </form>
+        <form method="get" action="{{url_for('fbook_sell')}}">
+            <button type="submit">Sell Facebook Stock</button>
+        </form>
+
+        <p id="ubi">Ubisoft: {{ubi}}</p>
+        <form method="get" action="{{url_for('ubi_buy')}}">
+            <button type="submit">Buy Ubisoft Stock</button>
+        </form>
+        <form method="get" action="{{url_for('ubi_sell')}}">
+            <button type="submit">Sell Ubisoft Stock</button>
+        </form>
+
+        <p id="orc">Oracle: {{orc}}</p>
+        <form method="get" action="{{url_for('oracle_buy')}}">
+            <button type="submit">Buy Oracle Stock</button>
+        </form>
+        <form method="get" action="{{url_for('oracle_sell')}}">
+            <button type="submit">Sell Oracle Stock</button>
+        </form>
     </body>
 </html>
