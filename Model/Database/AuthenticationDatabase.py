@@ -74,6 +74,11 @@ class AuthDatabase():
         userId = self._get_userID_from_authID(auth_id)
         return self._db.child('users').child(userId).get(auth_id).val()
 
+    # Returns the user's balance for a particular account
+    def get_account_balance(self, auth_id, account_name):
+        user_id = self._get_userID_from_authID(auth_id)
+        return self._db.child('users').child(user_id).child(account_name).child('balance').get(auth_id).val()
+
     # Returns all the info for a user account
     def get_account_info(self,auth_id,account_name):
         user_id = self._get_userID_from_authID(auth_id)
@@ -241,26 +246,27 @@ class AuthDatabase():
 
 #''' The following is a complete test that creates an account
 myDb = AuthDatabase()
-#myDb.create_new_user('dt@email.com','password123')
+#myDb.create_new_user('kyle84684.5@email.com','password123')
 auth_id = myDb.authenticate_user_via_email_password('kyle84684.5@email.com','password123')
 #admin_id = myDb.authenticate_user_via_email_password('admin@admin.com','admin1')
 #myDb.get_all_logs(admin_id)
 
-myDb.update_bank_info(stock_symbols[0],5,213.25)
-print(myDb.get_bank_info(stock_symbols[0]))
+#myDb.update_bank_info(stock_symbols[0],5,213.25)
+print(myDb.get_account_balance(auth_id,'Account v1'))
 #myDb.push_log('2019-11-14 15:11:36',log_message='TESTING LOGGING FUNCTIONALITY')
-'''
+
 #myDb.update_user_info(auth_id,'Account v1',stock_symbols[0],200,1520.24)
 #myDb.update_user_balance(auth_id,'Account v1',20.24)
 #myDb.create_new_account_for_user(auth_id,'Account v1')
 #myDb.create_new_account_for_user(auth_id,'Account v2')
 #myDb.create_new_account_for_user(auth_id,'Account v3')
-
+'''
 #try:
     myDb.create_new_account_for_user(auth_id,'Account v4')
 except RuntimeError:
     print('Stopped adding an invalid number of accounts')
 
-#myDb.delete_autheticated_user_from_auth_id(auth_id)
 #myDb.delete_all_users()
 #'''
+
+#myDb.delete_autheticated_user_from_auth_id(auth_id)
