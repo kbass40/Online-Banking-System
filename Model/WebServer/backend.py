@@ -49,6 +49,8 @@ def loginPost():
     response = app.make_response(redirect(url_for("accounts")))
     response.set_cookie("authenticated", value=token)
 
+    print(token)
+
     return response
 
 

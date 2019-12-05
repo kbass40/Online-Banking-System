@@ -100,7 +100,7 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 	auth.push_log(TIME.get_timestamp(), "TRANSACTION", "user buys " + str(quantity) + " " + stock + " stocks")
 
 	# returns dictionary with 'gain-loss' and 'stock_num'
-	return account_info[SYMBOLS[stock]]
+	return auth.get_account_info(token, accountname)[SYMBOLS[stock]]
 
 @app.route('/api/<stock>/sell-stocks=<quantity>/<accountname>/<token>', methods=["GET"])
 def user_sells_stocks(stock, quantity, accountname, token=None):
@@ -125,14 +125,18 @@ def user_sells_stocks(stock, quantity, accountname, token=None):
 	price_per_stock = get_price(stock)['last']
 
 	bank_info = auth.get_bank_info(SYMBOLS[stock])
-	bank_quantity = bank_info['gain-loss'] + (int(quantity) * price_per_stock)
-	bank_gainloss = bank_info['stock_num'] + (int(quantity))
-
-	# update bank information in firebase
-	auth.update_bank_info(SYMBOLS[stock], bank_quantity, bank_gainloss)
+	bank_gainloss = bank_info['gain-loss'] - (int(quantity) * price_per_stock)
+	bank_quantity = bank_info['stock_num'] + (int(quantity))
 
 	account_info = auth.get_account_info(token, accountname)
-	user_gainloss = account_info[SYMBOLS[stock]]['gain-loss'] + (price_per_stock * int(quantity))
+
+	if account_info[SYMBOLS[stock]]['stock_num'] < int(quantity):
+		return "not enough stocks to sell"
+
+	# update bank information in firebase
+	auth.update_bank_info(SYMBOLS[stock], stock_amt=bank_quantity, gainloss=bank_gainloss)
+
+	user_gainloss = account_info[SYMBOLS[stock]]['gain-loss'] + (int(quantity) * price_per_stock)
 	user_quantity = account_info[SYMBOLS[stock]]['stock_num'] - int(quantity)
 	# add stocks to the user account
 	auth.update_user_info(token, accountname, SYMBOLS[stock], user_quantity, user_gainloss)
@@ -140,7 +144,7 @@ def user_sells_stocks(stock, quantity, accountname, token=None):
 	auth.push_log(TIME.get_timestamp(), "TRANSACTION", "user sells " + str(quantity) + " " + stock + " stocks")
 
 	# returns dictionary with 'gain-loss' and 'stock_num'
-	return account_info[SYMBOLS[stock]]
+	return auth.get_account_info(token, accountname)[SYMBOLS[stock]]
 
 @app.route('/api/add_to_balance=<value>/<accountname>/<toke>', methods=["GET"])
 def user_adds_money(value, accountname, token=None):
