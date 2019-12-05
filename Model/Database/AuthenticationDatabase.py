@@ -150,7 +150,7 @@ class AuthDatabase():
         if symbol not in stock_symbols:
             raise ValueError('ERROR symbol must be within the approved stock microservices')
 
-        return self._db.child('admin').child('bank').child(symbol).update({'stock_num':stock_amt,'gain-loss':gainloss})
+        return self._db.child('admin').child('bank').child(symbol).update({'gain-loss':gainloss,'stock_num':stock_amt})
 
     # Checks if an account name is valid for a user
     def is_valid_account_for_user(self, auth_id, account_name):
@@ -175,7 +175,7 @@ class AuthDatabase():
             raise ValueError('ERROR account name must be valid for this user')
 
         self._db.child('users').child(user_id).child(account_name).child(symbol).update({'stock_num':amount},auth_id)
-        self._db.child('users').child(user_id).child(account_name).child(symbol).update({'gain-loss':old_amt['gain-loss']+gainloss},auth_id)
+        self._db.child('users').child(user_id).child(account_name).child(symbol).update({'gain-loss':gainloss},auth_id)
 
     # Updates the user's balance by specified delta amount
     def update_user_balance(self, auth_id, account_name, delta):
