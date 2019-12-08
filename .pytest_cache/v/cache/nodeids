@@ -1,1 +1,13 @@
-[]
+[
+  "Tests/test_Apple.py::test_fail_buy_stocks_from_invalid_quantity_type",
+  "Tests/test_Apple.py::test_fail_buy_stocks_from_non_int_quantity_type",
+  "Tests/test_Apple.py::test_fail_buy_stocks_from_raw_int_quantity_type",
+  "Tests/test_Apple.py::test_fail_sell_stocks_from_invalid_quantity_type",
+  "Tests/test_Apple.py::test_fail_sell_stocks_from_non_int_quantity_type",
+  "Tests/test_Apple.py::test_fail_sell_stocks_from_raw_int_quantity_type",
+  "Tests/test_Apple.py::test_jsonify",
+  "Tests/test_Logger.py::test_log_transaction_message_failure",
+  "Tests/test_Logger.py::test_log_transaction_typing_failure",
+  "Tests/test_Logger.py::test_log_transaction",
+  "Tests/test_Logger.py::test_print_Logger"
+]

@@ -46,7 +46,7 @@ class AuthDatabase():
         self._db = self._firebase.database()
 
         if (not len(firebase_admin._apps)):
-            cred = credentials.Certificate(str(Path(__file__).parent)+"\\firebase-admin-sdk.json")
+            cred = credentials.Certificate(str(Path(__file__).parent)+"/firebase-admin-sdk.json")
             firebase_admin.initialize_app(cred)
 
     # Function to return user api key info based on their email and password
