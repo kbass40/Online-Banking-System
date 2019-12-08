@@ -8,8 +8,8 @@ matrix:
           - travis_ci_test
       before_install:
         - pip install pytest-cov
-      # install: 
-      #   # - pip install -r requirements.txt
+      install: 
+        - pip install -r requirements.txt
       script:
         - pytest ./Tests/test_Apple.py
 
