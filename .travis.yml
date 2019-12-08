@@ -1,32 +1,39 @@
-matrix:
+language: python
+python:
+  - "3.6"
+node_js:
+  - 4.8
+
+branches:
+  # whitelist
+  only:
+    - travis_ci_test
+
+addons:
+  apt:
+    packages:
+      - ca-certificates
+
+before_install:
+  - pip install pytest-cov
+  - npm install cypress --save-dev
+
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+
+jobs:
   include:
-    - language: python
-      python: 
-        - 3.7
-      branches:
-        only:
-          - travis_ci_test
-      before_install:
-        - pip install pytest-cov
-      install: 
-        - pip install -r requirements.txt
-      script:
-        - pytest ./Tests/test_Apple.py
-        - pytest ./Tests/test_Apple.py
-        - pytest ./Tests/test_Facebook.py
-        - pytest ./Tests/test_Google.py
-        - pytest ./Tests/test_Oracle.py
-        - pytest ./Tests/test_Ubisoft.py
+    - stage: "Authentication Tests"
+      script: 
+        - pytest ./Tests/test_AuthDB.py
 
-    - language: node_js
-      node_js:
-        - 4.8
-      before_install:
-        - npm install cypress --save-dev
-      script:
-        - python3 ./Model/WebServer/backend.py
+    - stage: "Cypress Tests"
+      script: 
+        - python3 ./Model/WebServer/backend.py & APP_PID=$!
         - $(npm bin)/cypress run
+        - kill APP_PID
 
-notifications:
-  email:
-    - moolchanddanny@hotmail.com
+stages:
+  - Authentication Tests
+  - Cypress Tests

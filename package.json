@@ -1,6 +1,12 @@
 {
   "lockfileVersion": 1,
   "devDependencies": {
-    "cypress": "^3.7.0"
+    "cypress": "^3.7.0",
+    "start-server-and-test": "^1.10.6"
+  },
+  "scripts": {
+    "ci:start-server": "python3 ./Model/WebServer/backend.py & APP_PID=$!",
+    "cy:run": "cypress run",
+    "ci:cy-run": "start-server-and-test ci:start-server http://localhost:5000 cy:run"
   }
 }
