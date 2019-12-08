@@ -24,8 +24,8 @@ matrix:
       before_install:
         - npm install cypress --save-dev
       script:
-        - python ./Model/WebServer/backend.py
-        - npm run cpyress:run
+        - python3 ./Model/WebServer/backend.py
+        - $(npm bin)/cypress run
 
 notifications:
   email:
