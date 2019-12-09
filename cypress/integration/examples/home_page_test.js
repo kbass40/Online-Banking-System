@@ -9,7 +9,4 @@ describe('The Home Page', function() {
       cy.get('h2').should('have.value', 'Sign up failed')
 
     })
-
-
-
   })
