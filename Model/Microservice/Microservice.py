@@ -208,7 +208,7 @@ def get_account_balance(accountname, token=None):
 	if not auth.is_valid_account_for_user(token, accountname):
 		return "account not found"
 
-	return auth.get_account_balance(accountname, token)
+	return auth.get_account_balance(token, accountname)
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8000)
