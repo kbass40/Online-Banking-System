@@ -1,31 +1,28 @@
-from Model.Apple import Apple as APPLE
+from Model.Microservice import Microservice as APPLE
 import pytest
+
+STOCK = APPLE
 
 def test_fail_buy_stocks_from_invalid_quantity_type():
     with pytest.raises(TypeError):
-        APPLE.user_buys_stocks(None)
+        APPLE.user_buys_stocks(STOCK, None, None)
 
 def test_fail_buy_stocks_from_non_int_quantity_type():
     with pytest.raises(TypeError):
-        APPLE.user_buys_stocks("24.444")
+        APPLE.user_buys_stocks(STOCK, "24.444", "testAccountName")
 
 def test_fail_buy_stocks_from_raw_int_quantity_type():
     with pytest.raises(TypeError):
-        APPLE.user_buys_stocks(52)
+        APPLE.user_buys_stocks(STOCK, 52, "testAccountName")
 
 def test_fail_sell_stocks_from_invalid_quantity_type():
     with pytest.raises(TypeError):
-        APPLE.user_sells_stocks(None)
+        APPLE.user_sells_stocks(STOCK, None, None)
 
 def test_fail_sell_stocks_from_non_int_quantity_type():
     with pytest.raises(TypeError):
-        APPLE.user_sells_stocks("25.99999")
+        APPLE.user_sells_stocks(STOCK, "25.9999", "testAccountName")
 
 def test_fail_sell_stocks_from_raw_int_quantity_type():
     with pytest.raises(TypeError):
-        APPLE.user_buys_stocks(25)
-        
-def test_jsonify():
-	dict = [("-282050.0","5000"), ("-451280.0", "8000")]
-	json = APPLE.jsonify(dict)
-	assert json == {1:{"gainloss":"-282050.0","quantity":"5000"},2:{"gainloss":"-451280.0","quantity":"8000"}}
+        APPLE.user_buys_stocks(STOCK, 25, "testAccountName")
