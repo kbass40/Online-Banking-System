@@ -181,7 +181,7 @@ def fbook_sell_post():
 def aple():
     return render_template('aple.htm')
 
-@app.route('/Microservices/Google/Price')
+@app.route('/Microservices/Apple/Price')
 def aple_price():
     return json2html.convert(json=requests.get("http://localhost:8000/api/apple/get-last").text)
 
