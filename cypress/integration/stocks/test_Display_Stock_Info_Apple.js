@@ -9,6 +9,7 @@ describe('Successfully Show Stock Prices for a Microservice', function() {
         cy.get('[action="/Microservices/Apple/Buy"] > button').click()
         cy.get('#Microservices').click()
         cy.get('#get-last').click()
+        cy.get('tr').eq(0).should('contain', 'Apple Inc')
     });
 }
 );
