@@ -345,6 +345,7 @@ def dashboardPost(name):
     token = request.cookies.get("authenticated")
     delta = request.form.get("amount")
     stock_name = request.form.get("stock")
+    buy_sell = request.form.get("buy_sell")
 
     if delta.isdigit():
         delta = float(delta)
@@ -352,10 +353,12 @@ def dashboardPost(name):
         return redirect(url_for('dashboard', name=name))
 
     if stock_name is not None:
-        url = "http://localhost:8000/api/<stock>/buy-stocks=<quantity>/<accountname>/<token>"
-        temp = requests.get(url, params={'stock': stock_name, 'quantity': int(delta), 'accountname': name, 'token':token})
-        print(temp)
-        print("##############################")
+        if buy_sell in "buy":
+            url = "http://localhost:8000/api/" + stock_name + "/" + buy_sell + "-stocks=" + str(int(delta)) + "/" + name + "/" + token
+            requests.get(url)
+        elif buy_sell in "sell":
+            url = "http://localhost:8000/api/" + stock_name + "/" + buy_sell + "-stocks=" + str(int(delta)) + "/" + name + "/" + token
+            requests.get(url)
 
     else:
         authdb.AuthDatabase().update_user_balance(token, name, delta)
