@@ -1397,5 +1397,11 @@
   "env/Lib/site-packages/yapftests/yapf_test.py::HorizontallyAlignedTrailingCommentsTest::testBlockWithLongLine",
   "env/Lib/site-packages/yapftests/yapf_test.py::HorizontallyAlignedTrailingCommentsTest::testDisableBlock",
   "env/Lib/site-packages/yapftests/yapf_test.py::HorizontallyAlignedTrailingCommentsTest::testDisabledLine",
-  "env/Lib/site-packages/yapftests/yapf_test.py::HorizontallyAlignedTrailingCommentsTest::testSimple"
+  "env/Lib/site-packages/yapftests/yapf_test.py::HorizontallyAlignedTrailingCommentsTest::testSimple",
+  "Tests/test_Apple.py::test_fail_buy_stocks_from_invalid_quantity_type",
+  "Tests/test_Apple.py::test_fail_buy_stocks_from_non_int_quantity_type",
+  "Tests/test_Apple.py::test_fail_buy_stocks_from_raw_int_quantity_type",
+  "Tests/test_Apple.py::test_fail_sell_stocks_from_invalid_quantity_type",
+  "Tests/test_Apple.py::test_fail_sell_stocks_from_non_int_quantity_type",
+  "Tests/test_Apple.py::test_fail_sell_stocks_from_raw_int_quantity_type"
 ]

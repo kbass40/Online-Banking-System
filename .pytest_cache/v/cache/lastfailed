@@ -1,5 +1,11 @@
 {
   "Model/Oracle/test_Oracle.py": true,
+  "Tests/test_Apple.py::test_fail_buy_stocks_from_invalid_quantity_type": true,
+  "Tests/test_Apple.py::test_fail_buy_stocks_from_non_int_quantity_type": true,
+  "Tests/test_Apple.py::test_fail_buy_stocks_from_raw_int_quantity_type": true,
+  "Tests/test_Apple.py::test_fail_sell_stocks_from_invalid_quantity_type": true,
+  "Tests/test_Apple.py::test_fail_sell_stocks_from_non_int_quantity_type": true,
+  "Tests/test_Apple.py::test_fail_sell_stocks_from_raw_int_quantity_type": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_AES.py": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_ARC2.py": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_ARC4.py": true,
