@@ -1,8 +1,5 @@
 runtime: python37
-<<<<<<< HEAD
-=======
 env: flex
->>>>>>> milestone2_travis_integration
 
 entrypoint: gunicorn -b :$PORT main:app
 
