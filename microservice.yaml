@@ -1,6 +1,6 @@
 runtime: python37
-
-entrypoint: gunicorn -b :$PORT main:app
+service: stocks
+entrypoint: gunicorn -b :$PORT microservice:app
 
 env_variables:
   API_KEY: "AIzaSyCBNsjeqTwLByOJdGKqaY5VyWvcjJe8UTY"
@@ -9,4 +9,4 @@ env_variables:
 handlers:
 - url: /.*
   script: auto
-# [END handlers]
+# [END handlers]goog

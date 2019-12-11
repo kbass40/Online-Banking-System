@@ -18,6 +18,11 @@ template_dir = str(path) + '//..//HTML'
 app = Flask(__name__, template_folder=template_dir, static_folder=template_dir + "/static")
 print(app.static_folder)
 
+
+curr_url = "https://avid-circle-257318.appspot.com/"
+# curr_url = "http://localhost:8000/"
+
+
 @app.route('/')
 def home():
     return render_template('home.htm')
@@ -66,7 +71,7 @@ def ubi():
 
 @app.route('/Microservices/Ubisoft/Price')
 def ubi_price():
-    return json2html.convert(json=requests.get("http://localhost:8000/api/ubisoft/get-last").text)
+    return json2html.convert(json=requests.get(curr_url + "api/ubisoft/get-last").text)
 
 #Ubisoft buy and sell
 @app.route('/Microservices/Ubisoft/Buy')
@@ -81,7 +86,7 @@ def ubi_buy_post():
         #placeholder
         return 'Need a token'
 
-    return json2html.convert(json=requests.get("http://localhost:8000/api/ubisoft/buy-stocks=" + quantity + "/" + token).text)
+    return json2html.convert(json=requests.get(curr_url + "api/ubisoft/buy-stocks=" + quantity + "/" + token).text)
 
 @app.route('/Microservices/Ubisoft/Sell')
 def ubi_sell():
@@ -95,7 +100,7 @@ def ubi_sell_post():
         #placeholder
         return 'Need a token'
 
-    return json2html.convert(json=requests.get("http://localhost:8000/api/ubisoft/sell-stocks=" + quantity + "/" + token).text)
+    return json2html.convert(json=requests.get(curr_url + "api/ubisoft/sell-stocks=" + quantity + "/" + token).text)
 
 #Google microservice web page 
 #Google get price
@@ -105,7 +110,7 @@ def google():
 
 @app.route('/Microservices/Google/Price')
 def google_price():
-    return json2html.convert(json=requests.get("http://localhost:8000/api/google/get-last").text)
+    return json2html.convert(json=requests.get(curr_url + "api/google/get-last").text)
 
 #Google buy and sell
 @app.route('/Microservices/Google/Buy')
@@ -120,7 +125,7 @@ def google_buy_post():
         #placeholder
         return 'Need a token'
 
-    return json2html.convert(json=requests.get("http://localhost:8000/api/google/buy-stocks=" + quantity + "/" + token).text)
+    return json2html.convert(json=requests.get(curr_url + "api/google/buy-stocks=" + quantity + "/" + token).text)
 
 @app.route('/Microservices/Google/Sell')
 def google_sell():
@@ -134,7 +139,7 @@ def google_sell_post():
         #placeholder
         return 'Need a token'
 
-    return json2html.convert(json=requests.get("http://localhost:8000/api/google/sell-stocks=" + quantity + "/" + token).text)
+    return json2html.convert(json=requests.get(curr_url + "api/google/sell-stocks=" + quantity + "/" + token).text)
 
 #Facebook microservice web page 
 #Facebook get price
@@ -144,7 +149,7 @@ def fbook():
 
 @app.route('/Microservices/Facebook/Price')
 def fbook_price():
-    return json2html.convert(json=requests.get("http://localhost:8000/api/facebook/get-last").text)
+    return json2html.convert(json=requests.get(curr_url + "api/facebook/get-last").text)
 
 #Facebook buy and sell
 @app.route('/Microservices/Facebook/Buy')
@@ -159,7 +164,7 @@ def fbook_buy_post():
         #placeholder
         return 'Need a token'
 
-    return json2html.convert(json=requests.get("http://localhost:8000/api/facebook/buy-stocks=" + quantity + "/" + token).text)
+    return json2html.convert(json=requests.get(curr_url + "api/facebook/buy-stocks=" + quantity + "/" + token).text)
 
 @app.route('/Microservices/Facebook/Sell')
 def fbook_sell():
@@ -173,7 +178,7 @@ def fbook_sell_post():
         #placeholder
         return 'Need a token'
 
-    return json2html.convert(json=requests.get("http://localhost:8000/api/facebook/sell-stocks=" + quantity + "/" + token).text)
+    return json2html.convert(json=requests.get(curr_url + "api/facebook/sell-stocks=" + quantity + "/" + token).text)
 
 #Apple microservice web page 
 #Apple get price
@@ -183,7 +188,7 @@ def aple():
 
 @app.route('/Microservices/Apple/Price')
 def aple_price():
-    return json2html.convert(json=requests.get("http://localhost:8000/api/apple/get-last").text)
+    return json2html.convert(json=requests.get(curr_url + "api/apple/get-last").text)
 
 #Apple buy and sell
 @app.route('/Microservices/Apple/Buy')
@@ -198,7 +203,7 @@ def aple_buy_post():
         #placeholder
         return 'Need a token'
 
-    return json2html.convert(json=requests.get("http://localhost:8000/api/apple/buy-stocks=" + quantity + "/" + token).text)
+    return json2html.convert(json=requests.get(curr_url + "api/apple/buy-stocks=" + quantity + "/" + token).text)
 
 @app.route('/Microservices/Apple/Sell')
 def aple_sell():
@@ -212,7 +217,7 @@ def aple_sell_post():
         #placeholder
         return 'Need a token'
 
-    return json2html.convert(json=requests.get("http://localhost:8000/api/apple/sell-stocks=" + quantity + "/" + token).text)
+    return json2html.convert(json=requests.get(curr_url + "api/apple/sell-stocks=" + quantity + "/" + token).text)
 
 #Oracle microservice web page 
 #Oracle get price
@@ -222,7 +227,7 @@ def oracle():
 
 @app.route('/Microservices/Oracle/Price')
 def oracle_price():
-    return json2html.convert(json=requests.get("http://localhost:8000/api/oracle/get-last").text)
+    return json2html.convert(json=requests.get(curr_url + "api/oracle/get-last").text)
 
 #Oracle buy and sell
 @app.route('/Microservices/Oracle/Buy')
@@ -237,7 +242,7 @@ def oracle_buy_post():
         #placeholder
         return 'Need a token'
 
-    return json2html.convert(json=requests.get("http://localhost:8000/api/oracle/buy-stocks=" + quantity + "/" + token).text)
+    return json2html.convert(json=requests.get(curr_url + "api/oracle/buy-stocks=" + quantity + "/" + token).text)
 
 @app.route('/Microservices/Oracle/Sell')
 def oracle_sell():
@@ -251,7 +256,7 @@ def oracle_sell_post():
         #placeholder
         return 'Need a token'
 
-    return json2html.convert(json=requests.get("http://localhost:8000/api/oracle/sell-stocks=" + quantity + "/" + token).text)
+    return json2html.convert(json=requests.get(curr_url + "api/oracle/sell-stocks=" + quantity + "/" + token).text)
 
 #Sign up page initialization
 @app.route('/SignUp')
@@ -328,11 +333,11 @@ def dashboard(name):
     stock_info = authdb.AuthDatabase().get_account_info(request.cookies.get("authenticated"), name)
 
     #stock prices
-    appl_stock = requests.get("http://localhost:8000/api/apple/get-last").json()["last"]
-    goog_stock = requests.get("http://localhost:8000/api/google/get-last").json()["last"]
-    fcb_stock = requests.get("http://localhost:8000/api/facebook/get-last").json()["last"]
-    ubi_stock = requests.get("http://localhost:8000/api/ubisoft/get-last").json()["last"]
-    orc_stock = requests.get("http://localhost:8000/api/oracle/get-last").json()["last"]
+    appl_stock = requests.get(curr_url + "api/apple/get-last").json()["last"]
+    goog_stock = requests.get(curr_url + "api/google/get-last").json()["last"]
+    fcb_stock = requests.get(curr_url + "api/facebook/get-last").json()["last"]
+    ubi_stock = requests.get(curr_url + "api/ubisoft/get-last").json()["last"]
+    orc_stock = requests.get(curr_url + "api/oracle/get-last").json()["last"]
 
 
     return render_template("dashboard.htm", uname=name, bal=stock_info['balance'], appl=stock_info['AAPL']['stock_num'], 
@@ -354,10 +359,10 @@ def dashboardPost(name):
 
     if stock_name is not None:
         if buy_sell in "buy":
-            url = "http://localhost:8000/api/" + stock_name + "/" + buy_sell + "-stocks=" + str(int(delta)) + "/" + name + "/" + token
+            url = curr_url + "api/" + stock_name + "/" + buy_sell + "-stocks=" + str(int(delta)) + "/" + name + "/" + token
             requests.get(url)
         elif buy_sell in "sell":
-            url = "http://localhost:8000/api/" + stock_name + "/" + buy_sell + "-stocks=" + str(int(delta)) + "/" + name + "/" + token
+            url = curr_url + "api/" + stock_name + "/" + buy_sell + "-stocks=" + str(int(delta)) + "/" + name + "/" + token
             requests.get(url)
 
     else:
@@ -367,4 +372,5 @@ def dashboardPost(name):
     
 
 if __name__ == "__main__":
+    curr_url = "http://localhost:8000/"
     app.run()

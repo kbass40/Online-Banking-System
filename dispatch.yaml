@@ -1,0 +1,12 @@
+dispatch:
+  # Default service serves the typical web resources and all static resources.
+  - url: "*/favicon.ico"
+    service: default
+
+  # Default service serves simple hostname request.
+  - url: "avid-circle-257318.appspot.com/"
+    service: default
+
+  # Send all api traffic to the api service.
+  - url: "*/api/*"
+    service: stocks
