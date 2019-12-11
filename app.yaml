@@ -1,10 +1,9 @@
 runtime: python37
-env: flex
 
 entrypoint: gunicorn -b :$PORT main:app
 
 # [START handlers]
 handlers:
-- url: /(.*)
+- url: /.*
   script: auto
 # [END handlers]
