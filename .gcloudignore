@@ -12,15 +12,15 @@
 # below:
 .git
 .gitignore
-node_modules
-package-lock.json
-cypress.json
-docker-compose.yml
+node_modules/**
+/package-lock.json
+/cypress.json
+/docker-compose.yml
 .vscode
-cypress
-.travis.yml
-GWT-Tests.md
-MicroservicesAPI.yaml
+cypress/**
+/.travis.yml
+/GWT-Tests.md
+/MicroservicesAPI.yaml
 
 # Python pycache:
 __pycache__/
