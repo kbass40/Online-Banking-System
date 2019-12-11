@@ -86,7 +86,6 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 		bank_quantity = bank_quantity - int(quantity)
 
 	# update bank information in firebase
-	print(bank_quantity)
 	auth.update_bank_info(SYMBOLS[stock], stock_amt=bank_quantity, gainloss=bank_gainloss)
 
 	account_info = auth.get_account_info(token, accountname)
