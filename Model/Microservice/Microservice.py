@@ -56,7 +56,10 @@ def get_price(stock):
 
 @app.route('/api/<stock>/buy-stocks=<quantity>/<accountname>/<token>', methods=["GET"])
 def user_buys_stocks(stock, quantity, accountname, token=None):
+<<<<<<< HEAD
 	validateToken(token)
+=======
+>>>>>>> 57c4df12f54e2380f4cf24902d9f6586a2d67d4f
 	if stock not in SYMBOLS:
 		return "stock not found"
 	if not isinstance(quantity,str):
@@ -180,5 +183,13 @@ def validateToken(token):
 	else:
 		return "No token"
 
+<<<<<<< HEAD
+=======
+	if not auth.is_valid_account_for_user(token, accountname):
+		return "account not found"
+
+	return auth.get_account_balance(token, accountname)
+
+>>>>>>> 57c4df12f54e2380f4cf24902d9f6586a2d67d4f
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8000)
