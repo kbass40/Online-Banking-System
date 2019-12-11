@@ -7,22 +7,16 @@
     <body>
         <h1>Admin Dashboard</h2>
 
-        <!--Username-->
-        <span>Account name: <b>{{uname}}</b></span>
-
-        <p>Balance: <b>{{bal}}</b></p>
-        <button onclick="document.getElementById('deposit').style.display='block'" class="btn" id="add_button">
-                Deposit</button>
-
-        <div id="deposit" class="modal">
+        <! -- Search for a user -->
+        <div id="searchUser" class="modal">
             <form method="post" class="modal-content">
                 <div class="container">
                     <span onclick="document.getElementById('deposit').style.display='none'" class='close'
                     title='Close Modal'>&times;</span>
-                    <h2>Deposit</h2>
+                    <h2 class="modal-title">Enter User</h2>
                     <!--Creating Amount container-->
-                    <label for="amount" ><b>User</b></label><br>
-                    <input type="text" placeholder="Joe Shmoe" name="amount" id="amount" required><br>
+                    <label for="user" ><b>User:</b></label><br>
+                    <input type="text" placeholder="Joe Shmoe" name="user" id="user" required><br>
                     <br>
                     <!--Creating submit button-->
                     <button type="submit" id="submit">Submit</button>
@@ -30,81 +24,31 @@
             </form>
         </div>
 
-        <h2>Stocks</h2>
+        <h2>User Information</h2>
 
-        <div class="apple">
-            <p id="apple_text">Apple: {{appl}}</p>
-            <p class="stock-price">Price: {{appl_price}}</p>
-            <form method="get" action="{{url_for('aple_buy')}}">
-                <button type="submit">Buy Apple Stock</button>
-            </form>
-            <form method="get" action="{{url_for('aple_sell')}}">
-                <button type="submit">Sell Apple Stock</button>
-            </form>
+        <! -- See user's account balance -->
+        <div class="balance">
+            <p id="balance">Account Balance: {{balance}}</p>
         </div>
 
-        <div class="google">
-            <p id="google_text">Google: {{goog}}</p>
-            <p class="stock-price">Price: {{goog_price}}</p>
-            <form method="get" action="{{url_for('google_buy')}}">
-                <button type="submit">Buy Google Stock</button>
-            </form>
-            <form method="get" action="{{url_for('google_sell')}}">
-                <button type="submit">Sell Google Stock</button>
-            </form>
+
+        <h2>Bank Information</h2>
+
+        <! -- See banking account number of user -->
+        <div class="accountNum">
+            <p id="accountNum">Account Number: {{acctNum}}</p>
         </div>
+        
+        <h2>System Logs</h2>
 
-        <div class="facebook">
-            <p id="facebook_text">Facebook: {{fcb}}</p>
-            <p class="stock-price">Price: {{fcb_price}}</p>
-            <form method="get" action="{{url_for('fbook_buy')}}">
-                <button type="submit">Buy Facebook Stock</button>
-            </form>
-            <form method="get" action="{{url_for('fbook_sell')}}">
-                <button type="submit">Sell Facebook Stock</button>
-            </form>
-        </div>
+        <! -- Get current logs  -->
 
-        <div class="ubisoft">
-            <p id="ubisoft_text">Ubisoft: {{ubi}}</p>
-            <p class="stock-price">Price: {{ubi_price}}</p>
-            <form method="get" action="{{url_for('ubi_buy')}}">
-                <button type="submit">Buy Ubisoft Stock</button>
-            </form>
-            <form method="get" action="{{url_for('ubi_sell')}}">
-                <button type="submit">Sell Ubisoft Stock</button>
-            </form>
-        </div>
-
-        <div class="oracle">
-            <p id="orc">Oracle: {{orc}}</p>
-            <p class="stock-price">Price: {{orc_price}}</p>
-
-            <button onclick="document.getElementById('buy_oracle').style.display='block'">Buy Oracle Stock</button>
-            <div id="buy_oracle" class="modal">
-                    <form method="post" class="modal-content">
-                        <div class="container">
-                            <span onclick="document.getElementById('deposit').style.display='none'" class='close'
-                            title='Close Modal'>&times;</span>
-                            <h2>Buy Oracle Stock</h2>
-                            <!--Creating Amount container-->
-                            <label for="amount" ><b>Amount</b></label><br>
-                            <input type="hidden" name="stock" value="oracle">
-                            <input type="text" placeholder="1000" name="amount" id="amount" required><br>
-                            <br>
-                            <!--Creating submit button-->
-                            <button type="submit" id="submit">Submit</button>
-                        </div>
-                    </form>
-                </div>
-
-
-            <button type="submit">View Current Logs</button>
-        </div>
-
+        
+       
+       <! -- Refresh to see any changes -->
         <div class="refresh">
             <form method="get">
-                <button type="submit" id="refresh_button">Refresh Stock Prices</button>
+                <button type="submit" id="refresh_button">Refresh System Logs</button>
             </form>
         </div>
     </body>
