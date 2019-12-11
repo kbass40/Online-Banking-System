@@ -327,17 +327,41 @@ def dashboard(name):
     #Getting Stock info
     stock_info = authdb.AuthDatabase().get_account_info(request.cookies.get("authenticated"), name)
 
+    #stock prices
+    appl_stock = requests.get("http://localhost:8000/api/apple/get-last").json()["last"]
+    goog_stock = requests.get("http://localhost:8000/api/google/get-last").json()["last"]
+    fcb_stock = requests.get("http://localhost:8000/api/facebook/get-last").json()["last"]
+    ubi_stock = requests.get("http://localhost:8000/api/ubisoft/get-last").json()["last"]
+    orc_stock = requests.get("http://localhost:8000/api/oracle/get-last").json()["last"]
+
 
     return render_template("dashboard.htm", uname=name, bal=stock_info['balance'], appl=stock_info['AAPL']['stock_num'], 
     goog=stock_info['GOOGL']['stock_num'], fcb=stock_info['FB']['stock_num'], orc=stock_info['ORCL']['stock_num'], 
-    ubi=stock_info['UBSFY']['stock_num'])
+    ubi=stock_info['UBSFY']['stock_num'], appl_price=appl_stock, goog_price=goog_stock,
+    fcb_price=fcb_stock, ubi_price=ubi_stock, orc_price=orc_stock)
 
 @app.route('/Accounts/Dashboard/<name>', methods=['POST'])
 def dashboardPost(name):
     token = request.cookies.get("authenticated")
-    delta = float(request.form.get("amount"))
+    delta = request.form.get("amount")
+    stock_name = request.form.get("stock")
+    buy_sell = request.form.get("buy_sell")
 
-    authdb.AuthDatabase().update_user_balance(token, name, delta)
+    if delta.isdigit():
+        delta = float(delta)
+    else:
+        return redirect(url_for('dashboard', name=name))
+
+    if stock_name is not None:
+        if buy_sell in "buy":
+            url = "http://localhost:8000/api/" + stock_name + "/" + buy_sell + "-stocks=" + str(int(delta)) + "/" + name + "/" + token
+            requests.get(url)
+        elif buy_sell in "sell":
+            url = "http://localhost:8000/api/" + stock_name + "/" + buy_sell + "-stocks=" + str(int(delta)) + "/" + name + "/" + token
+            requests.get(url)
+
+    else:
+        authdb.AuthDatabase().update_user_balance(token, name, delta)
 
     return redirect(url_for('dashboard', name=name))
     
