@@ -56,10 +56,9 @@ def get_price(stock):
 
 @app.route('/api/<stock>/buy-stocks=<quantity>/<accountname>/<token>', methods=["GET"])
 def user_buys_stocks(stock, quantity, accountname, token=None):
-<<<<<<< HEAD
-	validateToken(token)
-=======
->>>>>>> 57c4df12f54e2380f4cf24902d9f6586a2d67d4f
+	validToken = validateToken(token)
+	if validToken is not None:
+		return validToken
 	if stock not in SYMBOLS:
 		return "stock not found"
 	if not isinstance(quantity,str):
@@ -95,6 +94,8 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 	# add stocks to the user account
 	auth.update_user_info(token, accountname, SYMBOLS[stock], user_quantity, user_gainloss)
 
+	user_adds_money(str(-1 * price_per_stock * int(quantity)), accountname, token)
+
 	auth.push_log(TIME.get_timestamp(), "TRANSACTION", "user buys " + str(quantity) + " " + stock + " stocks")
 
 	# returns dictionary with 'gain-loss' and 'stock_num'
@@ -104,7 +105,9 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 def user_sells_stocks(stock, quantity, accountname, token=None):
 	if stock not in SYMBOLS:
 		return "stock not found"
-	validateToken(token)
+	validToken = validateToken(token)
+	if validToken is not None:
+		return validToken
 	if not isinstance(quantity,str):
 		raise TypeError('ERROR: quantity must be of type string')
 	if not quantity.isdigit():
@@ -131,22 +134,28 @@ def user_sells_stocks(stock, quantity, accountname, token=None):
 	# add stocks to the user account
 	auth.update_user_info(token, accountname, SYMBOLS[stock], user_quantity, user_gainloss)
 
+	user_adds_money(str(price_per_stock * int(quantity)), accountname, token)
+
 	auth.push_log(TIME.get_timestamp(), "TRANSACTION", "user sells " + str(quantity) + " " + stock + " stocks")
 
 	# returns dictionary with 'gain-loss' and 'stock_num'
 	return auth.get_account_info(token, accountname)[SYMBOLS[stock]]
 
-@app.route('/api/add_to_balance=<value>/<accountname>/<toke>', methods=["GET"])
+@app.route('/api/add_to_balance=<value>/<accountname>/<token>', methods=["GET"])
 def user_adds_money(value, accountname, token=None):
-	validateToken(token)
+	validToken = validateToken(token)
+	if validToken is not None:
+		return validToken
 	if not isinstance(value,str):
 		raise TypeError('ERROR: value must be of type string')
-	if not value.isdigit():
-		raise TypeError('ERROR: value must be of type int')
+	try:
+		float(value)
+	except TypeError:
+		return 'ERROR: value must be of type int'
 	if not auth.is_valid_account_for_user(token, accountname):
 		return "account not found"
 
-	auth.update_user_balance(token, accountname, value)
+	auth.update_user_balance(token, accountname, float(value))
 
 	auth.push_log(TIME.get_timestamp(), "TRANSACTION", "user added " + str(value) + " to account " + accountname)
 
@@ -165,12 +174,14 @@ def get_user_accounts(token=None):
 
 @app.route('/api/get-account-balance/<accountname>/<token>', methods=["GET"])
 def get_account_balance(accountname, token=None):
-	validateToken(token)
+	validToken = validateToken(token)
+	if validToken is not None:
+		return validToken
 
 	if not auth.is_valid_account_for_user(token, accountname):
 		return "account not found"
 
-	return auth.get_account_balance(accountname, token)
+	return auth.get_account_balance(token, accountname)
 
 def validateToken(token):
 	if token is not None:
@@ -182,14 +193,7 @@ def validateToken(token):
 			return "Invalid token"
 	else:
 		return "No token"
+	return None
 
-<<<<<<< HEAD
-=======
-	if not auth.is_valid_account_for_user(token, accountname):
-		return "account not found"
-
-	return auth.get_account_balance(token, accountname)
-
->>>>>>> 57c4df12f54e2380f4cf24902d9f6586a2d67d4f
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=8000)
