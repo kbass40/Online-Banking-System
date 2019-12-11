@@ -71,8 +71,8 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 	price_per_stock = get_price(stock)['last']
 
 	bank_info = auth.get_bank_info(SYMBOLS[stock])
-	bank_quantity = bank_info['gain-loss']
-	bank_gainloss = bank_info['stock_num']
+	bank_quantity = bank_info['stock_num']
+	bank_gainloss = bank_info['gain-loss']
 
 	if get_account_balance(accountname, token) < (price_per_stock * int(quantity)):
 		return "not enough funds"
@@ -86,7 +86,8 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 		bank_quantity = bank_quantity - int(quantity)
 
 	# update bank information in firebase
-	auth.update_bank_info(SYMBOLS[stock], bank_quantity, bank_gainloss)
+	print(bank_quantity)
+	auth.update_bank_info(SYMBOLS[stock], stock_amt=bank_quantity, gainloss=bank_gainloss)
 
 	account_info = auth.get_account_info(token, accountname)
 	user_gainloss = account_info[SYMBOLS[stock]]['gain-loss'] - (price_per_stock * int(quantity))
