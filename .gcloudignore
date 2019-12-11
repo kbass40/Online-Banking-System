@@ -14,6 +14,7 @@
 .gitignore
 node_modules
 package-lock.json
+<<<<<<< HEAD
 cypress.json
 docker-compose.yml
 .vscode
@@ -21,6 +22,8 @@ cypress
 .travis.yml
 GWT-Tests.md
 MicroservicesAPI.yaml
+=======
+>>>>>>> milestone2_travis_integration
 
 # Python pycache:
 __pycache__/
