@@ -1,53 +1,52 @@
 language: python
 python:
-  - "3.6"
+- '3.6'
 node_js:
-  - 4.8
-
+- 4.8
 branches:
-  # whitelist
   only:
-    - milestone2_travis_integration
-
+  - milestone2_travis_integration
 addons:
   apt:
     packages:
-      - ca-certificates
-
+    - ca-certificates
 before_install:
-  - pip install pytest-cov
-  - npm install cypress --save-dev
-
-# command to install dependencies
+- openssl aes-256-cbc -K $encrypted_1981fd0afa44_key -iv $encrypted_1981fd0afa44_iv
+  -in avid-circle-257318-b4159743216f.json.enc -out avid-circle-257318-b4159743216f.json
+  -d
+- pip install pytest-cov
+- npm install cypress --save-dev
 install:
-  - pip install -r requirements.txt
-
+- pip install -r requirements.txt
 jobs:
   include:
-    - stage: "Microservices Tests"
-      script: 
-        - pytest ./Tests/test_Apple.py
-        - pytest ./Tests/test_Facebook.py
-        - pytest ./Tests/test_Google.py
-        - pytest ./Tests/test_Oracle.py
-        - pytest ./Tests/test_Ubisoft.py
-
-    - stage: "Database Tests"
-      script: 
-        - pytest ./Tests/test_LogDatabase.py
-        - pytest ./Tests/test_Logger.py
-
-    - stage: "Authentication Tests"
-      script: 
-        - pytest ./Tests/test_AuthDB.py
-
-    - stage: "Cypress Tests"
-      script: 
-        - python3 ./Model/WebServer/backend.py & APP_PID=$!
-        - $(npm bin)/cypress run
-
+  # - stage: Microservices Tests
+  #   script:
+  #   - pytest ./Tests/test_Apple.py
+  #   - pytest ./Tests/test_Facebook.py
+  #   - pytest ./Tests/test_Google.py
+  #   - pytest ./Tests/test_Oracle.py
+  #   - pytest ./Tests/test_Ubisoft.py
+  # - stage: Database Tests
+  #   script:
+  #   - pytest ./Tests/test_LogDatabase.py
+  #   - pytest ./Tests/test_Logger.py
+  # - stage: Authentication Tests
+  #   script:
+  #   - pytest ./Tests/test_AuthDB.py
+  - stage: Cypress Tests
+    script:
+    - python3 ./Model/WebServer/backend.py & APP_PID=$!
+    - python3 ./Model/Microservice/Microservice.py & APP_PID=$!
+    - "$(npm bin)/cypress run"
 stages:
-  - Microservices Tests
-  - Database Tests
-  - Authentication Tests
-  - Cypress Tests
+# - Microservices Tests
+# - Database Tests
+# - Authentication Tests
+- Cypress Tests
+
+deploy:
+  provider: gae
+  keyfile: ...
+  project: avid-circle-257318
+  on: milestone2_travis_integration
