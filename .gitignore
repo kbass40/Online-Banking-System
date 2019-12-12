@@ -5,4 +5,4 @@ Batch
 *.sqlite
 # Model/Database/firebase-admin-sdk.json
 node_modules
-avid-circle-257318-b4159743216f.json
+client-secret.json
