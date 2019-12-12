@@ -22,8 +22,7 @@ jobs:
   
   - stage: "Integration Tests"
     script:
-      # - pytest ./Tests/integrated_test_AuthDB.py
-      - echo "In int. tests"
+      - pytest ./Tests/integrated_tests.py
 
   - stage: End-To-End Tests
     script:
