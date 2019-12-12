@@ -19,6 +19,10 @@ def test_fail_authenticate_user_with_invalid_email():
         myDB = AuthDB.AuthDatabase()
         myDB.authenticate_user_via_email_password('@gmail.com','156463543')
 
+def test_authenticate_valid_user():
+    myDB = AuthDB.AuthDatabase()
+    myDB.authenticate_user_via_email_password('kyle84684.5@email.com','password123')
+
 def test_fail_create_user_with_bad_email_type():
     with pytest.raises(TypeError):
         myDB = AuthDB.AuthDatabase()
@@ -38,3 +42,9 @@ def test_fail_create_user_with_invalid_password():
     with pytest.raises(ValueError):
         myDB = AuthDB.AuthDatabase()
         myDB.create_new_user('temp@gmail.com','passwoo')
+
+def test_authenticated_create_and_delete_user():
+    myDB = AuthDB.AuthDatabase()
+    myDB.create_new_user('temp@gmail.com','password')
+    auth_id = myDB.authenticate_user_via_email_password('temp@gmail.com','password')
+    myDB.delete_autheticated_user_from_auth_id(auth_id)
