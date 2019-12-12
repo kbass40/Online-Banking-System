@@ -1,0 +1,44 @@
+language: python
+python:
+- '3.6'
+node_js:
+- 4.8
+branches:
+  only:
+  - prod
+
+before_install:
+- pip install pytest-cov
+- npm install cypress --save-dev
+install:
+- pip install -r requirements.txt
+
+jobs:
+  include:
+  - stage: "Unit Tests"
+    script:
+      - pytest ./Tests/test_Microservice.py
+      - pytest ./Tests/test_AuthDB.py
+  
+  - stage: "Integration Tests"
+    script:
+      # - pytest ./Tests/integrated_test_AuthDB.py
+      - echo "In int. tests"
+
+  - stage: End-To-End Tests
+    script:
+    - python3 ./Model/WebServer/backend.py & APP_PID=$!
+    - python3 ./Model/Microservice/Microservice.py & APP_PID=$!
+    - "$(npm bin)/cypress run"
+
+stages:
+- Unit Tests
+- Integration Tests
+- End-To-End Tests 
+
+after_success:
+deploy:
+provider: gae
+keyfile: client-secret.json
+project: avid-circle-257318
+on: prod
