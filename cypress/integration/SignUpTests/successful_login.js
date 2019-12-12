@@ -5,7 +5,7 @@ describe('Successful SignUp Test', function() {
         cy.get('#email').type('myemail'+Math.random()+'@gmail.com')
         cy.get('#psw').type('12345678')
         cy.get('#submit').click()
-        cy.get('#success')
+        cy.get('#h')
     });
 }
 );

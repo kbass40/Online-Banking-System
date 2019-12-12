@@ -3,4 +3,5 @@ __pycache__
 Batch
 .env
 *.sqlite
-Model/Database/firebase-admin-sdk.json
+# Model/Database/firebase-admin-sdk.json
+node_modules

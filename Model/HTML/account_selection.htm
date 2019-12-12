@@ -8,7 +8,7 @@
 
         <div id="accounts">
             <!--Add Account-->
-            <button onclick="document.getElementById('account_add').style.display='block'" class="btn" id="add_button">
+            <button id="add_account" onclick="document.getElementById('account_add').style.display='block'" class="btn" id="add_button">
                 Add Account</button>
             <div id="account_add" class="modal">
 
@@ -43,6 +43,7 @@
                 btn.setAttributeNode(onclck);
                 btn.setAttributeNode(cls);
                 btn.innerHTML = l[i];
+                btn.id = l[i];
                 
 
                 document.getElementById("accounts").insertBefore(btn, parent);

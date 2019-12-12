@@ -1,5 +1,6 @@
 {
   "Model/Oracle/test_Oracle.py": true,
+  "Tests/integrated_test_AuthDB.py::test_create_more_than_three_accounts_for_single_user": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_AES.py": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_ARC2.py": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_ARC4.py": true,

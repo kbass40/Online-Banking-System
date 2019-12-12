@@ -1397,5 +1397,16 @@
   "env/Lib/site-packages/yapftests/yapf_test.py::HorizontallyAlignedTrailingCommentsTest::testBlockWithLongLine",
   "env/Lib/site-packages/yapftests/yapf_test.py::HorizontallyAlignedTrailingCommentsTest::testDisableBlock",
   "env/Lib/site-packages/yapftests/yapf_test.py::HorizontallyAlignedTrailingCommentsTest::testDisabledLine",
-  "env/Lib/site-packages/yapftests/yapf_test.py::HorizontallyAlignedTrailingCommentsTest::testSimple"
+  "env/Lib/site-packages/yapftests/yapf_test.py::HorizontallyAlignedTrailingCommentsTest::testSimple",
+  "Tests/integrated_test_AuthDB.py::test_create_more_than_three_accounts_for_single_user",
+  "Tests/test_Microservice.py::test_fail_get_stock_price",
+  "Tests/test_Microservice.py::test_fail_validate_token",
+  "Tests/test_Microservice.py::test_fail_buy_stocks_from_non_int_quantity_type",
+  "Tests/test_Microservice.py::test_fail_buy_stocks_from_raw_int_quantity_type",
+  "Tests/test_Microservice.py::test_fail_buy_stocks_from_with_bad_stock",
+  "Tests/test_Microservice.py::test_fail_sell_stocks_from_non_int_quantity_type",
+  "Tests/test_Microservice.py::test_fail_sell_stocks_from_raw_int_quantity_type",
+  "Tests/test_Microservice.py::test_fail_sell_stocks_from_with_bad_stock",
+  "Tests/test_Microservice.py::test_fail_add_money_with_bad_value_type",
+  "Tests/test_Microservice.py::test_fail_add_money_with_int_type"
 ]

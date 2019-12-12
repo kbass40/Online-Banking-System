@@ -23,28 +23,48 @@
             <p>Gain loss: {{fcb_gain_loss}}</p>
         </div>
 
-        <div class="google_stock">
-            <p><b>Google</b></p>
-            <p>Amount: {{google_amount}}</p>
-            <p>Gain loss: {{google_gain_loss}}</p>
+        <div class="apple">
+            <p id="apple_text">Apple: {{appl}}</p>
+            <p class="stock-price">Price: {{appl_price}}</p>
+            <form method="get" action="{{url_for('aple_buy')}}">
+                <button id="buy_apple" type="submit">Buy Apple Stock</button>
+            </form>
+            <form method="get" action="{{url_for('aple_sell')}}">
+                <button id="sell_apple" type="submit">Sell Apple Stock</button>
+            </form>
         </div>
 
-        <div class="oracle_stock">
-            <p><b>Oracle</b></p>
-            <p>Amount: {{oracle_amount}}</p>
-            <p>Gain loss: {{oracle_gain_loss}}</p>
+        <div class="google">
+            <p id="google_text">Google: {{goog}}</p>
+            <p class="stock-price">Price: {{goog_price}}</p>
+            <form method="get" action="{{url_for('google_buy')}}">
+                <button id="buy_google" type="submit">Buy Google Stock</button>
+            </form>
+            <form method="get" action="{{url_for('google_sell')}}">
+                <button id="sell_google" type="submit">Sell Google Stock</button>
+            </form>
         </div>
 
-        <div class="ubi_stock">
-            <p><b>Ubisoft</b></p>
-            <p>Amount: {{ubi_amount}}</p>
-            <p>Gain loss: {{ubi_gain_loss}}</p>
+        <div class="facebook">
+            <p id="facebook_text">Facebook: {{fcb}}</p>
+            <p class="stock-price">Price: {{fcb_price}}</p>
+            <form method="get" action="{{url_for('fbook_buy')}}">
+                <button id="buy_facebook" type="submit">Buy Facebook Stock</button>
+            </form>
+            <form method="get" action="{{url_for('fbook_sell')}}">
+                <button id="sell_facebook" type="submit">Sell Facebook Stock</button>
+            </form>
         </div>
 
-        <h2>Showing All Logs</h2>
-        <div class="allLogs">
-            <span id="accountNum">Get Logs: </span>
-            <a target="_blank" href="{{url_for('print_logs')}}">Get Logs</a>
+        <div class="ubisoft">
+            <p id="ubisoft_text">Ubisoft: {{ubi}}</p>
+            <p class="stock-price">Price: {{ubi_price}}</p>
+            <form method="get" action="{{url_for('ubi_buy')}}">
+                <button id="buy_ubisoft" type="submit">Buy Ubisoft Stock</button>
+            </form>
+            <form method="get" action="{{url_for('ubi_sell')}}">
+                <button id="sell_ubisoft" type="submit">Sell Ubisoft Stock</button>
+            </form>
         </div>
 
 
