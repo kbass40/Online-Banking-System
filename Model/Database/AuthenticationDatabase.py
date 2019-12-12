@@ -18,6 +18,8 @@ sys.path.append(str(path) + '//..//..')
 from Model.Misc import Time as TIME
 
 regex = r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+kyle_regex = r'^kyle[0-9]+@email.com'
+my_regex = r'myemail0.[0-9]+@'
 stock_symbols = ['AAPL','FB','GOOGL','ORCL','UBSFY']
 log_types = ['TRANSACTION','MISC','INFO']
 
@@ -61,6 +63,17 @@ class AuthDatabase():
             raise SyntaxError('ERROR a valid email must be provided')
 
         return self._auth.sign_in_with_email_and_password(email,password)['idToken']
+
+    def generate_blank_account_json(self):
+        # Generate json data to add to new account 
+        act_data = {}
+        for s in stock_symbols:
+            act_data[s] = {
+                "gain-loss" : 0,
+                "stock_num" : 0
+            }
+        act_data["balance"] = 0
+        return act_data
 
     def _get_userID_from_authID(self, auth_id):
         return self._auth.get_account_info(auth_id)["users"][0]['localId']
@@ -107,7 +120,9 @@ class AuthDatabase():
 
         auth_id = self._auth.create_user_with_email_and_password(email,password)['idToken']
         user_id = self._get_userID_from_authID(auth_id)
-        self._db.child('users').set(user_id)
+        
+        data = {"users/"+user_id+"/Default Account" : self.generate_blank_account_json() }
+        self._db.update(data)
         return auth_id
     
     '''
@@ -128,14 +143,7 @@ class AuthDatabase():
     def create_new_account_for_user(self, auth_id, account_name):
         user_id = self._get_userID_from_authID(auth_id)
 
-        # Generate json data to add to new account 
-        act_data = {}
-        for s in stock_symbols:
-            act_data[s] = {
-                "gain-loss" : 0,
-                "stock_num" : 0
-            }
-        act_data["balance"] = 0
+        act_data = self.generate_blank_account_json()
        
         accounts = self._db.child('users').child(user_id).shallow().get(auth_id).val()
         # If a user has an account
@@ -220,7 +228,9 @@ class AuthDatabase():
 
     def delete_autheticated_user_from_auth_id(self,auth_id):
         user_id = self._get_userID_from_authID(auth_id)
-        self.delete_autheticated_user_from_uid(user_id)
+        r = self._db.child('users').child(user_id).get(auth_id).val()
+        if r != None:
+            self.delete_autheticated_user_from_uid(user_id)
 
     def delete_autheticated_user_from_uid(self,user_id):
         self._db.child('users').child(user_id).remove()
@@ -234,6 +244,19 @@ class AuthDatabase():
             if confirm:
                 # self.delete_autheticated_user_from_uid(user.uid)
             #'''
+
+    def delete_all_matched_users(self,email_regex):
+        for user in auth.list_users().iterate_all():
+            if  re.search(email_regex, str(user.email)):
+                print('Deleted user:',user.email)
+                self.delete_autheticated_user_from_uid(user.uid)
+
+    def delete_all_random_kyles(self):
+        self.delete_all_matched_users(kyle_regex)
+
+    def delete_all_my_emails(self):
+        self.delete_all_matched_users(my_regex)
+
 
     def delete_all_data(self,confirm=False):
         # Uncomment to actually delete 
