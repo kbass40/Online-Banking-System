@@ -5,6 +5,8 @@ describe('Successful API endpoint call', function() {
         cy.get('[type="password"]').type('12345678')
         cy.get('button').click()
         cy.get('button[id="Test Account"]').click()
+        cy.get('button[id="buy_apple_stock"]').click()
+        // 
         
     });
 }
