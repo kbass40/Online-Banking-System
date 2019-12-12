@@ -28,3 +28,4 @@ def test_create_more_than_three_accounts_for_single_user():
         print("Something else went wrong :(")
     finally:
         myDb.delete_autheticated_user_from_auth_id(auth_id)
+        return True

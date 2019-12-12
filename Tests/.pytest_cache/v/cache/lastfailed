@@ -1,1 +1,4 @@
-{}
+{
+  "test_Microservice.py::test_add_balance_to_user": true,
+  "test_Microservice.py::test_add_funds_to_user": true
+}
