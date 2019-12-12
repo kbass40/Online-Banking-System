@@ -27,17 +27,12 @@ SYMBOLS = {
 
 app = Flask(__name__)
 
-class DB():
-	def __init__(self):
-		pass
-
 auth = ADB.AuthDatabase()
-db = DB()
 
 @app.route("/api/<stock>/get-last", methods=["GET"])
 def get_price(stock):
 	if stock not in SYMBOLS:
-		return "stock not found"
+		return "Stock not found"
 
 	response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
 		params={'symbols': (SYMBOLS[stock] + ',VXX190517P00016000'), 'greeks': 'false'},
@@ -56,17 +51,17 @@ def get_price(stock):
 
 @app.route('/api/<stock>/buy-stocks=<quantity>/<accountname>/<token>', methods=["GET"])
 def user_buys_stocks(stock, quantity, accountname, token=None):
-	validToken = validateToken(token)
-	if validToken is not None:
-		return validToken
-	if stock not in SYMBOLS:
-		return "stock not found"
 	if not isinstance(quantity,str):
 		raise TypeError('ERROR: quantity must be of type string')
 	if not quantity.isdigit():
-		raise TypeError('ERROR: Quantity must be of type int')
+		raise TypeError('ERROR: Quantity must be of type int')	
+	if stock not in SYMBOLS:
+		return "Stock not found"
+	validToken = validateToken(token)
+	if validToken is not None:
+		return validToken
 	if not auth.is_valid_account_for_user(token, accountname):
-		return "account not found"
+		return "Account not found"
 
 	price_per_stock = get_price(stock)['last']
 
@@ -75,7 +70,7 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 	bank_gainloss = bank_info['gain-loss']
 
 	if get_account_balance(accountname, token) < (price_per_stock * int(quantity)):
-		return "not enough funds"
+		return "Not enough funds"
 
 	# check if the bank has enough stocks
 	if bank_quantity < int(quantity):
@@ -104,16 +99,16 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 @app.route('/api/<stock>/sell-stocks=<quantity>/<accountname>/<token>', methods=["GET"])
 def user_sells_stocks(stock, quantity, accountname, token=None):
 	if stock not in SYMBOLS:
-		return "stock not found"
-	validToken = validateToken(token)
-	if validToken is not None:
-		return validToken
+		return "Stock not found"
 	if not isinstance(quantity,str):
 		raise TypeError('ERROR: quantity must be of type string')
 	if not quantity.isdigit():
 		raise TypeError('ERROR: Quantity must be of type int')
+	validToken = validateToken(token)
+	if validToken is not None:
+		return validToken
 	if not auth.is_valid_account_for_user(token, accountname):
-		return "account not found"
+		return "Account not found"
 
 	price_per_stock = get_price(stock)['last']
 
@@ -124,7 +119,7 @@ def user_sells_stocks(stock, quantity, accountname, token=None):
 	account_info = auth.get_account_info(token, accountname)
 
 	if account_info[SYMBOLS[stock]]['stock_num'] < int(quantity):
-		return "not enough stocks to sell"
+		return "Not enough stocks to sell"
 
 	# update bank information in firebase
 	auth.update_bank_info(SYMBOLS[stock], stock_amt=bank_quantity, gainloss=bank_gainloss)
@@ -143,17 +138,17 @@ def user_sells_stocks(stock, quantity, accountname, token=None):
 
 @app.route('/api/add_to_balance=<value>/<accountname>/<token>', methods=["GET"])
 def user_adds_money(value, accountname, token=None):
-	validToken = validateToken(token)
-	if validToken is not None:
-		return validToken
 	if not isinstance(value,str):
 		raise TypeError('ERROR: value must be of type string')
 	try:
 		float(value)
-	except TypeError:
-		return 'ERROR: value must be of type int'
+	except ValueError:
+		return 'ERROR: value must be of type float'
+	validToken = validateToken(token)
+	if validToken is not None:
+		return validToken
 	if not auth.is_valid_account_for_user(token, accountname):
-		return "account not found"
+		return "Account not found"
 
 	auth.update_user_balance(token, accountname, float(value))
 
@@ -164,7 +159,9 @@ def user_adds_money(value, accountname, token=None):
 
 @app.route('/api/get-accounts/<token>', methods=["GET"])
 def get_user_accounts(token=None):
-	validateToken(token)
+	validToken = validateToken(token)
+	if validToken is not None:
+		return validToken
 
 	accounts = auth.get_user_accounts(token)
 	if accounts is None:
@@ -179,7 +176,7 @@ def get_account_balance(accountname, token=None):
 		return validToken
 
 	if not auth.is_valid_account_for_user(token, accountname):
-		return "account not found"
+		return "Account not found"
 
 	return auth.get_account_balance(token, accountname)
 
