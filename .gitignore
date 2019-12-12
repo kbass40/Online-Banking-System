@@ -5,4 +5,5 @@ Batch
 *.sqlite
 # Model/Database/firebase-admin-sdk.json
 node_modules
-# client-secret.json
+client-secret.json
+cypress/integration/stocks
