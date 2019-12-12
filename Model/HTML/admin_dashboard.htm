@@ -7,13 +7,28 @@
     <body>
         <h1>Admin Dashboard</h2>
 
-        <! -- Search for a user -->
+
+        <!-- View authentication logs -->
+        <h2>Authentication Logs</h2>
+        <div class="balance">
+            <p id="balance">Account Balance: {{balance}}</p>
+        </div>
+
+
+        <!-- View transaction logs -->
+        <h2>Transaction Logs</h2>
+        <div class="accountNum">
+            <p id="accountNum">Account Number: {{acctNum}}</p>
+        </div>
+        
+
+        <!-- Search for a user, show their stock transactions -->
         <div id="searchUser" class="modal">
             <form method="post" class="modal-content">
                 <div class="container">
                     <span onclick="document.getElementById('deposit').style.display='none'" class='close'
                     title='Close Modal'>&times;</span>
-                    <h2 class="modal-title">Enter User</h2>
+                    <h2 class="modal-title">Stock Transactions</h2>
                     <!--Creating Amount container-->
                     <label for="user" ><b>User:</b></label><br>
                     <input type="text" placeholder="Joe Shmoe" name="user" id="user" required><br>
@@ -24,32 +39,3 @@
             </form>
         </div>
 
-        <h2>User Information</h2>
-
-        <! -- See user's account balance -->
-        <div class="balance">
-            <p id="balance">Account Balance: {{balance}}</p>
-        </div>
-
-
-        <h2>Bank Information</h2>
-
-        <! -- See banking account number of user -->
-        <div class="accountNum">
-            <p id="accountNum">Account Number: {{acctNum}}</p>
-        </div>
-        
-        <h2>System Logs</h2>
-
-        <! -- Get current logs  -->
-
-        
-       
-       <! -- Refresh to see any changes -->
-        <div class="refresh">
-            <form method="get">
-                <button type="submit" id="refresh_button">Refresh System Logs</button>
-            </form>
-        </div>
-    </body>
-</html>
