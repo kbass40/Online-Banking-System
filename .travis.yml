@@ -15,15 +15,7 @@ install:
 
 jobs:
   include:
-  - stage: "Unit Tests"
-    script:
-      - pytest ./Tests/test_Microservice.py
-      - pytest ./Tests/test_AuthDB.py
   
-  - stage: "Integration Tests"
-    script:
-      - pytest ./Tests/integrated_tests.py
-
   - stage: End-To-End Tests
     script:
     - python3 ./Model/WebServer/backend.py & APP_PID=$!
@@ -43,7 +35,5 @@ jobs:
     on: prod
 
 stages:
-- Unit Tests
-- Integration Tests
 - End-To-End Tests 
 - Deploy to GAE

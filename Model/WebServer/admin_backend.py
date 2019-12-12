@@ -1,16 +1,9 @@
 import os
 import sys
-<<<<<<< HEAD
-<<<<<<< HEAD
 from pathlib import Path
-=======
 sys.path.append(os.path.abspath(".."))
 from pathlib import Path
 
->>>>>>> eedfed24f8d2c5b75a314932275a503dba3a57d8
-=======
-from pathlib import Path
->>>>>>> f07d2da914ccb7f98ea0c164bda8f0e2556d717e
 # Both parent directories need to be added to function from top-level as well as from local 
 path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
