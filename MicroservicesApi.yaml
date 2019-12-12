@@ -24,7 +24,7 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/admin/ubisoft/get-logs:
+  /api/admin/{stock}/get-logs:
     get:
       summary: Returns a json with the logs for the ubisoft database
       responses:
@@ -36,7 +36,7 @@ paths:
                 type: array
                 items:
                   type: string
-  /api/ubisoft/buy-stocks={quantity}/{token}:
+  /api/{stock}/buy-stocks={quantity}/{accountname}/{token}:
     get:
       summary: Returns a json with information updated by the new transaction
       parameters:
@@ -59,7 +59,7 @@ paths:
                   type: array
                   items:
                     type: string
-  /api/ubisoft/sell-stocks={quantity}/{token}:
+  /api/{stock}/sell-stocks={quantity}/{accountname}/{token}:
     get:
       summary: Returns a json with information updated by the new transaction
       parameters:
