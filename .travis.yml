@@ -18,11 +18,6 @@ jobs:
   - stage: "Microservices Tests"
     script:
       - pytest ./Tests/test_Microservice.py
-
-  - stage: "Database Tests"
-    script:
-      - pytest ./Tests/test_LogDatabase.py
-      - pytest ./Tests/test_Logger.py
   
   - stage: "Authentication Tests"
     script:
@@ -37,12 +32,12 @@ jobs:
 
 stages:
 - Microservices Tests
-- Database Tests
 - Authentication Tests
 - Cypress Tests 
 
+after_success:
 deploy:
-  provider: gae
-  keyfile: client-secret.json
-  project: avid-circle-257318
-  on: prod
+provider: gae
+keyfile: client-secret.json
+project: avid-circle-257318
+on: prod
