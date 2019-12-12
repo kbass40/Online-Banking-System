@@ -29,6 +29,7 @@ jobs:
     script:
     - python3 ./Model/WebServer/backend.py & APP_PID=$!
     - python3 ./Model/Microservice/Microservice.py & APP_PID=$!
+    - python3 ./Model/WebServer/admin_backend.py & APP_PID=$!
     - "$(npm bin)/cypress run"
     
   - stage: Deploy to GAE
