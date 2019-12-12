@@ -16,21 +16,21 @@ install:
 jobs:
   include:
   - stage: "Microservices Tests"
-        script:
-        - pytest ./Tests/test_Apple.py
-        - pytest ./Tests/test_Facebook.py
-        - pytest ./Tests/test_Google.py
-        - pytest ./Tests/test_Oracle.py
-        - pytest ./Tests/test_Ubisoft.py
+    script:
+      - pytest ./Tests/test_Apple.py
+      - pytest ./Tests/test_Facebook.py
+      - pytest ./Tests/test_Google.py
+      - pytest ./Tests/test_Oracle.py
+      - pytest ./Tests/test_Ubisoft.py
 
   - stage: "Database Tests"
-      script:
-        - pytest ./Tests/test_LogDatabase.py
-        - pytest ./Tests/test_Logger.py
+    script:
+      - pytest ./Tests/test_LogDatabase.py
+      - pytest ./Tests/test_Logger.py
   
   - stage: "Authentication Tests"
-      script:
-        - pytest ./Tests/test_AuthDB.py
+    script:
+      - pytest ./Tests/test_AuthDB.py
 
   - stage: Cypress Tests
     script:
