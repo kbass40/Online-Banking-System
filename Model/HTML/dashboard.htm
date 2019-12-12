@@ -14,12 +14,31 @@
         <button onclick="document.getElementById('deposit').style.display='block'" class="btn" id="add_button">
                 Deposit</button>
 
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                <div id="failure_message" class="modal" style="display:block">
+                    <div class="modal-content">
+                        <div class="container">
+                            <span onclick="document.getElementById('failure_message').style.display='none'" class='close'
+                            title='Close Modal'>&times;</span>
+                            <p id="message">{{message}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block body %}{% endblock %}
+
         <div id="deposit" class="modal">
             <form method="post" class="modal-content">
                 <div class="container">
                     <span onclick="document.getElementById('deposit').style.display='none'" class='close'
                     title='Close Modal'>&times;</span>
-                    <h2>Deposit</h2>
+                    <h2 class="modal-title">Deposit</h2>
                     <!--Creating Amount container-->
                     <label for="amount" ><b>Amount</b></label><br>
                     <input type="text" placeholder="1000" name="amount" id="amount" required><br>
@@ -32,44 +51,226 @@
 
         <h2>Stocks</h2>
 
-        <p id="appl">Apple: {{appl}}</p>
-        <form method="get" action="{{url_for('aple_buy')}}">
-            <button type="submit">Buy Apple Stock</button>
-        </form>
-        <form method="get" action="{{url_for('aple_sell')}}">
-            <button type="submit">Sell Apple Stock</button>
-        </form>
+        <div class="apple">
+            <p id="apple_text">Apple: {{appl}}</p>
+            <p class="stock-price">Price: {{appl_price}}</p>
 
-        <p id="goog">Google: {{goog}}</p>
-        <form method="get" action="{{url_for('google_buy')}}">
-            <button type="submit">Buy Google Stock</button>
-        </form>
-        <form method="get" action="{{url_for('google_sell')}}">
-            <button type="submit">Sell Google Stock</button>
-        </form>
+            <button onclick="document.getElementById('buy_apple').style.display='block'" class="btn">Buy Apple Stock</button>
+            <div id="buy_apple" class="modal">
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('buy_apple').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2 class="modal-title">Buy Apple Stock</h2>
+                        <!--Creating Amount container-->
+                        <label for="amount" ><b>Amount</b></label><br>
+                        <input type="hidden" name="stock" value="apple">
+                        <input type="hidden" name="buy_sell" value="buy">
+                        <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
 
-        <p id="fcb">Facebook: {{fcb}}</p>
-        <form method="get" action="{{url_for('fbook_buy')}}">
-            <button type="submit">Buy Facebook Stock</button>
-        </form>
-        <form method="get" action="{{url_for('fbook_sell')}}">
-            <button type="submit">Sell Facebook Stock</button>
-        </form>
+            <button onclick="document.getElementById('sell_apple').style.display='block'" class="btn">Sell Apple Stock</button>
+            <div id="sell_apple" class="modal">
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('sell_apple').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2 class="modal-title">Sell Apple Stock</h2>
+                        <!--Creating Amount container-->
+                        <label for="amount" ><b>Amount</b></label><br>
+                        <input type="hidden" name="stock" value="apple">
+                        <input type="hidden" name="buy_sell" value="sell">
+                        <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-        <p id="ubi">Ubisoft: {{ubi}}</p>
-        <form method="get" action="{{url_for('ubi_buy')}}">
-            <button type="submit">Buy Ubisoft Stock</button>
-        </form>
-        <form method="get" action="{{url_for('ubi_sell')}}">
-            <button type="submit">Sell Ubisoft Stock</button>
-        </form>
+        <div class="google">
+            <p id="google_text">Google: {{goog}}</p>
+            <p class="stock-price">Price: {{goog_price}}</p>
 
-        <p id="orc">Oracle: {{orc}}</p>
-        <form method="get" action="{{url_for('oracle_buy')}}">
-            <button type="submit">Buy Oracle Stock</button>
-        </form>
-        <form method="get" action="{{url_for('oracle_sell')}}">
-            <button type="submit">Sell Oracle Stock</button>
-        </form>
+            <button onclick="document.getElementById('buy_google').style.display='block'" class="btn">Buy Google Stock</button>
+            <div id="buy_google" class="modal">
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('buy_google').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2 class="modal-title">Buy Google Stock</h2>
+                        <!--Creating Amount container-->
+                        <label for="amount" ><b>Amount</b></label><br>
+                        <input type="hidden" name="stock" value="google">
+                        <input type="hidden" name="buy_sell" value="buy">
+                        <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <button onclick="document.getElementById('sell_google').style.display='block'" class="btn">Sell Google Stock</button>
+            <div id="sell_google" class="modal">
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('sell_google').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2 class="modal-title">Sell Google Stock</h2>
+                        <!--Creating Amount container-->
+                        <label for="amount" ><b>Amount</b></label><br>
+                        <input type="hidden" name="stock" value="google">
+                        <input type="hidden" name="buy_sell" value="sell">
+                        <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="facebook">
+            <p id="facebook_text">Facebook: {{fcb}}</p>
+            <p class="stock-price">Price: {{fcb_price}}</p>
+
+            <button onclick="document.getElementById('buy_facebook').style.display='block'" class="btn">Buy Facebook Stock</button>
+            <div id="buy_facebook" class="modal">
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('buy_facebook').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2 class="modal-title">Buy Facebook Stock</h2>
+                        <!--Creating Amount container-->
+                        <label for="amount" ><b>Amount</b></label><br>
+                        <input type="hidden" name="stock" value="facebook">
+                        <input type="hidden" name="buy_sell" value="buy">
+                        <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <button onclick="document.getElementById('sell_facebook').style.display='block'" class="btn">Sell Facebook Stock</button>
+            <div id="sell_facebook" class="modal">
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('sell_facebook').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2 class="modal-title">Sell Facebook Stock</h2>
+                        <!--Creating Amount container-->
+                        <label for="amount" ><b>Amount</b></label><br>
+                        <input type="hidden" name="stock" value="facebook">
+                        <input type="hidden" name="buy_sell" value="sell">
+                        <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="ubisoft">
+            <p id="ubisoft_text">Ubisoft: {{ubi}}</p>
+            <p class="stock-price">Price: {{ubi_price}}</p>
+
+            <button onclick="document.getElementById('buy_ubisoft').style.display='block'" class="btn">Buy Ubisoft Stock</button>
+            <div id="buy_ubisoft" class="modal">
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('buy_ubisoft').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2 class="modal-title">Buy Ubisoft Stock</h2>
+                        <!--Creating Amount container-->
+                        <label for="amount" ><b>Amount</b></label><br>
+                        <input type="hidden" name="stock" value="ubisoft">
+                        <input type="hidden" name="buy_sell" value="buy">
+                        <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <button onclick="document.getElementById('sell_ubisoft').style.display='block'" class="btn">Sell Ubisoft Stock</button>
+            <div id="sell_ubisoft" class="modal">
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('sell_ubisoft').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2 class="modal-title">Sell Ubisoft Stock</h2>
+                        <!--Creating Amount container-->
+                        <label for="amount" ><b>Amount</b></label><br>
+                        <input type="hidden" name="stock" value="ubisoft">
+                        <input type="hidden" name="buy_sell" value="sell">
+                        <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="oracle">
+            <p id="orc">Oracle: {{orc}}</p>
+            <p class="stock-price">Price: {{orc_price}}</p>
+
+            <button onclick="document.getElementById('buy_oracle').style.display='block'" class="btn">Buy Oracle Stock</button>
+            <div id="buy_oracle" class="modal">
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('buy_oracle').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2 class="modal-title">Buy Oracle Stock</h2>
+                        <!--Creating Amount container-->
+                        <label for="amount" ><b>Amount</b></label><br>
+                        <input type="hidden" name="stock" value="oracle">
+                        <input type="hidden" name="buy_sell" value="buy">
+                        <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+
+            <button onclick="document.getElementById('sell_oracle').style.display='block'" class="btn">Sell Oracle Stock</button>
+            <div id="sell_oracle" class="modal">
+                <form method="post" class="modal-content">
+                    <div class="container">
+                        <span onclick="document.getElementById('sell_oracle').style.display='none'" class='close'
+                        title='Close Modal'>&times;</span>
+                        <h2 class="modal-title">Sell Oracle Stock</h2>
+                        <!--Creating Amount container-->
+                        <label for="amount" ><b>Amount</b></label><br>
+                        <input type="hidden" name="stock" value="oracle">
+                        <input type="hidden" name="buy_sell" value="sell">
+                        <input type="text" placeholder="1000" name="amount" id="amount" required><br>
+                        <br>
+                        <!--Creating submit button-->
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="refresh">
+            <form method="get">
+                <button type="submit" id="refresh_button">Refresh Stock Prices</button>
+            </form>
+        </div>
     </body>
 </html>

@@ -40,3 +40,31 @@
 button{
     cursor: pointer;
 }
+
+.btn{
+    display: block;
+}
+
+.apple, .google, .facebook, .ubisoft, .oracle{
+    float: left;
+    padding: 8px;
+    padding-top: 0px;
+    border: 0.5px solid black;
+}
+
+.refresh{
+    clear: both;
+    width: 100%;
+    display: block;
+    padding: 16px;
+}
+
+.modal-title{
+    margin-top: 0px;
+}
+
+#message{
+    font-weight: bold;
+    text-align: left;
+    border: none;
+}
