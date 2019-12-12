@@ -12,15 +12,38 @@ before_install:
 - npm install cypress --save-dev
 install:
 - pip install -r requirements.txt
+
 jobs:
   include:
+  - stage: "Microservices Tests"
+        script:
+        - pytest ./Tests/test_Apple.py
+        - pytest ./Tests/test_Facebook.py
+        - pytest ./Tests/test_Google.py
+        - pytest ./Tests/test_Oracle.py
+        - pytest ./Tests/test_Ubisoft.py
+
+  - stage: "Database Tests"
+      script:
+        - pytest ./Tests/test_LogDatabase.py
+        - pytest ./Tests/test_Logger.py
+  
+  - stage: "Authentication Tests"
+      script:
+        - pytest ./Tests/test_AuthDB.py
+
   - stage: Cypress Tests
     script:
     - python3 ./Model/WebServer/backend.py & APP_PID=$!
     - python3 ./Model/Microservice/Microservice.py & APP_PID=$!
     - "$(npm bin)/cypress run"
+
 stages:
-- Cypress Tests
+- Microservices Tests
+- Database Tests
+- Authentication Tests
+- Cypress Tests 
+
 deploy:
   provider: gae
   keyfile: client-secret.json
