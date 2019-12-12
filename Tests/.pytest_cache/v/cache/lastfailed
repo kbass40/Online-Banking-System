@@ -1,1 +1,5 @@
-{}
+{
+  "test_AuthDB.py::test_authenticated_create_and_delete_user": true,
+  "test_Microservice.py::test_add_balance_to_user": true,
+  "test_Microservice.py::test_add_funds_to_user": true
+}

@@ -1,0 +1,10 @@
+.apple_stock, .google_stock, .fcb_stock, .ubi_stock, .oracle_stock{
+    float: left;
+    padding: 8px;
+    padding-top: 0px;
+    border: 0.5px solid black;
+}
+
+h2{
+    clear: both;
+}
