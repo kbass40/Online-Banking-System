@@ -5,3 +5,10 @@ Batch
 *.sqlite
 Model/Database/firebase-admin-sdk.json
 node_modules
+.pytest_cache
+Model/Apple
+Model/Facebook
+Model/Google
+Model/Logger
+Model/Oracle
+Model/Ubisoft
