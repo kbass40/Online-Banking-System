@@ -18,10 +18,12 @@
 
     - All testing modules should start with "test_" and a descriptive name of the what the module is testing
 
-## Working with the Logging Database
-- To run the logging database, type `docker-compose up` which will set up a docker container specified in the yml file
+## Documentation
+- CI Server : 
 
-- To properly close the logging database, type `docker-compose down`
+- Style Guide : http://google.github.io/styleguide/pyguide.html
+
+- Linter : https://www.pylint.org/
 
 ## Running Instruciton
 - First make sure docker-compose is installed https://docs.docker.com/compose/install/
