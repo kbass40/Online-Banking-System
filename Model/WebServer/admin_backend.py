@@ -1,6 +1,13 @@
 import os
 import sys
 sys.path.append(os.path.abspath(".."))
+from pathlib import Path
+
+# Both parent directories need to be added to function from top-level as well as from local 
+path = Path(__file__).parent.absolute()
+sys.path.append(str(path) + '//..')
+sys.path.append(str(path) + '//..//..')
+
 from Database import AuthenticationDatabase as authdb
 import mock_adminAuthentication
 from flask import Flask, render_template, request, redirect, url_for

@@ -1,0 +1,48 @@
+language: python
+python:
+- '3.6'
+node_js:
+- 4.8
+branches:
+  only:
+  - prod
+
+before_install:
+- pip install pytest-cov
+- npm install cypress --save-dev
+install:
+- pip install -r requirements.txt
+
+jobs:
+  include:
+  - stage: "Microservices Tests"
+    script:
+      - pytest ./Tests/test_Microservice.py
+
+  - stage: "Database Tests"
+    script:
+      - pytest ./Tests/test_LogDatabase.py
+      - pytest ./Tests/test_Logger.py
+  
+  - stage: "Authentication Tests"
+    script:
+      - pytest ./Tests/test_AuthDB.py
+      - pytest ./Tests/integrated_test_AuthDB.py
+
+  - stage: Cypress Tests
+    script:
+    - python3 ./Model/WebServer/backend.py & APP_PID=$!
+    - python3 ./Model/Microservice/Microservice.py & APP_PID=$!
+    - "$(npm bin)/cypress run"
+
+stages:
+- Microservices Tests
+- Database Tests
+- Authentication Tests
+- Cypress Tests 
+
+deploy:
+  provider: gae
+  keyfile: client-secret.json
+  project: avid-circle-257318
+  on: prod

@@ -1,5 +1,7 @@
 {
   "Model/Oracle/test_Oracle.py": true,
+  "Tests/integrated_test_AuthDB.py": true,
+  "Tests/test_Microservice.py": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_AES.py": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_ARC2.py": true,
   "env/Lib/site-packages/Crypto/SelfTest/Cipher/test_ARC4.py": true,
