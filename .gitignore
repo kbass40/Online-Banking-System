@@ -4,3 +4,10 @@ Batch
 .env
 *.sqlite
 Model/Database/firebase-admin-sdk.json
+.pytest_cache
+Model/Apple
+Model/Facebook
+Model/Google
+Model/Logger
+Model/Oracle
+Model/Ubisoft
