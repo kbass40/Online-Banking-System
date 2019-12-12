@@ -19,7 +19,8 @@ def admin_home_auth():
     #getting user info
     email = request.form.get('email')
     psw = str(request.form.get('psw'))
-    if ((email == "admin@admin.com") && (psw == "admin1"))
+    if not (email == "admin@admin.com"):
+        return 'placeholder'
 
     #send it to get authenticated
     #currently using a test double
@@ -30,10 +31,9 @@ def admin_home_auth():
     try:
         token = temp.authenticate_user_via_email_password(email, psw)
     except Exception as e:
-        return render_template("unauthenticated_admin").format(error=str(e))
+        return render_template("unauthenticated_admin.htm").format(error=str(e))
 
     #creating a placeholder token and setting it as a cookie
-    token = "abheo457612n"
     response = app.make_response(render_template('admin_dashboard.htm'))
     response.set_cookie("authenticated", value=token)
     return response
@@ -44,7 +44,6 @@ def admin_home_auth():
 def print_logs():
     #getting user token
     token = request.cookies.get('authenticated')
-    token = "abheo457612n"
 
 
     valid = False
@@ -55,7 +54,7 @@ def print_logs():
 
     if valid:
         #have to work with database or another function to get all the logs
-    return authdb.AuthDatabase().get_all_logs(self, token)
+        return authdb.AuthDatabase().get_all_logs(token)
     else:
         return 'Logs cannot be printed at this time.'
     
