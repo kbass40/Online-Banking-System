@@ -6,12 +6,8 @@ node_js:
 branches:
   only:
   - milestone2_travis_integration
-env:
-  global:
-    secure: w8+WtCxNJXaxZVX/DJKq8ZYQ0xzwY41Vp0mCKG38emtOZ+Hy09JXIfeRxLAAeYSJXl9Xvhka4Xt+TUHL77mwAqL/BDC3reBUvN+fR/AIqwbUS4SxDAHQe4fOoAJkX7p8+iwMoTBU97VAxcpmm0qncVYHD7Np+G0T6tt1OhO0KlkXjr+Act1O6rdJ+CxLLFQ6YrLU7f5r+5O2wL2Mh6lO2ObuRsdFPq5jXiDomGP1s1GxqNVYpr1dOtXmdRmOK0ta9BDswR0BugPfw3NsuPbIj5bBYDBW7q1nAhWlGfKvfuxuqkdrQ9oGwOCbfaY0hq5x/f3Ex2CFCgHh3IRVmazkbXiMtTQj6JaCt/nluaj4/ZkuGYNk1gXOKZckGs+qFTkkAue4/lX46px8JjD3qGUwNajhXf1rLKjI68AlQYUmItckuxNIX5ZrGo5ET0DWooygJukt/Re7z6l+yS7cwCGqZS6lDV6pXtCdo+MY2PdUDC6A0gSg5XKCZf2AOfnsTOYBb+F/VLJoTdrs9mTvm0vl9XhNoTBI4xDb/4huuIQp831hZW5ToQWHG+ERzSSJLM2ST1z8Hs9dMzl3LOK2tAFO5xh9CHMPCdwOi10PWIcHklI8AAZ8wNPu38QggebCSCNIJT/M+LAeFtC+tFE0qzIHDQXUwmIE+w/siipk4ZqeNvY=
 
 before_install:
-- openssl aes-256-cbc -k "$super_secret_password" -in client-secret.json.enc -out client-secret.json -d
 - pip install pytest-cov
 - npm install cypress --save-dev
 install:
