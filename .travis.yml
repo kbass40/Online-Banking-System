@@ -38,6 +38,7 @@ jobs:
     config:
       - app.yaml
       - microservice.yaml
+      - admin.yaml
     project: avid-circle-257318
     on: prod
 
