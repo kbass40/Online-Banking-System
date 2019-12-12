@@ -28,6 +28,6 @@ stages:
 - Cypress Tests
 deploy:
   provider: gae
-  keyfile: "..."
+  keyfile: client-secret.json
   project: avid-circle-257318
   on: milestone2_travis_integration
