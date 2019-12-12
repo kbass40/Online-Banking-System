@@ -13,4 +13,4 @@ dispatch:
         
     # Send all api traffic to the api service.
     - url: "*/admin/*"
-    service: admin
+      service: admin
