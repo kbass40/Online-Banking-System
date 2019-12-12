@@ -245,24 +245,14 @@ class AuthDatabase():
             
 
 #''' The following is a complete test that creates an account
-<<<<<<< HEAD
-#myDb = AuthDatabase()
-#myDb.create_new_user('kyle84684.5@email.com','password123')
-#auth_id = myDb.authenticate_user_via_email_password('kyle84684.5@email.com','password123')
-=======
 # myDb = AuthDatabase()
 #myDb.create_new_user('kyle84684.5@email.com','password123')
 # auth_id = myDb.authenticate_user_via_email_password('kyle84684.5@email.com','password123')
->>>>>>> eedfed24f8d2c5b75a314932275a503dba3a57d8
 #admin_id = myDb.authenticate_user_via_email_password('admin@admin.com','admin1')
 #myDb.get_all_logs(admin_id)
 
 #myDb.update_bank_info(stock_symbols[0],5,213.25)
-<<<<<<< HEAD
-#print(myDb.get_account_balance(auth_id,'Account v1'))
-=======
 # print(myDb.get_account_balance(auth_id,'Account v1'))
->>>>>>> eedfed24f8d2c5b75a314932275a503dba3a57d8
 #myDb.push_log('2019-11-14 15:11:36',log_message='TESTING LOGGING FUNCTIONALITY')
 
 #myDb.update_user_info(auth_id,'Account v1',stock_symbols[0],200,1520.24)

@@ -6,7 +6,9 @@ describe('Successful API endpoint call', function() {
         cy.get('button').click()
         cy.get('button[id="Test Account"]').click()
         cy.get('button[id="buy_apple_stock"]').click()
-        // 
+        cy.get('#buy_apple > .modal-content > .container > #amount').type("3")
+        cy.get('#buy_apple > .modal-content > .container > #submit').click()
+        cy.get('#message').contains("Not enough funds")
         
     });
 }
