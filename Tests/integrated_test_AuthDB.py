@@ -10,6 +10,7 @@ sys.path.append(str(path) + '//..//..')
 from Model.Database import AuthenticationDatabase as AuthDB
 import random
 
+# Integration Test
 def test_create_more_than_three_accounts_for_single_user():
     r = str(random.randint(1,100))
     myDb = AuthDB.AuthDatabase()
