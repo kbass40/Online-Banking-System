@@ -16,9 +16,9 @@ import random
 def test_create_more_than_three_accounts_for_single_user():
     r = str(random.randint(1,100))
     myDb = AuthDB.AuthDatabase()
+    myDb.delete_all_random_kyles()
     myDb.create_new_user('kyle'+r+'@email.com','password123')
     auth_id = myDb.authenticate_user_via_email_password('kyle'+r+'@email.com','password123')
-    myDb.create_new_account_for_user(auth_id,'Account v1')
     myDb.create_new_account_for_user(auth_id,'Account v2')
     myDb.create_new_account_for_user(auth_id,'Account v3')
 
@@ -34,10 +34,12 @@ def test_create_more_than_three_accounts_for_single_user():
 
 # Integration Test
 def test_authenticated_create_and_delete_user():
-    myDB = AuthDB.AuthDatabase()
-    myDB.create_new_user('temp1@gmail.com','password')
-    auth_id = myDB.authenticate_user_via_email_password('temp1@gmail.com','password')
-    myDB.delete_autheticated_user_from_auth_id(auth_id)
+    r = str(random.randint(1,100))
+    myDb = AuthDB.AuthDatabase()
+    myDb.delete_all_random_kyles()
+    myDb.create_new_user('kyle'+r+'@email.com','password123')
+    auth_id = myDb.authenticate_user_via_email_password('kyle'+r+'@email.com','password123')
+    myDb.delete_autheticated_user_from_auth_id(auth_id)
     return True
 
 # Integration test
