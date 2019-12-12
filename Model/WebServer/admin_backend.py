@@ -19,6 +19,7 @@ def admin_home_auth():
     #getting user info
     email = request.form.get('email')
     psw = str(request.form.get('psw'))
+    if ((email == "admin@admin.com") && (psw == "admin1"))
 
     #send it to get authenticated
     #currently using a test double
@@ -43,6 +44,8 @@ def admin_home_auth():
 def print_logs():
     #getting user token
     token = request.cookies.get('authenticated')
+    token = "abheo457612n"
+
 
     valid = False
 
@@ -52,36 +55,9 @@ def print_logs():
 
     if valid:
         #have to work with database or another function to get all the logs
-    return json2html.convert(json=requests.get("http://localhost:8000/api/admin_dashboard").text)
+    return authdb.AuthDatabase().get_all_logs(self, token)
     else:
         return 'Logs cannot be printed at this time.'
-
-
-#Handles post requests sent to /login
-@app.route('/admin_login', methods=['POST'])
-def adminLogin():
-    #getting the user inputs
-    email = request.form.get("email")
-    psw = str(request.form.get("psw"))
-
-    if ((email == "admin@admin.com") && (psw == "admin1"))
-    #send it to authentication
-    #authenticated = mock_auth.auth(uname, psw)
-
-    #get session token
-    temp = authdb.AuthDatabase()
-
-    try:
-        token = temp.authenticate_user_via_email_password(email, psw)
-    except Exception as e:
-        return render_template("failedLogin.htm").format(error=str(e))
-
-    response = app.make_response(redirect(url_for("admin_dashboard")))
-    response.set_cookie("admin", value=token)
-
-    print(token)
-
-    return response
     
 
 
