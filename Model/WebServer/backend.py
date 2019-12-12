@@ -12,11 +12,11 @@ sys.path.append(str(path) + '//..//..')
 #import mock_auth, mock_signUp
 import urllib
 from Model.Database import AuthenticationDatabase as authdb
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 template_dir = str(path) + '//..//HTML'
 app = Flask(__name__, template_folder=template_dir, static_folder=template_dir + "/static")
-print(app.static_folder)
+app.secret_key = os.urandom(32)
 
 @app.route('/')
 def home():
@@ -342,6 +342,7 @@ def dashboard(name):
 
 @app.route('/Accounts/Dashboard/<name>', methods=['POST'])
 def dashboardPost(name):
+    req = ""
     token = request.cookies.get("authenticated")
     delta = request.form.get("amount")
     stock_name = request.form.get("stock")
@@ -355,10 +356,13 @@ def dashboardPost(name):
     if stock_name is not None:
         if buy_sell in "buy":
             url = "http://localhost:8000/api/" + stock_name + "/" + buy_sell + "-stocks=" + str(int(delta)) + "/" + name + "/" + token
-            requests.get(url)
+            req = requests.get(url)
         elif buy_sell in "sell":
             url = "http://localhost:8000/api/" + stock_name + "/" + buy_sell + "-stocks=" + str(int(delta)) + "/" + name + "/" + token
-            requests.get(url)
+            req = requests.get(url)
+
+        if "Not enough" in req.text:
+            flash(req.text)
 
     else:
         authdb.AuthDatabase().update_user_balance(token, name, delta)

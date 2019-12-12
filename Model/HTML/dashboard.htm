@@ -14,6 +14,25 @@
         <button onclick="document.getElementById('deposit').style.display='block'" class="btn" id="add_button">
                 Deposit</button>
 
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                <div id="failure_message" class="modal" style="display:block">
+                    <div class="modal-content">
+                        <div class="container">
+                            <span onclick="document.getElementById('failure_message').style.display='none'" class='close'
+                            title='Close Modal'>&times;</span>
+                            <p id="message">{{message}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block body %}{% endblock %}
+
         <div id="deposit" class="modal">
             <form method="post" class="modal-content">
                 <div class="container">

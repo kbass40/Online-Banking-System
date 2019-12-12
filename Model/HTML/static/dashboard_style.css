@@ -62,3 +62,9 @@ button{
 .modal-title{
     margin-top: 0px;
 }
+
+#message{
+    font-weight: bold;
+    text-align: left;
+    border: none;
+}
