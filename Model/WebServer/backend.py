@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 import requests
 from json2html import *
+from requests import HTTPError
 
 # Both parent directories need to be added to function from top-level as well as from local 
 path = Path(__file__).parent.absolute()
@@ -33,6 +34,8 @@ def login():
 #Handles post requests sent to /login
 @app.route('/login', methods=['POST'])
 def loginPost():
+    response = ""
+
     #getting the user inputs
     email = request.form.get("email")
     psw = str(request.form.get("psw"))
@@ -48,8 +51,13 @@ def loginPost():
     except Exception as e:
         return render_template("failedLogin.htm").format(error=str(e))
 
-    response = app.make_response(redirect(url_for("accounts")))
-    response.set_cookie("authenticated", value=token)
+    if "admin@admin.com" in email:
+        response = app.make_response(redirect(url_for("admin_login")))
+        response.set_cookie("authenticated", value=token)
+
+    else:
+        response = app.make_response(redirect(url_for("accounts")))
+        response.set_cookie("authenticated", value=token)
 
     print(token)
 
@@ -372,9 +380,41 @@ def dashboardPost(name):
     return redirect(url_for('dashboard', name=name))
     
 
-@app.route('/admin-login')
+@app.route('/admin')
 def admin_login():
-    return redirect(curr_url + "admin")
+    token = request.cookies.get('authenticated')
+    bank_info = []
+
+    try:
+        for i in authdb.stock_symbols:
+            bank_info.append(authdb.AuthDatabase().get_bank_info(token, i))
+    except HTTPError:
+        print("Oops something didn't go as planned")
+
+    #creating a placeholder token and setting it as a cookie
+    return render_template('admin_dashboard.htm', 
+    apple_amount=bank_info[0]['stock_num'], apple_gain_loss=bank_info[0]['gain-loss'],
+    fcb_amount=bank_info[1]['stock_num'], fcb_gain_loss=bank_info[1]['gain-loss'],
+    google_amount=bank_info[2]['stock_num'], google_gain_loss=bank_info[2]['gain-loss'],
+    oracle_amount=bank_info[3]['stock_num'], oracle_gain_loss=bank_info[3]['gain-loss'],
+    ubi_amount=bank_info[4]['stock_num'], ubi_gain_loss=bank_info[4]['gain-loss'])
+
+#Print logs
+@app.route('/admin/logs')
+def print_logs():
+    #getting user token
+    token = request.cookies.get('authenticated')
+
+    try:
+        logs = authdb.AuthDatabase().get_all_logs(token)
+        stripped_logs = {}
+        for i,key in enumerate(logs):
+            stripped_logs[i] = logs[key]
+        return json2html.convert(json=stripped_logs)
+    except HTTPError:
+        return 'Logs cannot be printed at this time.'
+    except ValueError:
+        return 'Must be admin to access this page'
 
 if __name__ == "__main__":
     curr_url = "http://localhost:8000/"
