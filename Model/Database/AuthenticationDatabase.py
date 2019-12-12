@@ -98,11 +98,11 @@ class AuthDatabase():
         return self._db.child('users').child(user_id).child(account_name).get(auth_id).val()
 
     # Function to retrieve bank info for a particular stock
-    def get_bank_info(self, symbol):
+    def get_bank_info(self, auth_id, symbol):
         if symbol not in stock_symbols:
             raise ValueError('ERROR symbol must be within the approved stock microservices')
 
-        return self._db.child('admin').child('bank').child(symbol).get().val()
+        return self._db.child('admin').child('bank').child(symbol).get(auth_id).val()
 
     # Creates new user in database based on their email and password
     def create_new_user(self, email, password):
