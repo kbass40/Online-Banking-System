@@ -15,25 +15,26 @@ install:
 
 jobs:
   include:
-  - stage: "Microservices Tests"
+  - stage: "Unit Tests"
     script:
       - pytest ./Tests/test_Microservice.py
-  
-  - stage: "Authentication Tests"
-    script:
       - pytest ./Tests/test_AuthDB.py
-      - pytest ./Tests/integrated_test_AuthDB.py
+  
+  - stage: "Integration Tests"
+    script:
+      # - pytest ./Tests/integrated_test_AuthDB.py
+      - echo "In int. tests"
 
-  - stage: Cypress Tests
+  - stage: End-To-End Tests
     script:
     - python3 ./Model/WebServer/backend.py & APP_PID=$!
     - python3 ./Model/Microservice/Microservice.py & APP_PID=$!
     - "$(npm bin)/cypress run"
 
 stages:
-- Microservices Tests
-- Authentication Tests
-- Cypress Tests 
+- Unit Tests
+- Integration Tests
+- End-To-End Tests 
 
 after_success:
 deploy:
