@@ -4,6 +4,8 @@ sys.path.append(os.path.abspath(".."))
 from Database import AuthenticationDatabase as authdb
 import mock_adminAuthentication
 from flask import Flask, render_template, request, redirect, url_for
+from json2html import *
+from requests import HTTPError
 
 template_dir = os.path.abspath('../HTML')
 app = Flask(__name__, template_folder=template_dir)
@@ -45,17 +47,13 @@ def print_logs():
     #getting user token
     token = request.cookies.get('authenticated')
 
-
-    valid = False
-
-    #have to find a way to validate token, set to True for now
-    if token is not None:
-        valid = True
-
-    if valid:
-        #have to work with database or another function to get all the logs
-        return authdb.AuthDatabase().get_all_logs(token)
-    else:
+    try:
+        logs = authdb.AuthDatabase().get_all_logs(token)
+        stripped_logs = {}
+        for i,key in enumerate(logs):
+            stripped_logs[i] = logs[key]
+        return json2html.convert(json=stripped_logs)
+    except HTTPError as e:
         return 'Logs cannot be printed at this time.'
     
 

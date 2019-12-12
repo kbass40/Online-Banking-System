@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="/static/dashboard_style.css">
-    </head>
-
     <body>
-        <h1>Admin Dashboard</h1>
+        <h1>Admin Dashboard</h1><br>
 
         <!-- View transaction logs -->
         <!-- def get_logs(self): -->
@@ -13,8 +9,8 @@
 
         <h2>Showing All Logs</h2>
         <div class="allLogs">
+            <span id="accountNum">Get Logs: </span>
             <a href="{{url_for('print_logs')}}">Get Logs</a>
-            <p id="accountNum">get_logs: <b>{{logs}}</b></p>
         </div>
         
 
