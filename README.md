@@ -19,7 +19,7 @@
     - All testing modules should start with "test_" and a descriptive name of the what the module is testing
 
 ## Documentation
-- CI Server : 
+- CI Server : https://travis-ci.org/kbass40/Online-Banking-System
 
 - Style Guide : http://google.github.io/styleguide/pyguide.html
 
