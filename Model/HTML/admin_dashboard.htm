@@ -1,23 +1,58 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <link rel="stylesheet" href="/static/admin_dashboard_style.css">
+    </head>
+
     <body>
-        <h1>Admin Dashboard</h1><br>
+        <h1>Admin Dashboard</h1>
 
         <!-- View transaction logs -->
         <!-- def get_logs(self): -->
         <!-- microservicesdb.py -->
+        <h2>Bank Stocks</h2>
+        <div class="apple_stock">
+            <p><b>Apple</b></p>
+            <p>Amount: {{apple_amount}}</p>
+            <p>Gain loss: {{apple_gain_loss}}</p>
+        </div>
+
+        <div class="fcb_stock">
+            <p><b>Facebook</b></p>
+            <p>Amount: {{fcb_amount}}</p>
+            <p>Gain loss: {{fcb_gain_loss}}</p>
+        </div>
+
+        <div class="google_stock">
+            <p><b>Google</b></p>
+            <p>Amount: {{google_amount}}</p>
+            <p>Gain loss: {{google_gain_loss}}</p>
+        </div>
+
+        <div class="oracle_stock">
+            <p><b>Oracle</b></p>
+            <p>Amount: {{oracle_amount}}</p>
+            <p>Gain loss: {{oracle_gain_loss}}</p>
+        </div>
+
+        <div class="ubi_stock">
+            <p><b>Ubisoft</b></p>
+            <p>Amount: {{ubi_amount}}</p>
+            <p>Gain loss: {{ubi_gain_loss}}</p>
+        </div>
 
         <h2>Showing All Logs</h2>
         <div class="allLogs">
             <span id="accountNum">Get Logs: </span>
-            <a href="{{url_for('print_logs')}}">Get Logs</a>
+            <a target="_blank" href="{{url_for('print_logs')}}">Get Logs</a>
         </div>
+
+
         
 
         <!-- Search for a user, show their stock transactions -->
         <!-- get trans logs based on name input -->
-        <button onclick="document.getElementById('refresh').style.display='block'" class="btn" id="add_button">
-                Refresh</button>
+        
 
         
 
