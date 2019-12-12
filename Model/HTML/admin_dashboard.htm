@@ -5,37 +5,22 @@
     </head>
 
     <body>
-        <h1>Admin Dashboard</h2>
-
-
-        <!-- View authentication logs -->
-        <h2>Authentication Logs</h2>
-        <div class="balance">
-            <p id="balance">Account Balance: {{balance}}</p>
-        </div>
-
+        <h1>Admin Dashboard</h1>
 
         <!-- View transaction logs -->
-        <h2>Transaction Logs</h2>
-        <div class="accountNum">
-            <p id="accountNum">Account Number: {{acctNum}}</p>
+        <!-- def get_logs(self): -->
+        <!-- microservicesdb.py -->
+
+        <h2>Showing All Logs</h2>
+        <div class="allLogs">
+            <p id="accountNum">get_logs: <b>{{logs}}</b></p>
         </div>
         
 
         <!-- Search for a user, show their stock transactions -->
-        <div id="searchUser" class="modal">
-            <form method="post" class="modal-content">
-                <div class="container">
-                    <span onclick="document.getElementById('deposit').style.display='none'" class='close'
-                    title='Close Modal'>&times;</span>
-                    <h2 class="modal-title">Stock Transactions</h2>
-                    <!--Creating Amount container-->
-                    <label for="user" ><b>User:</b></label><br>
-                    <input type="text" placeholder="Joe Shmoe" name="user" id="user" required><br>
-                    <br>
-                    <!--Creating submit button-->
-                    <button type="submit" id="submit">Submit</button>
-                </div>
-            </form>
-        </div>
+        <!-- get trans logs based on name input -->
+        <button onclick="document.getElementById('refresh').style.display='block'" class="btn" id="add_button">
+                Refresh</button>
+
+        
 
