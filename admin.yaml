@@ -1,0 +1,12 @@
+runtime: python37
+service: admin
+entrypoint: gunicorn -b :$PORT admin:app
+
+env_variables:
+  API_KEY: "AIzaSyCBNsjeqTwLByOJdGKqaY5VyWvcjJe8UTY"
+
+# [START handlers]
+handlers:
+- url: /.*
+  script: auto
+# [END handlers]goog

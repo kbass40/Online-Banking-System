@@ -1,12 +1,16 @@
 import os
 import sys
 <<<<<<< HEAD
+<<<<<<< HEAD
 from pathlib import Path
 =======
 sys.path.append(os.path.abspath(".."))
 from pathlib import Path
 
 >>>>>>> eedfed24f8d2c5b75a314932275a503dba3a57d8
+=======
+from pathlib import Path
+>>>>>>> f07d2da914ccb7f98ea0c164bda8f0e2556d717e
 # Both parent directories need to be added to function from top-level as well as from local 
 path = Path(__file__).parent.absolute()
 sys.path.append(str(path) + '//..')
@@ -22,12 +26,12 @@ template_dir = str(path) + '//..//HTML'
 app = Flask(__name__, template_folder=template_dir, static_folder=template_dir + "/static")
 
 #home directory
-@app.route('/')
+@app.route('/admin')
 def admin_home():
     return render_template('admin_home.htm')
 
 #admin home post request
-@app.route('/', methods=['POST'])
+@app.route('/admin', methods=['POST'])
 def admin_home_auth():
     #getting user info
     email = request.form.get('email')
@@ -67,7 +71,7 @@ def admin_home_auth():
 
 
 #Print logs
-@app.route('/logs')
+@app.route('/admin/logs')
 def print_logs():
     #getting user token
     token = request.cookies.get('authenticated')
@@ -82,7 +86,7 @@ def print_logs():
         return 'Logs cannot be printed at this time.'
 
 #get bank balace
-@app.route('/balance')
+@app.route('/admin/balance')
 def bank_stocks():
     bank_info = []
 
