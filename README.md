@@ -19,19 +19,13 @@
     - All testing modules should start with "test_" and a descriptive name of the what the module is testing
 
 ## Documentation
+- Production Web App : https://avid-circle-257318.appspot.com/
+
 - CI Server : https://travis-ci.org/kbass40/Online-Banking-System
 
 - Style Guide : http://google.github.io/styleguide/pyguide.html
 
 - Linter : https://www.pylint.org/
 
-## Running Instruciton
-- First make sure docker-compose is installed https://docs.docker.com/compose/install/
-
-- For the authentication front end navigate to /Model/WebServer and first run docker-compose up then run python3 backend.py
-
-- Navigate to localhost:5000
-
-- For the api navigate to Model/<Stock Targeted> and first run docker-compose up then run python3 <Stock Targeted>.py
-    
-- Follow the api documentation in the MicroservicesApi.yaml file
+## Rollback
+Rollback for our project would be fairly simple. First we would git revert to a working commit and that would trigger TravisCI to run. TravisCI would run all its tests scripts and if all stages pass, then the working build would get automaticaly deployed to Google App Engine.
