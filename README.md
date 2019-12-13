@@ -29,3 +29,8 @@
 
 ## Rollback
 Rollback for our project would be fairly simple. First we would git revert to a working commit and that would trigger TravisCI to run. TravisCI would run all its tests scripts and if all stages pass, then the working build would get automaticaly deployed to Google App Engine.
+
+## How to Run
+To run locally : first open the project and run both Model/WebServer/backend.py and Model/Microservice/Microservice.py 
+
+- Then navigate to localhost:5000 and the app will be fully functional
