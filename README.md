@@ -26,6 +26,11 @@ The file `Project Overview.mp4` located in the root of our directory is the same
     - All tests should be written in the Tests folder in a subforder dictating the functionality tested. Make sure the subfolder is properly linked in `__init__.py`
 
     - All testing modules should start with "test_" and a descriptive name of the what the module is testing
+    
+    - Tests are categorized as:
+        - Developer Tests
+        - Integration Tests
+        - Cypress End-to-End Tests
 
 ## Documentation
 - Production Web App : https://avid-circle-257318.appspot.com/
