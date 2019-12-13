@@ -98,7 +98,7 @@ class AuthDatabase():
         return self._db.child('users').child(user_id).child(account_name).get(auth_id).val()
 
     # Function to retrieve bank info for a particular stock
-    def get_bank_info(self, auth_id, symbol):
+    def get_bank_info(self, auth_id=None, symbol='INVALID'):
         if symbol not in stock_symbols:
             raise ValueError('ERROR symbol must be within the approved stock microservices')
 
