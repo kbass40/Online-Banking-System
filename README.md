@@ -1,9 +1,12 @@
 # Online Banking System
+### CIS4930 - Software Testing for Continuous Delivery
+### Assignment: Professional Practice Assignment --- Online Banking System 
+#### Contributors: Daniel Tymecki, Kyle Bassignani, Danilo Souza, Timothy Crowley, Danny Moolchand
 
 # Project Overview
 Our Online Banking System was built using a number of modern technologies. Most of the code was developed using Python3. For our backend databse, we used Firebase Realtime Database and connected to it using Pyrebase, a third party library to help Python interact with Firebase. We also used Firebase to handle our user authentication. And then for the front end we used Flask to handle routing to different webapges. Our system worked by the user interacting with the front end web page and that would make api calls to our microservice which would then interact with the database.
 
-To deploy our app, we used Google App Engine to host the project. The project was deployed to Google App Engine after TravisCI ran our developer, integration, and end-to-end test stages. If all these test stages passed, the updated projected was deployed to Google App Engine. TravisCI was connected to our GitHub repo and whenever a change was pushed to the "prod" branch TravisCI would run the various build stages.
+For our deployment program we used Google App Engine and for the continuous integration server we used TravisCI. TravisCI runs all of our unit tests, integration tests, and end-to-end tests in three different stages in the pipeline. At the end of the end-to-end tests, the server deploys our application to Google App Engine. For GAE, we have our main OBS application linked to the microservices service as a subdomain. Using a dispatch file, we are able to route any requests by the main domain to the subdomain. Everything for the Google App Engine and TravicCI is located on the 'prod' branch of our repository. Whenever a new commit is made to this branch, TravisCI runs the tests again and deploys the program if there are no errors.
 
 ## Virtual Environment
 - To activate the virtual env, navigate to the project directory in you terminal and execute the following command depending on your platform.
