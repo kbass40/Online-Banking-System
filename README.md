@@ -35,3 +35,11 @@ To run locally : first open the project and open a terminal in the root director
 1. In one terminal, do the command `python Model/WebServer/backend.py` 
 2. In a second terminal window, do the command `python Model/Microservice/Microservice.py` 
 3. Navigate to `localhost:5000` and the app will be fully functional.
+
+## How to view admin logs
+In this project, there exists an account to view all the transaction, OBS, and authentication logs. Also on this dashboard you can view the profit and loss for the bank and each individual stock. To access the administrator account, perform the following steps:
+1. Run the project. (Refer to the (How to Run)[#how-to-run] section)
+2. Click on 'Login'
+3. Enter the username `admin@admin.com`
+4. Enter the password `admin1`
+5. Click 'Submit'
