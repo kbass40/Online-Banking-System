@@ -31,18 +31,14 @@ jobs:
     - python3 ./Model/WebServer/admin_backend.py & APP_PID=$!
     - "$(npm bin)/cypress run"
     
-  - stage: Deploy to GAE
-    deploy:
-    provider: gae
-    keyfile: client-secret.json
-    config:
-      - app.yaml
-      - microservice.yaml
-    project: avid-circle-257318
-    on: prod
-
 stages:
 - Unit Tests
 - Integration Tests
 - End-To-End Tests 
 - Deploy to GAE
+
+deploy:
+  provider: gae
+  keyfile: client-secret.json
+  project: avid-circle-257318
+  on: prod
