@@ -6,9 +6,9 @@
 ---
 
 ## Overview of Setup
-disscuss databases used, programming language frameworks, Google Cloud services, authentication / authorization, CI service, repo, and configuration management (2 paragraphs) 
+disscuss databases used, programming language frameworks, authentication / authorization, repo, and configuration management (2 paragraphs) 
 
-For our deployment program we used Google App Engine and for the continuous integration server we used TravisCI. TravisCI runs all of our unit tests, integration tests, and end-to-end tests in three different stages in the pipeline. The 
+For our deployment program we used Google App Engine and for the continuous integration server we used TravisCI. TravisCI runs all of our unit tests, integration tests, and end-to-end tests in three different stages in the pipeline. At the end of the end-to-end tests, the server deploys our application to Google App Engine. For GAE, we have our main OBS application linked to the microservices service as a subdomain. Using a dispatch file, we are able to route any requests by the main domain to the subdomain. 
 
 ---
 
