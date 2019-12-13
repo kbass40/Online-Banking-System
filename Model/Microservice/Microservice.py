@@ -65,7 +65,7 @@ def user_buys_stocks(stock, quantity, accountname, token=None):
 
 	price_per_stock = get_price(stock)['last']
 
-	bank_info = auth.get_bank_info(SYMBOLS[stock])
+	bank_info = auth.get_bank_info(symbol=SYMBOLS[stock])
 	bank_quantity = bank_info['stock_num']
 	bank_gainloss = bank_info['gain-loss']
 
@@ -112,7 +112,7 @@ def user_sells_stocks(stock, quantity, accountname, token=None):
 
 	price_per_stock = get_price(stock)['last']
 
-	bank_info = auth.get_bank_info(SYMBOLS[stock])
+	bank_info = auth.get_bank_info(symbol=SYMBOLS[stock])
 	bank_gainloss = bank_info['gain-loss'] - (int(quantity) * price_per_stock)
 	bank_quantity = bank_info['stock_num'] + (int(quantity))
 
