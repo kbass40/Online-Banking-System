@@ -7,6 +7,8 @@ Our Online Banking System was built using a number of modern technologies. Most 
 
 For our deployment program we used Google App Engine and for the continuous integration server we used TravisCI. TravisCI runs all of our unit tests, integration tests, and end-to-end tests in three different stages in the pipeline. At the end of the end-to-end tests, the server deploys our application to Google App Engine. For GAE, we have our main OBS application linked to the microservices service as a subdomain. Using a dispatch file, we are able to route any requests by the main domain to the subdomain. Everything for the Google App Engine and TravicCI is located on the 'prod' branch of our repository. Whenever a new commit is made to this branch, TravisCI runs the tests again and deploys the program if there are no errors.
 
+To view our screencast of our project, please click here: https://drive.google.com/open?id=1N_CNXLj-NABNaEHaoXPPyPTB32-VUlOW 
+
 ## Virtual Environment
 - To activate the virtual env, navigate to the project directory in you terminal and execute the following command depending on your platform.
     - For macOS/Linux : source env/Scripts/activate
